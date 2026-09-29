@@ -3,3 +3,5 @@ client/dist/
 client/dist-ssr/
 server/.env
 .DS_Store
+content-source/brand/*.pdf
+content-source/brand/extracted/
