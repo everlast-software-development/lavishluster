@@ -5,3 +5,4 @@ server/.env
 .DS_Store
 content-source/brand/*.pdf
 content-source/brand/extracted/
+.screenshots/
