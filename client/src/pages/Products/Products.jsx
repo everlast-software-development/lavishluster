@@ -1,3 +1,4 @@
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import Seo from '../../components/ui/Seo.jsx';
 import PageHero from '../../components/ui/PageHero.jsx';
@@ -8,8 +9,16 @@ import { getStepBySlug } from '../../data/taxonomy.js';
 
 const FACIAL = 'facial-treatment';
 
+const useIsoLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+
+// /products is prerendered without a query string, so the first (hydration)
+// render must be the unfiltered catalog. The URL filter is applied in a layout
+// effect, which commits before first paint: no mismatch and no flash.
 function useCatalogFilter() {
   const [params] = useSearchParams();
+  const [hydrated, setHydrated] = useState(false);
+  useIsoLayoutEffect(() => setHydrated(true), []);
+  if (!hydrated) return { category: null, step: null };
   const step = getStepBySlug(params.get('step'));
   let category = categoriesWithCounts.find((c) => c.slug === params.get('category'))?.slug || null;
   if (step) category = FACIAL;
