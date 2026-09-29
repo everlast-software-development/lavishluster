@@ -1,0 +1,87 @@
+[
+  {
+    "id": "luster-instant-glow-shot",
+    "slug": "luster-instant-glow-shot",
+    "order": 16,
+    "name": "LUSTER INSTANT GLOW SHOT",
+    "subtitle": "Flash Effect Ampoules",
+    "shortDescription": null,
+    "category": "flash-treatment",
+    "step": null,
+    "applicationSecret": "Apply to clean face and neck before makeup or whenever an instant pick-me-up effect is desired.",
+    "enhancedBenefits": "Delivers an immediate pick-me-up, erases signs of fatigue and jet lag, and provides an instant lifting and radiant effect.",
+    "activeIngredients": "Organic Silicon (5%), DMAE (3%), Matrikines (3%), Hyaluronic Acid, Orange Stem Cells.",
+    "scientificEvidence": "Instantly radiant face with a flash effect; 12 years rejuvenated skin.",
+    "verification": [
+      "V-09"
+    ]
+  },
+  {
+    "id": "luster-30-day-renewal-miracle",
+    "slug": "luster-30-day-renewal-miracle",
+    "order": 17,
+    "name": "LUSTER 30-DAY RENEWAL MIRACLE",
+    "subtitle": "Detox Ampoules",
+    "shortDescription": null,
+    "category": "flash-treatment",
+    "step": null,
+    "applicationSecret": "Apply one ampoule at night to clean face and neck for 30 consecutive days.",
+    "enhancedBenefits": "Orchestrates a complete skin transformation in one month by purging impurities, fading spots, and restoring firm, luminous skin.",
+    "activeIngredients": "Ascorbyl Glucoside (5%), RonaCare®, Celldetox, Orange Stem Cells.",
+    "scientificEvidence": "Promotes cell renewal after 24 hours of treatment; premium antioxidant and depigmenting action.",
+    "verification": [
+      "V-09"
+    ]
+  },
+  {
+    "id": "luster-collagen-eye-revive",
+    "slug": "luster-collagen-eye-revive",
+    "order": 18,
+    "name": "LUSTER COLLAGEN EYE REVIVE",
+    "subtitle": "Collagen Patches",
+    "shortDescription": null,
+    "category": "flash-treatment",
+    "step": null,
+    "applicationSecret": "Apply patches to the under-eye area for 15–20 minutes. For an intensified effect, keep them in the refrigerator before use.",
+    "enhancedBenefits": "Instantly refreshes tired eyes, reduces puffiness and dark circles, and smooths fine lines for a luminous gaze.",
+    "activeIngredients": "Collagen, Irish Moss (Chondrus Crispus), Licorice Extract, Camomile.",
+    "scientificEvidence": "Fresh and rested-looking eyes.",
+    "verification": [
+      "V-09"
+    ]
+  },
+  {
+    "id": "luster-plump-and-pout-lip-mask",
+    "slug": "luster-plump-and-pout-lip-mask",
+    "order": 19,
+    "name": "LUSTER PLUMP & POUT LIP MASK",
+    "subtitle": "Collagen Patches",
+    "shortDescription": null,
+    "category": "flash-treatment",
+    "step": null,
+    "applicationSecret": "Apply to clean lips and leave for 20 minutes.",
+    "enhancedBenefits": "Saturates lips with collagen for a naturally fuller, juicier, and deeply hydrated appearance in just 20 minutes.",
+    "activeIngredients": "Collagen, Asian Pennywort, Irish Moss (Chondrus Crispus).",
+    "scientificEvidence": "Juicy and moisturized lips.",
+    "verification": [
+      "V-09"
+    ]
+  },
+  {
+    "id": "luster-exosome-bio-shield",
+    "slug": "luster-exosome-bio-shield",
+    "order": 20,
+    "name": "LUSTER EXOSOME BIO-SHIELD",
+    "subtitle": "Ultra-Rejuvenating Mask",
+    "shortDescription": null,
+    "category": "flash-treatment",
+    "step": null,
+    "applicationSecret": "Apply the bio-cellulose mask to clean face and leave for 20 minutes. Remove it and massage the remaining serum into the skin.",
+    "enhancedBenefits": "Combines advanced exosome technology with antioxidants to repair, revitalize, and illuminate the skin for a youthful glow.",
+    "activeIngredients": "Exosomes, Hyaluronic Acid, Matcha Tea.",
+    "scientificEvidence": "Hydrated and revitalized skin in just 20 minutes.",
+    "verification": [
+      "V-09"
+    ]
+  }
+]

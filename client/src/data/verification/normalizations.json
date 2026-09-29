@@ -1,0 +1,26 @@
+[
+  {
+    "id": "V-11",
+    "slug": "luster-brighten-3-0",
+    "field": "scientificEvidence",
+    "from": " ;",
+    "to": ";",
+    "note": "Stray space before semicolon"
+  },
+  {
+    "id": "V-11",
+    "slug": "luster-balance-and-age-defy",
+    "field": "activeIngredients",
+    "from": "Bisabolol(",
+    "to": "Bisabolol (",
+    "note": "Missing space before parenthesis"
+  },
+  {
+    "id": "V-11",
+    "slug": "luster-72h-intense-moisture",
+    "field": "activeIngredients",
+    "from": "Bisabolol(",
+    "to": "Bisabolol (",
+    "note": "Missing space before parenthesis"
+  }
+]

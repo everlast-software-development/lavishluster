@@ -1,0 +1,36 @@
+:root {
+  /* Color — cool mineral porcelain, graphite ink. */
+  --c-bg: #F2F3F1;
+  --c-tint: #E8EBE8;
+  --c-surface: #FAFAF8;
+  --c-ink: #1E2321;
+  --c-ink-2: #3B423F;
+  --c-muted: #646C68;
+  --c-line: #D5DAD6;
+  --c-line-strong: #B4BCB7;
+  --c-focus: #3F6468;
+  --c-error: #9B3D32;
+
+  /* Type */
+  --f-serif: 'Newsreader Variable', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+  --f-sans: 'Hanken Grotesk Variable', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --t-xs: 0.8125rem;
+  --t-sm: 0.9375rem;
+  --t-base: 1.0625rem;
+  --t-md: 1.1875rem;
+  --t-lg: clamp(1.25rem, 1.12rem + 0.45vw, 1.4375rem);
+  --t-xl: clamp(1.5rem, 1.28rem + 0.8vw, 1.875rem);
+  --t-2xl: clamp(1.875rem, 1.5rem + 1.35vw, 2.5rem);
+  --t-3xl: clamp(2.25rem, 1.7rem + 2vw, 3.25rem);
+  --t-display: clamp(2.75rem, 1.8rem + 3.6vw, 4.875rem);
+
+  /* Space & layout */
+  --space-section: clamp(4rem, 2.6rem + 5.5vw, 8rem);
+  --gutter: clamp(1.25rem, 3.6vw, 3.5rem);
+  --gap: clamp(1rem, 0.55rem + 1.6vw, 2.25rem);
+  --max: 1400px;
+  --header-h: 4.5rem;
+  --tabs-h: 3.35rem;
+  --radius: 2px;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}

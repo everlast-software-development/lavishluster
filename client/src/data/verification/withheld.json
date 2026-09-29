@@ -1,0 +1,29 @@
+[
+  {
+    "id": "V-04",
+    "slug": "luster-centurion-led-pro-5-0",
+    "field": "scientificEvidence",
+    "storeAs": "certifications",
+    "value": "CE and FDA certified.",
+    "joiner": " "
+  },
+  {
+    "id": "V-04",
+    "slug": "luster-hair-growth-omega-5-0",
+    "field": "scientificEvidence",
+    "storeAs": "certifications",
+    "value": "CE and FDA certified.",
+    "joiner": " "
+  },
+  {
+    "id": "V-03",
+    "slug": "luster-centurion-led-pro-5-0",
+    "field": "lightFunctions",
+    "position": 7,
+    "value": {
+      "name": "Near-Infrared Light",
+      "wavelength": "NIR, 650 nm",
+      "description": "Works deeper than LED light to improve circulation, oxygenate cells, reduce inflammation, and accelerate tissue regeneration."
+    }
+  }
+]

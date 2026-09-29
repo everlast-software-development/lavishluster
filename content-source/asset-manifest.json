@@ -1,0 +1,10 @@
+{
+  "note": "Verified Lavish Luster assets on the old website (2026/02 uploads). Run `node scripts/fetch-assets.mjs` from a network that can reach lavishluster.com to copy them into the asset folders. Confirm usage rights and the logo variant before publishing. Theme stock images (2024/09 uploads, doctor placeholders) are deliberately excluded.",
+  "assets": [
+    { "url": "https://lavishluster.com/wp-content/uploads/2026/02/LUSTER-CELL-REVIVE-EXOSOME-768x768.webp", "target": "client/src/assets/products/luster-cell-revive-exosome/primary.webp" },
+    { "url": "https://lavishluster.com/wp-content/uploads/2026/02/LUSTER-CENTURION-LED-PRO-5.0-768x768.webp", "target": "client/src/assets/devices/luster-centurion-led-pro-5-0/primary.webp" },
+    { "url": "https://lavishluster.com/wp-content/uploads/2026/02/lavish-luster-2.webp", "target": "client/src/assets/brand/hero.webp" },
+    { "url": "https://lavishluster.com/wp-content/uploads/2026/02/lavishluster-4.webp", "target": "client/src/assets/brand/about.webp" },
+    { "url": "https://lavishluster.com/wp-content/uploads/2026/02/Lavish-luster-logo-08-e1770037291737.png", "target": "client/src/assets/brand/logo.png" }
+  ]
+}

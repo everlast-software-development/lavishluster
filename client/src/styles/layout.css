@@ -1,0 +1,78 @@
+.container {
+  width: 100%;
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Split: heading columns 1–4, content columns 5–12. The same on every page. */
+.split {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gap);
+  row-gap: 2rem;
+}
+.split > :first-child { grid-column: 1 / span 4; }
+.split > :last-child { grid-column: 5 / -1; }
+
+.section { padding-block: var(--space-section); }
+.section--tint { background: var(--c-tint); }
+.section--plain + .section--plain { padding-top: 0; }
+.section--plain + .section--plain > .container,
+.catalog-block + .catalog-block > .container {
+  /* Hairline aligned to the content edges, not the container padding. */
+  background: linear-gradient(var(--c-line), var(--c-line)) no-repeat var(--gutter) 0 / calc(100% - 2 * var(--gutter)) 1px;
+  padding-top: var(--space-section);
+}
+
+.split > .section__head {
+  position: sticky;
+  top: calc(var(--header-h) + 2rem);
+  align-self: start;
+}
+.stack > .section__head { margin-bottom: clamp(2rem, 4vw, 3.25rem); max-width: 40rem; }
+
+.section__title {
+  font-family: var(--f-serif);
+  font-size: var(--t-2xl);
+  font-weight: 380;
+  line-height: 1.12;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+}
+.kicker { font-size: var(--t-sm); color: var(--c-muted); margin-bottom: 0.9rem; }
+
+.section__body > * + * { margin-top: 1.5rem; }
+.section__body > .section__actions { margin-top: 2.75rem; }
+
+.lead, .prose-lg {
+  font-family: var(--f-serif);
+  font-size: var(--t-lg);
+  line-height: 1.52;
+  font-weight: 380;
+  max-width: 34em;
+  text-wrap: pretty;
+}
+.prose {
+  font-size: var(--t-md);
+  line-height: 1.7;
+  color: var(--c-ink-2);
+  max-width: 38em;
+  text-wrap: pretty;
+}
+.note {
+  font-size: var(--t-sm);
+  color: var(--c-muted);
+  max-width: 44em;
+  padding-left: 1rem;
+  border-left: 1px solid var(--c-line-strong);
+}
+.subtagline { font-size: var(--t-sm); color: var(--c-muted); letter-spacing: 0.02em; }
+.minor-title { font-size: var(--t-md); font-weight: 560; }
+
+@media (max-width: 899px) {
+  .split > :first-child, .split > :last-child { grid-column: 1 / -1; }
+  .split > .section__head { position: static; }
+  .split { row-gap: 1.5rem; }
+}
+[id] { scroll-margin-top: calc(var(--header-h) + 1rem); }

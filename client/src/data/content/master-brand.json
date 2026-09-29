@@ -1,0 +1,28 @@
+{
+  "tagline": "World Leader in Medical Techno-Skincare",
+  "subTagline": "Smart Clinical Unisex Beauty",
+  "statement": "Lavish Luster is a medical techno-beauty and biotechnological dermocosmetics company. Its mission is to bring the effectiveness of medical-aesthetic treatments into the home through clinical, safe, and accessible solutions.",
+  "categories": {
+    "facial-treatment": {
+      "sourceLabel": "Facial Treatment",
+      "description": "All facial, eye-and-lip, sun-protection, intensive rejuvenation, and body-treatment products."
+    },
+    "flash-treatment": {
+      "sourceLabel": "Flash Treatment",
+      "description": "Instant-effect ampoules, patches, and mask products. Each product includes Application Secret, Enhanced Benefits, Active Ingredients, and Scientific Evidence."
+    },
+    "beauty-devices": {
+      "sourceLabel": "Beaut Device",
+      "description": "All techno-beauty devices, with their application instructions, benefits, and scientific evidence."
+    }
+  },
+  "steps": {
+    "0": "CLEANSE",
+    "1": "NOURISH & REPAIR — SERUMS",
+    "2": "CORRECT — EYE & LIP",
+    "3": "MOISTURIZE & PREVENT — CREAMS",
+    "4": "PROTECT",
+    "5": "INTENSIVE REJUVENATION",
+    "6": "CORPORAL TREATMENT"
+  }
+}

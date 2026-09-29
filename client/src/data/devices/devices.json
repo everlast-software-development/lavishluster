@@ -1,0 +1,169 @@
+[
+  {
+    "id": "luster-centurion-led-pro-5-0",
+    "slug": "luster-centurion-led-pro-5-0",
+    "order": 21,
+    "name": "LUSTER CENTURION LED PRO 5.0",
+    "subtitle": "Wireless Multi-Action Face Mask",
+    "shortDescription": null,
+    "category": "beauty-devices",
+    "step": null,
+    "applicationSecret": "Use for 20 minutes on clean skin. Select the desired LED light color according to your skin needs. Use 3–4 times per week.",
+    "enhancedBenefits": "Harnesses 8 wavelengths—7 LED colors plus NIR—to rejuvenate, clear imperfections, and firm the skin from within. Features a full-face treatment design, medical-grade antibacterial silicone, 100% wireless operation, and AI-powered skin diagnosis for a personalized routine.",
+    "activeIngredients": null,
+    "scientificEvidence": "90% of users achieved desired results in 4 weeks; 75% fewer wrinkles; 33% more collagen.",
+    "lightFunctions": {
+      "heading": "LED & NIR Light Functions",
+      "intro": "The device combines 7 LED light colors and Near-Infrared Light (NIR) to act on different layers and needs of the skin:",
+      "items": [
+        {
+          "name": "Anti-Aging Light",
+          "wavelength": "630 nm",
+          "description": "Rejuvenates and stimulates collagen and elastin to reduce wrinkles."
+        },
+        {
+          "name": "Anti-Dark Spots Light",
+          "wavelength": "520 nm",
+          "description": "Helps even skin tone, reduce blemishes, and improve texture."
+        },
+        {
+          "name": "Imperfections Light",
+          "wavelength": "470 nm",
+          "description": "Helps fight bacteria, calm inflammation, and reduce imperfections."
+        },
+        {
+          "name": "Lymphotensive Light",
+          "wavelength": "590 nm",
+          "description": "Activates microcirculation and enhances radiance."
+        },
+        {
+          "name": "Energizing Light",
+          "wavelength": "440 nm",
+          "description": "Revitalizes and soothes sensitive or stressed skin."
+        },
+        {
+          "name": "Healing Detox Light",
+          "wavelength": "433 nm",
+          "description": "Supports repair and promotes healing of marks."
+        },
+        {
+          "name": "Rejuvenating Light",
+          "wavelength": "510 nm",
+          "description": "Improves firmness and natural radiance."
+        }
+      ]
+    },
+    "verification": [
+      "V-03",
+      "V-04",
+      "V-09"
+    ]
+  },
+  {
+    "id": "luster-hair-growth-omega-5-0",
+    "slug": "luster-hair-growth-omega-5-0",
+    "order": 22,
+    "name": "LUSTER HAIR-GROWTH OMEGA 5.0",
+    "subtitle": "LLLT Scalp System",
+    "shortDescription": null,
+    "category": "beauty-devices",
+    "step": null,
+    "applicationSecret": "Use for 10 minutes daily or 4 times per week on a clean scalp for at least 12 weeks.",
+    "enhancedBenefits": "Uses a powerful LLLT-LED system with 352 diodes—Red LED plus NIR—to reactivate hair follicles, boost scalp circulation, and reduce shedding. Features AI-powered scalp diagnosis, 100% wireless operation, Bluetooth for music, and flexible medical-grade silicone for a comfortable fit.",
+    "activeIngredients": null,
+    "scientificEvidence": "Up to 35% more hair density in 4 months; significant reduction in hair loss in 3 months.",
+    "verification": [
+      "V-04",
+      "V-09"
+    ]
+  },
+  {
+    "id": "luster-korean-mask",
+    "slug": "luster-korean-mask",
+    "order": 23,
+    "name": "LUSTER KOREAN MASK",
+    "subtitle": "Multiaction Facial Mask",
+    "shortDescription": null,
+    "category": "beauty-devices",
+    "step": null,
+    "applicationSecret": "Use for 30 minutes on clean skin, selecting from 7 LED light colors for targeted treatment. Ideal for home use or travel.",
+    "enhancedBenefits": "Features 1,064 LED lights and 7 targeted solutions for different skin needs, from anti-aging to imperfection control. Ophthalmologically compatible and 100% safe.",
+    "activeIngredients": null,
+    "scientificEvidence": "90% of patients showed 100% of the desired results after 12 LED therapy sessions.",
+    "verification": [
+      "V-07",
+      "V-09",
+      "V-10"
+    ]
+  },
+  {
+    "id": "luster-led-neck-and-chin-mask",
+    "slug": "luster-led-neck-and-chin-mask",
+    "order": 24,
+    "name": "LUSTER LED NECK & CHIN MASK",
+    "subtitle": "Multi-Action Treatment",
+    "shortDescription": null,
+    "category": "beauty-devices",
+    "step": null,
+    "applicationSecret": "Use CHIN MODE for slimming the chin and face, or NECK & DÉCOLLETÉ MODE for anti-aging treatment on the neck and décolleté.",
+    "enhancedBenefits": "Combines Red LED and NIR light to improve firmness, redefine facial contours, and slim the chin. The device is 100% wireless, portable, and multifunctional, and can also be used on areas such as elbows or knees.",
+    "activeIngredients": null,
+    "scientificEvidence": "More than 70% improvement in double-chin slimming, jawline sculpting, and neck-wrinkle reduction in 4 weeks.",
+    "verification": [
+      "V-09"
+    ]
+  },
+  {
+    "id": "luster-tech-eye-mask",
+    "slug": "luster-tech-eye-mask",
+    "order": 25,
+    "name": "LUSTER TECH EYE MASK",
+    "subtitle": "Dual-Technology Device",
+    "shortDescription": null,
+    "category": "beauty-devices",
+    "step": null,
+    "applicationSecret": "Use around the eye area to target wrinkles, puffiness, and dark circles.",
+    "enhancedBenefits": "Combines Microstimulation / EMS and Red LED Light to improve microcirculation, boost collagen, and enhance skin elasticity. Customizable, portable, and 100% wireless.",
+    "activeIngredients": null,
+    "scientificEvidence": "215% more elasticity and 77% fewer dark circles in 4 weeks.",
+    "verification": [
+      "V-09"
+    ]
+  },
+  {
+    "id": "luster-thermo-sonic-2-0",
+    "slug": "luster-thermo-sonic-2-0",
+    "order": 26,
+    "name": "LUSTER THERMO-SONIC 2.0",
+    "subtitle": "Multi-Action Facial Device",
+    "shortDescription": null,
+    "category": "beauty-devices",
+    "step": null,
+    "applicationSecret": "Choose from three modes: UNIC DEEP CLEANSE for cleansing, UNIC FACE YOGA for toning, or UNIC EYES & LIPS for targeted treatment.",
+    "enhancedBenefits": "A 3-in-1 device using 42°C Thermal Technology and Sonic Vibration to deeply cleanse, tone, and rejuvenate the face, neck, and décolleté. Portable, wireless, and multifunctional.",
+    "activeIngredients": null,
+    "scientificEvidence": "3 times cleaner pores and 93% reduction in the nasolabial fold in minutes.",
+    "verification": [
+      "V-02",
+      "V-09"
+    ]
+  },
+  {
+    "id": "luster-tech-body-slim-x4",
+    "slug": "luster-tech-body-slim-x4",
+    "order": 27,
+    "name": "LUSTER TECH BODY SLIM X4",
+    "subtitle": "Multi-Action Body Device",
+    "shortDescription": null,
+    "category": "beauty-devices",
+    "step": null,
+    "applicationSecret": "Use with UNIC BODY SLIM ACTION X4 gel in one of four modes for toning, fat burning, cellulite reduction, or an all-in-one treatment.",
+    "enhancedBenefits": "An at-home body aesthetics device combining 4 technologies—LED, EMS, RF, and Slim—to reduce fat, reshape the silhouette, and firm the skin. Wireless, portable, and designed to deliver professional results.",
+    "activeIngredients": null,
+    "scientificEvidence": "100% of volunteers showed visible results after 5 weeks of use.",
+    "verification": [
+      "V-01",
+      "V-09"
+    ]
+  }
+]
