@@ -160,7 +160,7 @@ for (const p of products) {
 section('6. No commerce, demo, excluded or withheld content in the build');
 const walk = (dir) => readdirSync(dir).flatMap((f) => { const p = join(dir, f); return statSync(p).isDirectory() ? walk(p) : [p]; });
 const files = walk(DIST).filter((f) => /\.(html|js|css|xml|txt)$/.test(f));
-const ownFiles = files.filter((f) => !/\/assets\/vendor-/.test(f));
+const ownFiles = files.filter((f) => !/[\\/]assets[\\/]vendor-/.test(f));
 const readText = (f) => (f.endsWith('.html') ? decode(readFileSync(f, 'utf8')) : readFileSync(f, 'utf8'));
 
 const OLD_PRODUCTS = ['Barrier Restore Cream', 'Cellular Active+', 'Clear Precision Serum', 'Copper-Lift Serum', 'Elixir Glow Oil', 'EMS Facial Sculptor', 'Hydra-Radiance Cream', 'Lift Advanced Protocol', 'Luminous Glow Serum', 'Luxury Vanity Case', 'Niacin Refine Serum', 'Revive-X Mask', 'Sculpt Contour', 'Smile LED Pro', 'Smile Radiance Gel', 'The U-Plan'];
