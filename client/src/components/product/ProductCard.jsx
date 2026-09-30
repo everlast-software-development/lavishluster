@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import ProductImage from '../ui/ProductImage.jsx';
 
 export function productContext(p) {
-  if (p.stepInfo) return `Step ${p.stepInfo.number}, ${p.stepInfo.label}`;
+  if (p.stepInfo) return p.stepInfo.label;
   return p.categoryInfo.label;
 }
 

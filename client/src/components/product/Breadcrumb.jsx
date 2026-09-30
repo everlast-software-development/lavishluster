@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { catalogHref } from '../../data/catalog.js';
 
 export default function Breadcrumb({ product }) {
   const cat = product.categoryInfo;
@@ -6,13 +7,9 @@ export default function Breadcrumb({ product }) {
     <nav className="breadcrumb" aria-label="Breadcrumb">
       <ol>
         <li><Link to="/products">Products</Link></li>
-        <li><Link to={`/products?category=${cat.slug}`}>{cat.label}</Link></li>
+        <li><Link to={catalogHref(cat.slug)}>{cat.label}</Link></li>
         {product.stepInfo && (
-          <li>
-            <Link to={`/products?category=${cat.slug}&step=${product.stepInfo.slug}`}>
-              Step {product.stepInfo.number}, {product.stepInfo.label}
-            </Link>
-          </li>
+          <li><Link to={catalogHref(cat.slug, product.stepInfo.slug)}>{product.stepInfo.label}</Link></li>
         )}
       </ol>
     </nav>

@@ -9,8 +9,7 @@ import ConsultationCta from '../../components/sections/ConsultationCta.jsx';
 import { lusterscan } from '../../data/content/site.js';
 import { integrations } from '../../data/config/integrations.js';
 
-const step = (title) => lusterscan.steps.find((s) => s.title === title);
-
+/** LusterScan AI answers one question: how does the AI skin analysis work? */
 export default function LusterScan() {
   return (
     <>
@@ -28,34 +27,23 @@ export default function LusterScan() {
         </Feature>
       </PageHero>
 
+      <Section id="how" title="How It Works" tone="tint">
+        <LusterScanSteps />
+        <div className="section__actions">
+          <TextLink to="/products">Explore Products</TextLink>
+        </div>
+      </Section>
+
       <Section id="what" title="What Is LusterScan AI?">
         <ul className="capabilities">
           {lusterscan.capabilities.map((c) => <li key={c}>{c}</li>)}
         </ul>
       </Section>
 
-      <Section id="how" title="How It Works" tone="tint">
-        <LusterScanSteps />
-      </Section>
-
       <Section id="analyzes" title="What It Analyzes">
         <ul className="term-list">
           {lusterscan.analyzes.map((t) => <li key={t}>{t}</li>)}
         </ul>
-        <p className="prose">{lusterscan.capabilities[1]}</p>
-      </Section>
-
-      <Section id="recommendations" title="Personalized Recommendations" tone="tint">
-        <h3 className="minor-title">{step('Personalized Luxury Care').title}</h3>
-        <p className="prose-lg">{step('Personalized Luxury Care').text}</p>
-        <div className="section__actions">
-          <TextLink to="/products">Explore products</TextLink>
-        </div>
-      </Section>
-
-      <Section id="tracking" title="Progress Tracking">
-        <p className="prose-lg">{step('Progress Tracking').text}</p>
-        <p className="prose">{lusterscan.capabilities[3]}</p>
       </Section>
 
       <Feature flag="lusterscanVideo" data={integrations.lusterscan.videoUrl}>
@@ -70,7 +58,7 @@ export default function LusterScan() {
         <p className="note">{lusterscan.disclaimer}</p>
       </Section>
 
-      <ConsultationCta secondary={{ to: '/products', label: 'Explore products' }} />
+      <ConsultationCta secondary={{ to: '/products', label: 'Explore Products' }} />
     </>
   );
 }

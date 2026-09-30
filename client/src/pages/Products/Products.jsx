@@ -2,12 +2,14 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import Seo from '../../components/ui/Seo.jsx';
 import PageHero from '../../components/ui/PageHero.jsx';
+import ProductImage from '../../components/ui/ProductImage.jsx';
 import ProductGrid from '../../components/product/ProductGrid.jsx';
 import masterBrand from '../../data/content/master-brand.json';
-import { categoriesWithCounts, products, productsInCategory, productsInStep, stepsWithCounts } from '../../data/catalog.js';
+import { catalogHref, categoriesWithCounts, products, productsInCategory, productsInStep, stepsWithCounts } from '../../data/catalog.js';
 import { getStepBySlug } from '../../data/taxonomy.js';
 
 const FACIAL = 'facial-treatment';
+const cat = (slug) => categoriesWithCounts.find((c) => c.slug === slug);
 
 const useIsoLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
@@ -20,98 +22,97 @@ function useCatalogFilter() {
   useIsoLayoutEffect(() => setHydrated(true), []);
   if (!hydrated) return { category: null, step: null };
   const step = getStepBySlug(params.get('step'));
-  let category = categoriesWithCounts.find((c) => c.slug === params.get('category'))?.slug || null;
+  let category = cat(params.get('category'))?.slug || null;
   if (step) category = FACIAL;
   return { category, step };
 }
 
-const href = (category, step) => {
-  const q = new URLSearchParams();
-  if (category) q.set('category', category);
-  if (step) q.set('step', step);
-  const s = q.toString();
-  return s ? `/products?${s}` : '/products';
-};
-
-function CategoryTabs({ active }) {
+/** The three product worlds — the entry point to the catalog. */
+function Worlds({ active }) {
   return (
-    <nav className="catalog-tabs" aria-label="Product categories">
+    <section className="worlds" aria-label="Product worlds">
       <div className="container">
-        <ul>
-          <li>
-            <Link to={href()} aria-current={!active ? 'true' : undefined}>
-              All products <span className="count">{products.length}</span>
-            </Link>
-          </li>
+        <ul className="worlds__list">
           {categoriesWithCounts.map((c) => (
             <li key={c.slug}>
-              <Link to={href(c.slug)} aria-current={active === c.slug ? 'true' : undefined}>
-                {c.label} <span className="count">{c.count}</span>
+              <Link
+                to={catalogHref(active === c.slug ? null : c.slug)}
+                className="world"
+                aria-current={active === c.slug ? 'true' : undefined}
+              >
+                <ProductImage product={productsInCategory(c.slug)[0]} ratio={1.25} className="world__media" eager />
+                <span className="world__count">{c.countLabel}</span>
+                <span className="world__name">{c.label}</span>
               </Link>
             </li>
           ))}
         </ul>
       </div>
-    </nav>
-  );
-}
-
-function StepNav({ active }) {
-  return (
-    <nav className="step-nav" aria-label="Facial treatment steps">
-      <ol>
-        <li>
-          <Link to={href(FACIAL)} aria-current={!active ? 'true' : undefined} className="step-nav__all">All steps</Link>
-        </li>
-        {stepsWithCounts.map((s) => (
-          <li key={s.slug}>
-            <Link to={href(FACIAL, s.slug)} aria-current={active?.slug === s.slug ? 'true' : undefined}>
-              <span className="step-nav__num">Step {s.number}</span>
-              <span className="step-nav__label">{s.label}</span>
-            </Link>
-          </li>
-        ))}
-      </ol>
-    </nav>
-  );
-}
-
-function CategoryBlock({ category, children, aside }) {
-  return (
-    <section className="catalog-block" aria-labelledby={`cat-${category.slug}`}>
-      <div className="container split">
-        <header className="catalog-block__head">
-          <h2 id={`cat-${category.slug}`} className="catalog-block__title">{category.label}</h2>
-          <p className="catalog-block__count">{category.count} {category.slug === 'beauty-devices' ? 'devices' : 'products'}</p>
-          {category.description && <p className="catalog-block__desc">{category.description}</p>}
-          {aside}
-        </header>
-        <div className="catalog-block__body">{children}</div>
-      </div>
     </section>
   );
 }
 
-function StepGroup({ step }) {
-  const items = productsInStep(step.number);
+/** Sticky filter bar: world tabs, plus treatment-step filters inside Facial Treatment. */
+function FilterBar({ category, step }) {
   return (
-    <section className="step-group" aria-labelledby={`step-${step.slug}`}>
-      <header className="step-group__head">
-        <p className="step-group__num">Step {step.number}</p>
-        <h3 id={`step-${step.slug}`} className="step-group__title">
-          {step.label}
-          {step.group && <span className="step-group__sub">{step.group}</span>}
-        </h3>
-      </header>
-      <ProductGrid products={items} showContext={false} headingLevel={4} />
+    <div className="filter-bar">
+      <div className="container">
+        <nav aria-label="Filter by product world">
+          <ul className="filter-bar__tabs">
+            <li>
+              <Link to={catalogHref()} aria-current={!category ? 'true' : undefined}>
+                All <span className="count">{products.length}</span>
+              </Link>
+            </li>
+            {categoriesWithCounts.map((c) => (
+              <li key={c.slug}>
+                <Link to={catalogHref(c.slug)} aria-current={category === c.slug ? 'true' : undefined}>
+                  {c.label} <span className="count">{c.count}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        {category === FACIAL && (
+          <nav aria-label="Filter facial treatments">
+            <ul className="filter-bar__chips">
+              <li>
+                <Link to={catalogHref(FACIAL)} aria-current={!step ? 'true' : undefined}>All</Link>
+              </li>
+              {stepsWithCounts.map((s) => (
+                <li key={s.slug}>
+                  <Link to={catalogHref(FACIAL, s.slug)} aria-current={step?.slug === s.slug ? 'true' : undefined}>
+                    {s.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function WorldGroup({ category, items, heading = 'h2', note, showContext = false }) {
+  const H = heading;
+  return (
+    <section className="world-group" aria-labelledby={`world-${category.slug}`}>
+      <div className="container">
+        <header className="world-group__head">
+          <H id={`world-${category.slug}`} className="world-group__title">{category.label}</H>
+          <p className="world-group__count">{note || category.countLabel}</p>
+          {category.description && <p className="world-group__desc">{category.description}</p>}
+        </header>
+        <ProductGrid products={items} columns={4} showContext={showContext} headingLevel={3} />
+      </div>
     </section>
   );
 }
 
 export default function Products() {
   const { category, step } = useCatalogFilter();
-  const show = (slug) => !category || category === slug;
-  const cat = (slug) => categoriesWithCounts.find((c) => c.slug === slug);
+  const visible = category ? [cat(category)] : categoriesWithCounts;
 
   return (
     <>
@@ -124,24 +125,23 @@ export default function Products() {
         <p className="page-hero__meta">{masterBrand.subTagline}</p>
       </PageHero>
 
-      <CategoryTabs active={category} />
+      <Worlds active={category} />
+      <FilterBar category={category} step={step} />
 
       <div className="catalog" key={`${category || 'all'}-${step?.slug || 'all'}`}>
-        {show(FACIAL) && (
-          <CategoryBlock category={cat(FACIAL)} aside={<StepNav active={step} />}>
-            {(step ? [step] : stepsWithCounts).map((s) => <StepGroup key={s.slug} step={s} />)}
-          </CategoryBlock>
-        )}
-        {show('flash-treatment') && (
-          <CategoryBlock category={cat('flash-treatment')}>
-            <ProductGrid products={productsInCategory('flash-treatment')} showContext={false} />
-          </CategoryBlock>
-        )}
-        {show('beauty-devices') && (
-          <CategoryBlock category={cat('beauty-devices')}>
-            <ProductGrid products={productsInCategory('beauty-devices')} showContext={false} />
-          </CategoryBlock>
-        )}
+        {visible.map((c) => {
+          const stepped = c.slug === FACIAL && step;
+          const items = stepped ? productsInStep(step.number) : productsInCategory(c.slug);
+          return (
+            <WorldGroup
+              key={c.slug}
+              category={c}
+              items={items}
+              showContext={c.slug === FACIAL && !step}
+              note={stepped ? `${step.label} · ${items.length} of ${c.count} products` : null}
+            />
+          );
+        })}
       </div>
     </>
   );

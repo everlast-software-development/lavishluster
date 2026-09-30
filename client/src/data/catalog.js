@@ -41,8 +41,23 @@ export const getProduct = (slug) => bySlug.get(slug) || null;
 export const productsInCategory = (slug) => products.filter((p) => p.category === slug);
 export const productsInStep = (number) => products.filter((p) => p.step === number);
 
-export const categoriesWithCounts = categories.map((c) => ({ ...c, count: productsInCategory(c.slug).length }));
+export const categoriesWithCounts = categories.map((c) => {
+  const count = productsInCategory(c.slug).length;
+  return { ...c, count, countLabel: `${count} ${c.slug === 'beauty-devices' ? 'devices' : 'products'}` };
+});
 export const stepsWithCounts = steps.map((s) => ({ ...s, count: productsInStep(s.number).length }));
+
+/**
+ * Catalog filter URL. Categories and steps are filters on the single
+ * /products page (?category=…&step=…), never separate pages.
+ */
+export function catalogHref(category, step) {
+  const q = new URLSearchParams();
+  if (category) q.set('category', category);
+  if (step) q.set('step', step);
+  const s = q.toString();
+  return s ? `/products?${s}` : '/products';
+}
 
 /** Related: same step first, then same category, in Master order. */
 export function getRelated(product, limit = RELATED_LIMIT) {

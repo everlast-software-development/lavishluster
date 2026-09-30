@@ -18,8 +18,7 @@
 .section { padding-block: var(--space-section); }
 .section--tint { background: var(--c-tint); }
 .section--plain + .section--plain { padding-top: 0; }
-.section--plain + .section--plain > .container,
-.catalog-block + .catalog-block > .container {
+.section--plain + .section--plain > .container {
   /* Hairline aligned to the content edges, not the container padding. */
   background: linear-gradient(var(--c-line), var(--c-line)) no-repeat var(--gutter) 0 / calc(100% - 2 * var(--gutter)) 1px;
   padding-top: var(--space-section);

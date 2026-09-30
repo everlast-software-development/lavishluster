@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-import { navItems } from './navItems.js';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { navCta, navItems } from './navItems.js';
 import Wordmark from './Wordmark.jsx';
 
 export default function Header() {
@@ -38,32 +38,36 @@ export default function Header() {
           <ul>
             {navItems.map((item) => (
               <li key={item.to}>
-                <NavLink to={item.to} end={item.end}>{item.label}</NavLink>
+                <NavLink to={item.to}>{item.label}</NavLink>
               </li>
             ))}
           </ul>
         </nav>
-        <button
-          ref={buttonRef}
-          type="button"
-          className="menu-toggle"
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          onClick={() => setOpen((v) => !v)}
-        >
-          <span className="menu-toggle__label">{open ? 'Close' : 'Menu'}</span>
-          <span className="menu-toggle__icon" aria-hidden="true"><i /><i /></span>
-        </button>
+        <div className="site-header__end">
+          <Link to={navCta.to} className="btn btn--primary btn--small site-header__cta">{navCta.label}</Link>
+          <button
+            ref={buttonRef}
+            type="button"
+            className="menu-toggle"
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            onClick={() => setOpen((v) => !v)}
+          >
+            <span className="menu-toggle__label">{open ? 'Close' : 'Menu'}</span>
+            <span className="menu-toggle__icon" aria-hidden="true"><i /><i /></span>
+          </button>
+        </div>
       </div>
       <div id="mobile-menu" ref={panelRef} className="mobile-menu" hidden={!open}>
         <nav aria-label="Main (mobile)" className="container">
           <ul>
             {navItems.map((item) => (
               <li key={item.to}>
-                <NavLink to={item.to} end={item.end}>{item.label}</NavLink>
+                <NavLink to={item.to}>{item.label}</NavLink>
               </li>
             ))}
           </ul>
+          <Link to={navCta.to} className="btn btn--primary mobile-menu__cta">{navCta.label}</Link>
         </nav>
       </div>
     </header>

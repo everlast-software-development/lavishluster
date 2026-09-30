@@ -4,17 +4,15 @@ import Section from '../../components/ui/Section.jsx';
 import PageHero from '../../components/ui/PageHero.jsx';
 import BrandImage from '../../components/ui/BrandImage.jsx';
 import { TextLink } from '../../components/ui/Links.jsx';
-import EvidenceLedger from '../../components/sections/EvidenceLedger.jsx';
 import ConsultationCta from '../../components/sections/ConsultationCta.jsx';
 import masterBrand from '../../data/content/master-brand.json';
 import { site, lusterscan } from '../../data/content/site.js';
 import { technologies } from '../../data/content/science.js';
-import { getProduct, ingredientIndex, products, productsInCategory } from '../../data/catalog.js';
+import { catalogHref, getProduct, ingredientIndex, productsInCategory } from '../../data/catalog.js';
 
 const value = (title) => site.values.items.find((v) => v.title === title);
 
 export default function Science() {
-  const formulations = products.filter((p) => !p.isDevice);
   return (
     <>
       <Seo title="The Science" description={site.science.body.text} path="/science" />
@@ -53,10 +51,10 @@ export default function Science() {
         </dl>
       </Section>
 
-      <Section id="evidence" title="Clinical Evidence" tone="tint">
-        <EvidenceLedger products={formulations} compact />
+      <Section id="evidence" kicker={site.results.label.text} title="Clinical Evidence" tone="tint">
+        <p className="prose-lg">{site.results.body.text}</p>
         <div className="section__actions">
-          <TextLink to="/results">Explore results</TextLink>
+          <TextLink to="/results">Explore Results</TextLink>
         </div>
       </Section>
 
@@ -80,7 +78,7 @@ export default function Science() {
           ))}
         </ul>
         <div className="section__actions">
-          <TextLink to={`/products?category=beauty-devices`}>View all {productsInCategory('beauty-devices').length} beauty devices</TextLink>
+          <TextLink to={catalogHref('beauty-devices')}>View all {productsInCategory('beauty-devices').length} beauty devices</TextLink>
         </div>
       </Section>
 

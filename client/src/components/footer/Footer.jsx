@@ -12,7 +12,6 @@ const SOCIAL = [
 ];
 
 export default function Footer() {
-  const explore = navItems.filter((i) => i.to !== '/');
   const social = features.socialLinks ? SOCIAL.filter(([key]) => contact.social[key]) : [];
   return (
     <footer className="site-footer">
@@ -24,7 +23,7 @@ export default function Footer() {
         <nav className="site-footer__col" aria-label="Explore">
           <h2 className="site-footer__heading">Explore</h2>
           <ul>
-            {explore.map((i) => <li key={i.to}><Link to={i.to}>{i.label}</Link></li>)}
+            {navItems.map((i) => <li key={i.to}><Link to={i.to}>{i.label}</Link></li>)}
           </ul>
         </nav>
         <div className="site-footer__col">

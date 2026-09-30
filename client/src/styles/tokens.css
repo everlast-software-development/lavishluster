@@ -30,7 +30,6 @@
   --gap: clamp(1rem, 0.55rem + 1.6vw, 2.25rem);
   --max: 1400px;
   --header-h: 4.5rem;
-  --tabs-h: 3.35rem;
   --radius: 2px;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }

@@ -27,6 +27,23 @@ function productJsonLd(p) {
   };
 }
 
+/** In-page index, in reading order; lists only the sections this product has. */
+function sectionsFor(p) {
+  const techId = p.technology.length > 0 ? 'technology' : p.lightFunctions ? 'light-functions' : p.modes.length > 0 ? 'modes' : null;
+  return [
+    ['benefits', 'Benefits'],
+    ['application', 'Application'],
+    techId && [techId, 'Technology'],
+    p.display.ingredients.length > 0 && ['ingredients', 'Ingredients'],
+    ['evidence', 'Evidence'],
+  ].filter(Boolean);
+}
+
+/**
+ * Product presentation: hero, then Benefits → Application → (device
+ * technology) → Active Ingredients → Scientific Evidence, then related
+ * products and the consultation CTA. Every Master field is rendered in full.
+ */
 export default function Product() {
   const { slug } = useParams();
   const p = getProduct(slug);
@@ -65,9 +82,22 @@ export default function Product() {
               <div className="product-hero__actions">
                 <ButtonLink to="/contact?type=consultation#inquiry">Request a consultation</ButtonLink>
               </div>
+              <nav className="product-index" aria-label="On this page">
+                <ul>
+                  {sectionsFor(p).map(([id, label]) => <li key={id}><a href={`#${id}`}>{label}</a></li>)}
+                </ul>
+              </nav>
             </div>
           </div>
         </header>
+
+        <Section id="benefits" title="Enhanced Benefits">
+          <Benefits product={p} />
+        </Section>
+
+        <Section id="application" title="Application Secret" tone="tint">
+          <ApplicationSecret product={p} />
+        </Section>
 
         {p.technology.length > 0 && (
           <Section id="technology" title="Technology">
@@ -76,7 +106,7 @@ export default function Product() {
         )}
 
         {p.lightFunctions && (
-          <Section id="light-functions" title={p.lightFunctions.heading} tone="tint">
+          <Section id="light-functions" title={p.lightFunctions.heading}>
             <LightFunctions data={p.lightFunctions} />
           </Section>
         )}
@@ -87,21 +117,13 @@ export default function Product() {
           </Section>
         )}
 
-        <Section id="benefits" title="Enhanced Benefits">
-          <Benefits product={p} />
-        </Section>
-
-        <Section id="application" title="Application Secret" tone="tint">
-          <ApplicationSecret product={p} />
-        </Section>
-
         {p.display.ingredients.length > 0 && (
           <Section id="ingredients" title="Active Ingredients">
             <Ingredients product={p} />
           </Section>
         )}
 
-        <Section id="evidence" title="Scientific Evidence">
+        <Section id="evidence" title="Scientific Evidence" tone="tint">
           <Evidence product={p} />
         </Section>
 
@@ -113,7 +135,7 @@ export default function Product() {
       </article>
 
       {related.length > 0 && (
-        <Section id="related" title={p.isDevice ? 'More beauty devices' : 'Related products'} tone="tint" layout="stack">
+        <Section id="related" title={p.isDevice ? 'More beauty devices' : 'Related products'} layout="stack">
           <ProductGrid products={related} columns={4} />
         </Section>
       )}
