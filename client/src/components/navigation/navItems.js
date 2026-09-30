@@ -1,9 +1,10 @@
 import { features } from '../../data/config/features.js';
 
 /**
- * Main navigation — one level only. The wordmark links home, so Home is not
- * listed; product categories and treatment steps are filters inside
- * /products, never navigation items.
+ * Main navigation — one level only. Product categories and treatment steps
+ * are filters inside /products, never navigation items. On desktop the
+ * wordmark links home and sits between the first three items and the rest;
+ * the mobile menu and the footer also list Home explicitly.
  */
 export const navItems = [
   { to: '/about', label: 'About' },
@@ -15,5 +16,7 @@ export const navItems = [
   { to: '/contact', label: 'Contact' },
 ].filter(Boolean);
 
-/** The single primary action in the header. */
-export const navCta = { to: '/products', label: 'Explore Products' };
+export const homeItem = { to: '/', label: 'Home', end: true };
+
+/** Desktop split around the centred wordmark. */
+export const NAV_SPLIT = 3;
