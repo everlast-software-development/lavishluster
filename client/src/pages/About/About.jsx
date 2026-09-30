@@ -12,31 +12,34 @@ export default function About() {
   return (
     <>
       <Seo title="About" description={site.intro.body.text} path="/about" />
-      <PageHero
-        kicker="About Lavish Luster"
-        title="Welcome to Lavish Luster"
-        intro={site.story.text}
-        aside={<BrandImage name="about" seed="about-luster" ratio={1.25} eager />}
-      />
+      <PageHero kicker="About Lavish Luster" title="Welcome to Lavish Luster" intro={site.story.text} image="about-cutout" variant="grain" />
 
-      <Section id="story" title="Our Story">
-        <p className="prose-lg">{site.intro.body.text}</p>
-      </Section>
+      <section className="halves halves--media-left section--pearl" aria-labelledby="story-title">
+        <div className="halves__media"><BrandImage name="story" /></div>
+        <div className="halves__text">
+          <h2 id="story-title" className="section-title">Our Story</h2>
+          <p className="lead halves__lead">{site.intro.body.text}</p>
+        </div>
+      </section>
 
-      <Section id="mission-vision" title="Mission & Vision" tone="tint">
-        <div className="duo">
-          <div>
-            <h3 className="duo__title">Our Mission</h3>
-            <p className="prose">{site.mission.text}</p>
-          </div>
-          <div>
-            <h3 className="duo__title">Our Vision</h3>
-            <p className="prose">{site.vision.text}</p>
+      <section className="halves halves--media-right section--white" aria-labelledby="mission-title">
+        <div className="halves__media"><BrandImage name="vision" /></div>
+        <div className="halves__text">
+          <h2 id="mission-title" className="section-title">Mission &amp; Vision</h2>
+          <div className="duo">
+            <div>
+              <h3 className="minor-title duo__title">Our Mission</h3>
+              <p className="prose">{site.mission.text}</p>
+            </div>
+            <div>
+              <h3 className="minor-title duo__title">Our Vision</h3>
+              <p className="prose">{site.vision.text}</p>
+            </div>
           </div>
         </div>
-      </Section>
+      </section>
 
-      <Section id="values" title="Our Core Values">
+      <Section id="values" title="Our Core Values" layout="stack">
         <dl className="values">
           {site.values.items.map((v) => (
             <div key={v.title} className="values__item">
@@ -47,20 +50,23 @@ export default function About() {
         </dl>
       </Section>
 
-      <Section id="pillars" kicker={masterBrand.subTagline} title={site.intro.title.text} tone="tint">
-        <ul className="pillars pillars--flush" aria-label="Brand pillars">
-          {site.pillars.items.map((p) => <li key={p}>{p}</li>)}
-        </ul>
-      </Section>
+      <section className="halves halves--media-left section--white" aria-labelledby="pillars-title">
+        <div className="halves__media"><BrandImage name="welcome" /></div>
+        <div className="halves__text">
+          <p className="eyebrow">{masterBrand.subTagline}</p>
+          <h2 id="pillars-title" className="section-title halves__title">{site.intro.title.text}</h2>
+          <ul className="hairline-list pillar-list" aria-label="Brand pillars">
+            {site.pillars.items.map((p) => <li key={p}>{p}</li>)}
+          </ul>
+        </div>
+      </section>
 
       <Experts />
 
-      <section className="cta-band" aria-labelledby="about-cta">
-        <div className="container split">
-          <h2 id="about-cta" className="cta-band__title">Discover Lavish Luster</h2>
-          <div className="cta-band__actions">
-            <ButtonLink to="/products">Explore Products</ButtonLink>
-          </div>
+      <section className="section section--pearl about-cta" aria-labelledby="about-cta">
+        <div className="container about-cta__inner">
+          <h2 id="about-cta" className="section-title">Discover Lavish Luster</h2>
+          <ButtonLink to="/products">Explore products</ButtonLink>
         </div>
       </section>
     </>

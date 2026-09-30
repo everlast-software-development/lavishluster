@@ -11,7 +11,7 @@ export default function Results() {
   return (
     <>
       <Seo title="Results" description={site.results.body.text} path="/results" />
-      <PageHero kicker={site.results.label.text} title="Real Results. Scientific Evidence." intro={site.results.body.text} />
+      <PageHero kicker={site.results.label.text} title="Real Results. Scientific Evidence." intro={site.results.body.text} image="studio" />
 
       <BeforeAfterGallery />
 
@@ -19,7 +19,7 @@ export default function Results() {
         <EvidenceLedger products={productsInCategory('facial-treatment')} />
       </Section>
 
-      <Section id="flash-results" title="Flash Treatment" kicker="Product results" tone="tint">
+      <Section id="flash-results" title="Flash Treatment" kicker="Product results" tone="white">
         <EvidenceLedger products={productsInCategory('flash-treatment')} />
       </Section>
 

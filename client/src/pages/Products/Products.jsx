@@ -2,7 +2,6 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import Seo from '../../components/ui/Seo.jsx';
 import PageHero from '../../components/ui/PageHero.jsx';
-import ProductImage from '../../components/ui/ProductImage.jsx';
 import ProductGrid from '../../components/product/ProductGrid.jsx';
 import masterBrand from '../../data/content/master-brand.json';
 import { catalogHref, categoriesWithCounts, products, productsInCategory, productsInStep, stepsWithCounts } from '../../data/catalog.js';
@@ -27,32 +26,7 @@ function useCatalogFilter() {
   return { category, step };
 }
 
-/** The three product worlds — the entry point to the catalog. */
-function Worlds({ active }) {
-  return (
-    <section className="worlds" aria-label="Product worlds">
-      <div className="container">
-        <ul className="worlds__list">
-          {categoriesWithCounts.map((c) => (
-            <li key={c.slug}>
-              <Link
-                to={catalogHref(active === c.slug ? null : c.slug)}
-                className="world"
-                aria-current={active === c.slug ? 'true' : undefined}
-              >
-                <ProductImage product={productsInCategory(c.slug)[0]} ratio={1.25} className="world__media" eager />
-                <span className="world__count">{c.countLabel}</span>
-                <span className="world__name">{c.label}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  );
-}
-
-/** Sticky filter bar: world tabs, plus treatment-step filters inside Facial Treatment. */
+/** Sticky filter bar: product-world tabs, plus treatment-step filters inside Facial Treatment. */
 function FilterBar({ category, step }) {
   return (
     <div className="filter-bar">
@@ -75,9 +49,9 @@ function FilterBar({ category, step }) {
         </nav>
         {category === FACIAL && (
           <nav aria-label="Filter facial treatments">
-            <ul className="filter-bar__chips">
+            <ul className="filter-bar__steps">
               <li>
-                <Link to={catalogHref(FACIAL)} aria-current={!step ? 'true' : undefined}>All</Link>
+                <Link to={catalogHref(FACIAL)} aria-current={!step ? 'true' : undefined}>All steps</Link>
               </li>
               {stepsWithCounts.map((s) => (
                 <li key={s.slug}>
@@ -94,25 +68,32 @@ function FilterBar({ category, step }) {
   );
 }
 
-function WorldGroup({ category, items, heading = 'h2', note, showContext = false }) {
-  const H = heading;
+function WorldHead({ category }) {
   return (
-    <section className="world-group" aria-labelledby={`world-${category.slug}`}>
-      <div className="container">
-        <header className="world-group__head">
-          <H id={`world-${category.slug}`} className="world-group__title">{category.label}</H>
-          <p className="world-group__count">{note || category.countLabel}</p>
-          {category.description && <p className="world-group__desc">{category.description}</p>}
-        </header>
-        <ProductGrid products={items} columns={4} showContext={showContext} headingLevel={3} />
-      </div>
+    <header className="world-group__head">
+      <h2 id={`world-${category.slug}`} className="section-title">{category.label}</h2>
+      <p className="world-group__count">{category.countLabel}</p>
+      {category.description && <p className="world-group__desc">{category.description}</p>}
+    </header>
+  );
+}
+
+function StepGroup({ step }) {
+  return (
+    <section className="step-group" aria-labelledby={`step-${step.slug}`}>
+      <header className="step-group__head">
+        <p className="eyebrow">Step {step.number}</p>
+        <h3 id={`step-${step.slug}`} className="step-group__title">{step.label}</h3>
+        {step.group && <p className="step-group__sub">{step.group}</p>}
+      </header>
+      <ProductGrid products={productsInStep(step.number)} headingLevel={4} />
     </section>
   );
 }
 
 export default function Products() {
   const { category, step } = useCatalogFilter();
-  const visible = category ? [cat(category)] : categoriesWithCounts;
+  const show = (slug) => !category || category === slug;
 
   return (
     <>
@@ -121,27 +102,29 @@ export default function Products() {
         description={`${cat(FACIAL).description} ${cat('flash-treatment').description}`}
         path="/products"
       />
-      <PageHero title="Discover Lavish Luster" intro={masterBrand.statement}>
+      <PageHero title="Discover Lavish Luster" intro={masterBrand.statement} image="catalog">
         <p className="page-hero__meta">{masterBrand.subTagline}</p>
       </PageHero>
 
-      <Worlds active={category} />
       <FilterBar category={category} step={step} />
 
       <div className="catalog" key={`${category || 'all'}-${step?.slug || 'all'}`}>
-        {visible.map((c) => {
-          const stepped = c.slug === FACIAL && step;
-          const items = stepped ? productsInStep(step.number) : productsInCategory(c.slug);
-          return (
-            <WorldGroup
-              key={c.slug}
-              category={c}
-              items={items}
-              showContext={c.slug === FACIAL && !step}
-              note={stepped ? `${step.label} · ${items.length} of ${c.count} products` : null}
-            />
-          );
-        })}
+        {show(FACIAL) && (
+          <section className="world-group" aria-labelledby={`world-${FACIAL}`}>
+            <div className="container">
+              <WorldHead category={cat(FACIAL)} />
+              {(step ? [step] : stepsWithCounts).map((s) => <StepGroup key={s.slug} step={s} />)}
+            </div>
+          </section>
+        )}
+        {['flash-treatment', 'beauty-devices'].filter(show).map((slug) => (
+          <section key={slug} className="world-group" aria-labelledby={`world-${slug}`}>
+            <div className="container">
+              <WorldHead category={cat(slug)} />
+              <ProductGrid products={productsInCategory(slug)} />
+            </div>
+          </section>
+        ))}
       </div>
     </>
   );

@@ -5,7 +5,7 @@
 
 export function Benefits({ product }) {
   const items = product.display.benefits;
-  if (!items) return <p className="prose-lg">{product.enhancedBenefits}</p>;
+  if (!items) return <p className="detail__lead">{product.enhancedBenefits}</p>;
   return (
     <ul className="benefit-list">
       {items.map((b) => <li key={b}>{b}</li>)}
@@ -14,21 +14,16 @@ export function Benefits({ product }) {
 }
 
 export function ApplicationSecret({ product }) {
-  return (
-    <div className="application">
-      <p className="application__label">How to use</p>
-      <p className="application__text">{product.applicationSecret}</p>
-    </div>
-  );
+  return <p className="detail__lead application__text">{product.applicationSecret}</p>;
 }
 
 export function Ingredients({ product }) {
   return (
-    <dl className="ingredient-list">
+    <dl className="spec-table">
       {product.display.ingredients.map((ing) => (
-        <div className="ingredient-list__row" key={ing.raw}>
+        <div className="spec-table__row" key={ing.raw}>
           <dt>{ing.name}</dt>
-          <dd>{ing.concentration || ''}</dd>
+          <dd className="spec-table__value">{ing.concentration || ''}</dd>
         </div>
       ))}
     </dl>
@@ -62,17 +57,17 @@ export function Evidence({ product, compact = false }) {
 
 export function Technology({ product }) {
   return (
-    <ul className="spec-list">
-      {product.technology.map((t) => <li key={t.text}>{t.text}</li>)}
+    <ul className="spec-table spec-table--list">
+      {product.technology.map((t) => <li key={t.text} className="spec-table__row">{t.text}</li>)}
     </ul>
   );
 }
 
 export function Modes({ product }) {
   return (
-    <dl className="mode-list">
+    <dl className="spec-table">
       {product.modes.map((m) => (
-        <div className="mode-list__row" key={m.label}>
+        <div className="spec-table__row spec-table__row--stack" key={m.label}>
           <dt>{m.label}</dt>
           {m.description && <dd>{m.description}</dd>}
         </div>

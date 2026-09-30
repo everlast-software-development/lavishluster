@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom';
 import Seo from '../../components/ui/Seo.jsx';
 import Section from '../../components/ui/Section.jsx';
 import Feature from '../../components/ui/Feature.jsx';
+import Icon from '../../components/ui/Icon.jsx';
 import ProductImage from '../../components/ui/ProductImage.jsx';
 import ProductGrid from '../../components/product/ProductGrid.jsx';
 import Breadcrumb from '../../components/product/Breadcrumb.jsx';
@@ -39,16 +40,31 @@ function sectionsFor(p) {
   ].filter(Boolean);
 }
 
+/** One centred detail section: thin line icon (or a gold rule), title, content. */
+function Detail({ id, title, icon, children }) {
+  return (
+    <section id={id} className="detail" aria-labelledby={`${id}-title`}>
+      <div className="container detail__inner">
+        {icon ? <Icon name={icon} className="detail__icon" /> : <span className="detail__rule" aria-hidden="true" />}
+        <h2 id={`${id}-title`} className="detail__title">{title}</h2>
+        <div className="detail__body">{children}</div>
+      </div>
+    </section>
+  );
+}
+
 /**
- * Product presentation: hero, then Benefits → Application → (device
- * technology) → Active Ingredients → Scientific Evidence, then related
- * products and the consultation CTA. Every Master field is rendered in full.
+ * Product template (all 27): 50/50 hero on silk, then one centred column —
+ * Benefits → Application → device Technology/Light Functions/Modes →
+ * Active Ingredients → Scientific Evidence — then related products and the
+ * consultation band. Every Master field is rendered in full.
  */
 export default function Product() {
   const { slug } = useParams();
   const p = getProduct(slug);
   if (!p) return <NotFound />;
   const related = getRelated(p);
+  const context = p.stepInfo ? `Step ${p.stepInfo.number} · ${p.stepInfo.label}` : p.categoryInfo.label;
 
   return (
     <>
@@ -62,10 +78,10 @@ export default function Product() {
       />
 
       <article className={`product${p.isDevice ? ' product--device' : ''}`} aria-labelledby="product-name">
-        <header className="product-hero">
+        <header className="product-hero section--silk">
           <div className="container product-hero__grid">
             <div className="product-hero__media">
-              <ProductImage product={p} ratio={0.8} eager sizes="(min-width: 900px) 50vw, 100vw" />
+              <ProductImage product={p} ratio={0.8} eager sizes="(min-width: 900px) 45vw, 100vw" />
               {p.images.gallery.length > 0 && (
                 <ul className="product-hero__gallery">
                   {p.images.gallery.map((src, i) => (
@@ -76,6 +92,7 @@ export default function Product() {
             </div>
             <div className="product-hero__text">
               <Breadcrumb product={p} />
+              <p className="eyebrow">{context}</p>
               <h1 id="product-name" className="product-hero__name">{p.name}</h1>
               <p className="product-hero__subtitle">{p.subtitle}</p>
               {p.shortDescription && <p className="product-hero__desc">{p.shortDescription}</p>}
@@ -91,52 +108,54 @@ export default function Product() {
           </div>
         </header>
 
-        <Section id="benefits" title="Enhanced Benefits">
-          <Benefits product={p} />
-        </Section>
+        <div className="product-body">
+          <Detail id="benefits" title="Enhanced Benefits" icon="hand-heart">
+            <Benefits product={p} />
+          </Detail>
 
-        <Section id="application" title="Application Secret" tone="tint">
-          <ApplicationSecret product={p} />
-        </Section>
+          <Detail id="application" title="Application Secret" icon="magnifier">
+            <ApplicationSecret product={p} />
+          </Detail>
 
-        {p.technology.length > 0 && (
-          <Section id="technology" title="Technology">
-            <Technology product={p} />
-          </Section>
-        )}
+          {p.technology.length > 0 && (
+            <Detail id="technology" title="Technology">
+              <Technology product={p} />
+            </Detail>
+          )}
 
-        {p.lightFunctions && (
-          <Section id="light-functions" title={p.lightFunctions.heading}>
-            <LightFunctions data={p.lightFunctions} />
-          </Section>
-        )}
+          {p.lightFunctions && (
+            <Detail id="light-functions" title={p.lightFunctions.heading}>
+              <LightFunctions data={p.lightFunctions} />
+            </Detail>
+          )}
 
-        {p.modes.length > 0 && (
-          <Section id="modes" title="Modes">
-            <Modes product={p} />
-          </Section>
-        )}
+          {p.modes.length > 0 && (
+            <Detail id="modes" title="Modes">
+              <Modes product={p} />
+            </Detail>
+          )}
 
-        {p.display.ingredients.length > 0 && (
-          <Section id="ingredients" title="Active Ingredients">
-            <Ingredients product={p} />
-          </Section>
-        )}
+          {p.display.ingredients.length > 0 && (
+            <Detail id="ingredients" title="Active Ingredients" icon="leaf">
+              <Ingredients product={p} />
+            </Detail>
+          )}
 
-        <Section id="evidence" title="Scientific Evidence" tone="tint">
-          <Evidence product={p} />
-        </Section>
+          <Detail id="evidence" title="Scientific Evidence" icon="flask">
+            <Evidence product={p} />
+          </Detail>
 
-        <Feature flag="certifications" data={p.certifications || null}>
-          <Section id="certifications" title="Certifications">
-            <p className="prose">{p.certifications}</p>
-          </Section>
-        </Feature>
+          <Feature flag="certifications" data={p.certifications || null}>
+            <Detail id="certifications" title="Certifications">
+              <p className="prose">{p.certifications}</p>
+            </Detail>
+          </Feature>
+        </div>
       </article>
 
       {related.length > 0 && (
-        <Section id="related" title={p.isDevice ? 'More beauty devices' : 'Related products'} layout="stack">
-          <ProductGrid products={related} columns={4} />
+        <Section id="related" title={p.isDevice ? 'More beauty devices' : 'Related products'} layout="stack" tone="white">
+          <ProductGrid products={related} />
         </Section>
       )}
 

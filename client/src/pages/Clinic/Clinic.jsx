@@ -27,7 +27,7 @@ export default function Clinic() {
 
       <Experts />
 
-      <Section id="location" title="Location" tone="tint">
+      <Section id="location" title="Location" tone="white">
         <address className="contact-lines">
           <a href={contact.mapsUrl} target="_blank" rel="noopener noreferrer">{contact.address}</a>
         </address>

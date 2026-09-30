@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import Seo from '../../components/ui/Seo.jsx';
 import Section from '../../components/ui/Section.jsx';
 import PageHero from '../../components/ui/PageHero.jsx';
-import BrandImage from '../../components/ui/BrandImage.jsx';
 import { TextLink } from '../../components/ui/Links.jsx';
 import ConsultationCta from '../../components/sections/ConsultationCta.jsx';
 import masterBrand from '../../data/content/master-brand.json';
@@ -16,18 +15,14 @@ export default function Science() {
   return (
     <>
       <Seo title="The Science" description={site.science.body.text} path="/science" />
-      <PageHero
-        title="The Science Behind Beautiful Skin"
-        intro={masterBrand.statement}
-        aside={<BrandImage name="science" seed="science-thin-film" ratio={1} eager />}
-      />
+      <PageHero title="The Science Behind Beautiful Skin" intro={masterBrand.statement} image="science" />
 
       <Section id="formulations" title="Pharmaceutical-Grade Formulations">
         <p className="prose-lg">{site.science.body.text}</p>
         <p className="prose">{value('Precision & Efficacy').text}</p>
       </Section>
 
-      <Section id="biotechnology" title="Biotechnology" tone="tint">
+      <Section id="biotechnology" title="Biotechnology" tone="white">
         <p className="prose-lg">{value('Biotechnological Innovation').text}</p>
       </Section>
 
@@ -51,7 +46,7 @@ export default function Science() {
         </dl>
       </Section>
 
-      <Section id="evidence" kicker={site.results.label.text} title="Clinical Evidence" tone="tint">
+      <Section id="evidence" kicker={site.results.label.text} title="Clinical Evidence" tone="white">
         <p className="prose-lg">{site.results.body.text}</p>
         <div className="section__actions">
           <TextLink to="/results">Explore Results</TextLink>
@@ -82,7 +77,7 @@ export default function Science() {
         </div>
       </Section>
 
-      <Section id="ai" kicker={lusterscan.label.text} title="AI Technology" tone="tint">
+      <Section id="ai" kicker={lusterscan.label.text} title="AI Technology" tone="white">
         <p className="prose-lg">{lusterscan.description}</p>
         <div className="section__actions">
           <TextLink to="/lusterscan-ai">Explore LusterScan AI</TextLink>

@@ -8,7 +8,7 @@ export default function Contact() {
   return (
     <>
       <Seo title="Contact" description={`${contact.address}. ${contact.email}`} path="/contact" />
-      <PageHero title="Contact" />
+      <PageHero title="Contact" image="contact" />
 
       <Section id="details" title="Contact Information">
         <dl className="contact-details">
@@ -51,7 +51,7 @@ export default function Contact() {
         </div>
       </section>
 
-      <Section id="inquiry" title="Send an enquiry" tone="tint">
+      <Section id="inquiry" title="Send an enquiry" tone="white">
         <InquiryForm />
       </Section>
     </>

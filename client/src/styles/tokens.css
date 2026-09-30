@@ -63,20 +63,5 @@
   --radius: 0;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   --t-page: 300ms;
-
-  /* Legacy aliases — removed in step 4 once every stylesheet uses the tokens above. */
-  --c-bg: var(--c-pearl);
-  --c-tint: var(--c-white);
-  --c-surface: var(--c-white);
-  --c-ink-2: var(--c-ink-soft);
-  --c-muted: var(--c-taupe);
-  --c-line-strong: var(--c-gold);
-  --f-serif: var(--f-sans);
-  --t-base: var(--t-body);
-  --t-md: var(--t-lead);
-  --t-lg: var(--t-lead);
-  --t-xl: var(--t-h3);
-  --t-2xl: var(--t-h2);
-  --t-3xl: var(--t-h2);
 }
 @media (max-width: 767px) { :root { --header-h: 4.25rem; } }

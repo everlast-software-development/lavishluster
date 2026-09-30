@@ -131,9 +131,12 @@
 .page-hero--grain .page-hero__media img { object-fit: contain; object-position: 80% 100%; }
 .page-hero--grain .eyebrow, .page-hero--grain .page-hero__intro { color: var(--c-white); }
 @media (max-width: 767px) {
-  .page-hero--photo .page-hero__media::after {
-    background: linear-gradient(0deg, var(--c-pearl-scrim) 0%, var(--c-pearl-scrim) 48%, var(--c-pearl-scrim-none) 88%);
-  }
+  /* Phones: the photograph sits above the text instead of under it. */
+  .page-hero--photo { display: block; min-height: 0; background: var(--c-pearl); }
+  .page-hero--photo .page-hero__media { position: relative; aspect-ratio: 16 / 10; }
+  .page-hero--photo .page-hero__media::after { display: none; }
+  .page-hero--photo .page-hero__media img { object-position: center; }
+  .page-hero--photo .page-hero__inner { padding-block: 2.5rem 3rem; }
   .page-hero--grain .page-hero__media img { object-position: 50% 100%; }
 }
 
