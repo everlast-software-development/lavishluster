@@ -37,10 +37,15 @@
 .site-header.is-scrolled, .site-header.is-open { box-shadow: 0 1px 0 var(--c-line); }
 .site-header__bar { display: flex; align-items: center; justify-content: space-between; height: var(--header-h); gap: 2rem; }
 .site-header__end { display: flex; align-items: center; gap: 1.5rem; }
-.wordmark { text-decoration: none; display: inline-flex; align-items: center; }
-.wordmark img { height: 2.25rem; width: auto; }
-.wordmark span { font-family: var(--f-serif); font-size: 1.4rem; font-weight: 420; letter-spacing: 0.01em; white-space: nowrap; }
-.wordmark--footer span { font-size: 1.75rem; }
+.wordmark { display: inline-flex; align-items: center; text-decoration: none; }
+.wordmark--dark { color: var(--c-ink); }
+.wordmark--light { color: var(--c-white); }
+.wordmark__mark {
+  display: block; width: var(--logo-w, 180px); aspect-ratio: 800 / 135; background-color: currentColor;
+  -webkit-mask: var(--logo) center / contain no-repeat; mask: var(--logo) center / contain no-repeat;
+}
+.wordmark--footer { --logo-w: 210px; }
+@media (max-width: 767px) { .wordmark { --logo-w: 140px; } .wordmark--footer { --logo-w: 190px; } }
 
 .site-nav ul { display: flex; gap: clamp(1rem, 1.7vw, 2.1rem); list-style: none; margin: 0; padding: 0; }
 .site-nav a, .site-footer a {
