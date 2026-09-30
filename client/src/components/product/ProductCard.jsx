@@ -6,8 +6,12 @@ export function productContext(p) {
   return p.categoryInfo.label;
 }
 
-/** Catalog card — informational only. No price, no purchase controls. */
-export default function ProductCard({ product, showContext = true, headingLevel = 3 }) {
+/**
+ * Product card — the one card used everywhere. Informational only: image on a
+ * white mat, name, subtitle, short description (clamped) and "View product".
+ * No border, box or shadow.
+ */
+export default function ProductCard({ product, showContext = false, headingLevel = 3 }) {
   const H = `h${headingLevel}`;
   return (
     <article className="product-card">

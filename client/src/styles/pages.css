@@ -56,36 +56,6 @@
   .category-index__media { aspect-ratio: 4 / 3 !important; }
 }
 
-/* ---------- Product grid & card ---------- */
-.product-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: clamp(2.5rem, 4vw, 3.75rem) var(--gap); }
-.product-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.product-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-@media (max-width: 1279px) { .product-grid--4 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (max-width: 1099px) { .product-grid--3, .product-grid--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 339px) { .product-grid--3, .product-grid--4 { grid-template-columns: 1fr; } }
-
-.product-card__link { display: block; text-decoration: none; color: inherit; }
-.product-card__text { margin-top: 1.2rem; }
-.product-card__context { font-size: var(--t-xs); color: var(--c-muted); margin-bottom: 0.55rem; }
-.product-card__name { font-size: 0.8125rem; font-weight: 580; letter-spacing: 0.085em; line-height: 1.45; }
-.product-card__subtitle { margin-top: 0.3rem; font-family: var(--f-serif); font-size: var(--t-md); line-height: 1.3; }
-.product-card__desc { margin-top: 0.6rem; font-size: var(--t-sm); color: var(--c-ink-2); line-height: 1.55; max-width: 30em; }
-.product-card__cta {
-  display: inline-block; margin-top: 1rem; font-size: var(--t-sm); font-weight: 520;
-  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.42em;
-  text-decoration-color: var(--c-line-strong); transition: text-decoration-color 0.25s var(--ease);
-}
-.product-card__link:hover .product-card__cta { text-decoration-color: currentColor; }
-.product-card__link:hover .media > * { transform: scale(1.025); }
-@media (max-width: 559px) {
-  .product-grid { column-gap: 0.9rem; row-gap: 2.25rem; }
-  .product-card__text { margin-top: 0.85rem; }
-  .product-card__name { font-size: 0.75rem; letter-spacing: 0.07em; }
-  .product-card__subtitle { font-size: var(--t-base); }
-  .product-card__desc { font-size: var(--t-xs); }
-  .product-card__cta { display: none; }
-}
-
 /* ---------- Catalog ---------- */
 /* Product worlds: the three entry points at the top of /products. */
 .worlds { padding-bottom: clamp(2.5rem, 5vw, 4rem); }

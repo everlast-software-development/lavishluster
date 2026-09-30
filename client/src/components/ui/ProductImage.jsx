@@ -1,14 +1,14 @@
-import LusterPlate from './LusterPlate.jsx';
+import Placeholder from './Placeholder.jsx';
 
 /**
- * Product/device image slot. Renders the real primary image when present in
- * src/assets/{products,devices}/<slug>/, otherwise the generated plate.
- * Layout (aspect ratio) is identical in both cases.
+ * Product/device image on a white mat (4:5 by default). Renders
+ * src/assets/{products,devices}/<slug>/primary.* when present, otherwise the
+ * silk placeholder. Layout is identical in both cases.
  */
-export default function ProductImage({ product, ratio = 0.8, sizes = '(min-width: 900px) 30vw, 90vw', eager = false, className = '' }) {
+export default function ProductImage({ product, ratio = 0.8, sizes = '(min-width: 900px) 30vw, 50vw', eager = false, className = '' }) {
   const src = product.images?.primary;
   return (
-    <div className={`media ${className}`} style={{ aspectRatio: ratio }}>
+    <div className={`media media--mat ${className}`.trim()} style={{ aspectRatio: ratio }}>
       {src ? (
         <img
           src={src}
@@ -19,7 +19,7 @@ export default function ProductImage({ product, ratio = 0.8, sizes = '(min-width
           decoding="async"
         />
       ) : (
-        <LusterPlate seed={product.slug} variant={product.category} ratio={ratio} />
+        <Placeholder title={product.name} subtitle={product.subtitle} />
       )}
     </div>
   );
