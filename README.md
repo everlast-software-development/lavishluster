@@ -109,10 +109,10 @@ Drop files into these folders and rebuild. No code or data changes are needed.
 ```
 client/src/assets/products/<slug>/primary.webp     (+ gallery-01.webp, gallery-02.webp …)
 client/src/assets/devices/<slug>/primary.webp
-client/src/assets/brand/logo.png|svg  hero.webp  about.webp  lusterscan.webp  science.webp
+client/src/assets/brand/<name>.webp                 (see "Brand images" below)
 ```
 
-Until a file exists, each slot shows a generated "luster plate". This is a Newton's-rings interference pattern, the optics behind pearl lustre, seeded per product and drawn in the same frame. Product images use a 4:5 frame, so supply WebP at least 1200×1500.
+Until a product file exists, its slot shows the placeholder: `brand/silk.webp` in the same 4:5 frame, with a 1px gold inset frame and the product name and subtitle set small in the lower third. Product images use a 4:5 frame, so supply WebP at least 1200×1500. `luster-sculpt-and-lift` has no image yet, and the `luster-instant-glow-shot` photo is withheld because it shows other packaging.
 
 `node scripts/fetch-assets.mjs` copies the verified old-site images into place. Confirm the usage rights and logo variant before publishing.
 
@@ -137,7 +137,34 @@ To release a Tier B item after verification, set its rule's `status` to `'releas
 
 ## Design notes
 
-- **Palette:** cool mineral porcelain (`#F2F3F1`), graphite ink (`#1E2321`), a tint for alternating sections, and hairlines only where they separate data rows.
-- **Type:** Newsreader for the brand voice, headings and evidence figures; Hanken Grotesk for interface text and product names. Both are self-hosted, and the Latin subsets are preloaded.
-- **Layout:** one grid rule everywhere. Headings sit in columns 1–4 and content in columns 5–12; the two stack below 900px.
-- **Motion:** one orchestrated hero moment (rings settling and text rising), fades when pages or filters change, and hover response on imagery. There is no smooth scrolling and no scroll-triggered animation, and `prefers-reduced-motion` is respected.
+The "Maison" direction: pearl, ink and gold, one typeface, and editorial photography.
+
+- **Tokens:** every colour, size and spacing value lives in `client/src/styles/tokens.css`. No stylesheet contains a hex value.
+  - Surfaces are pearl `#F3F2EE` (page), white (alternate sections and image mats), silk `#EDECE7` under `brand/silk.webp`, noir `#151412` (Home LusterScan, footer, mobile menu) and grain grey `#8E8D8B` (the cover hero).
+  - Text is ink `#1C1B19`, ink-soft `#4E4A44` for body copy, and taupe `#6F6860` for meta text.
+  - Gold is jewellery only: `#B99A6B` for lines and underlines, `#7F6647` for small labels on light surfaces, and `#C9AE84` for labels and numerals on dark ones. It is never used as a fill or for large areas.
+  - The only gradients are dark or pearl scrims over photography, there to keep text legible.
+- **Type:** Montserrat Variable only, self-hosted, with the Latin subset preloaded.
+  - Section titles: 28–44px, weight 200, uppercase, tracking 0.07em.
+  - Hero H1: 24–30px, weight 300, tracking 0.14em.
+  - Statement: 22–34px, weight 200.
+  - Eyebrows: 11px, weight 500, tracking 0.26em, gold.
+  - Body: 16px, line-height 1.75, at most 65ch.
+- **Components** (all under `client/src/components`):
+  - `ui/SectionHeader` (eyebrow, title, lead)
+  - `ui/Section` (split or stack; pearl, white, silk or noir)
+  - `ui/Links`: the ink button, with a pearl variant on dark sections, and the tracked text link with a gold underline
+  - `product/ProductCard`: the one card, a 4:5 image on a white mat
+  - `ui/Placeholder`
+  - `ui/PageHero`: a photo band with a pearl scrim, or the grain variant
+  - `sections/ConsultationCta` (50/50 with `couple.webp`)
+  - `ui/Icon`: thin line icons for the product detail sections
+- **Logo:** there is one file, `brand/logo.png` (white artwork on transparency). `navigation/Wordmark` uses it as a CSS mask filled with `currentColor`, so `tone="light|dark"` tints it. `brand/logo-script-watermark.png` is masked the same way for the cover hero and the footer watermark.
+- **Home:** there is one component per section in `components/sections/home/`, each with its stylesheet next to it: HomeHero, HomeStatement, HomeCollections, HomeSignature, HomeFeatured, HomeScience, HomeLusterScan, HomeResults and HomeConsultation. Refine a section by editing its pair of files.
+- **Layout:**
+  - Content is at most 1200px wide, with gutters from 24px (mobile) to 120px (desktop).
+  - Section padding runs from 72px to 144px.
+  - `.split` places the header in columns 1–5 and content in 7–12. `.halves` is the edge-to-edge 50/50.
+  - Radius is 0 everywhere, there are no shadows, and hairlines appear only between rows.
+- **Header:** the nav is split around a centred logo. It is transparent over the Home hero until the page scrolls, and solid pearl everywhere else. On mobile, a full-screen noir menu opens.
+- **Motion:** image hover zoom (1.035 over 1.2s), link underlines, a 300ms page fade, a crossfade on catalog filters and a fade on the mobile menu. There is no smooth scrolling and no scroll-triggered animation, and `prefers-reduced-motion` is respected.
