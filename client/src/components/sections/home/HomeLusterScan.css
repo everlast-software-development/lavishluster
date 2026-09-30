@@ -1,0 +1,25 @@
+/* ==========================================================================
+   Home 07 — LusterScan AI (the only noir section in the Home body)
+   ========================================================================== */
+.home-scan__intro { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2.5rem, 6vw, 6rem); align-items: center; }
+.home-scan__title { margin-top: 1.25rem; }
+.home-scan__desc { margin-top: 1.75rem; }
+.home-scan__steps {
+  list-style: none; margin: clamp(3.5rem, 7vw, 5.5rem) 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 var(--gap);
+}
+.home-scan__steps li { padding-top: 1.5rem; border-top: 1px solid var(--c-line-dark); }
+.home-scan__num {
+  display: block; font-size: 2.125rem; font-weight: 200; line-height: 1;
+  color: var(--c-gold-light); font-variant-numeric: lining-nums tabular-nums;
+}
+.home-scan__step {
+  display: block; margin-top: 1rem; font-size: var(--t-label); font-weight: 500;
+  letter-spacing: var(--tr-link); text-transform: uppercase;
+}
+.home-scan__note { margin-top: 3rem; }
+.home-scan__actions { margin-top: 2rem; }
+@media (max-width: 899px) {
+  .home-scan__intro { grid-template-columns: 1fr; }
+  .home-scan__steps { grid-template-columns: 1fr 1fr; row-gap: 2rem; }
+}

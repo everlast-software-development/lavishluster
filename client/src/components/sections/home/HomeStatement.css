@@ -1,0 +1,20 @@
+/* ==========================================================================
+   Home 02 — Statement
+   ========================================================================== */
+.home-statement { text-align: center; }
+.home-statement__text { max-width: 61.25rem; margin: 1.75rem auto 0; }
+.home-statement__pillars {
+  list-style: none; margin: clamp(3.5rem, 7vw, 5.5rem) 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--c-line); border-bottom: 1px solid var(--c-line);
+}
+.home-statement__pillars li {
+  padding: 1.75rem 1rem; font-size: var(--t-label); font-weight: 500; line-height: 1.6;
+  letter-spacing: var(--tr-link); text-transform: uppercase;
+}
+.home-statement__pillars li + li { border-left: 1px solid var(--c-line); }
+@media (max-width: 767px) {
+  .home-statement__pillars { grid-template-columns: 1fr 1fr; }
+  .home-statement__pillars li:nth-child(3) { border-left: 0; }
+  .home-statement__pillars li:nth-child(n + 3) { border-top: 1px solid var(--c-line); }
+}

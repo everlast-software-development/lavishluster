@@ -22,7 +22,7 @@
 }
 
 /* 50/50 edge-to-edge: media fills one half, text sits in the other. */
-.halves { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; }
+.halves { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: stretch; }
 .halves__media { position: relative; min-height: 100%; }
 .halves__media > .media { position: absolute; inset: 0; height: 100%; }
 .halves__text {
@@ -34,7 +34,7 @@
 .halves--media-right .halves__text { padding-right: clamp(2rem, 6vw, 6rem); }
 .halves--media-right .halves__media { order: 2; }
 @media (max-width: 899px) {
-  .halves { grid-template-columns: 1fr; }
+  .halves { grid-template-columns: minmax(0, 1fr); }
   .halves__media { min-height: 0; aspect-ratio: 4 / 3; order: 0 !important; }
   .halves__text, .halves--media-left .halves__text, .halves--media-right .halves__text { padding: var(--space-section) var(--gutter); }
 }

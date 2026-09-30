@@ -1,0 +1,17 @@
+/* ==========================================================================
+   Home 06 — Science
+   ========================================================================== */
+.home-science { background: var(--c-pearl); }
+.home-science .halves__media { min-height: 48.75rem; }
+.home-science__title { margin-top: 1.25rem; }
+.home-science__body { margin-top: 1.75rem; }
+.home-science__tech {
+  list-style: none; margin: 2.75rem 0 0; padding: 0 0 1.5rem; border-bottom: 1px solid var(--c-line);
+  display: flex; flex-wrap: wrap; gap: 0.9rem 1.75rem;
+}
+.home-science__tech li {
+  font-size: var(--t-label); font-weight: 500; letter-spacing: var(--tr-link);
+  text-transform: uppercase; color: var(--c-gold-text);
+}
+.home-science .section__actions { margin-top: 2.5rem; }
+@media (max-width: 899px) { .home-science .halves__media { min-height: 0; } }

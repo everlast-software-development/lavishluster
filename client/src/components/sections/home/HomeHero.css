@@ -1,0 +1,44 @@
+/* ==========================================================================
+   Home 01 — Cover hero
+   ========================================================================== */
+.home-hero {
+  position: relative; height: 56.25rem; overflow: hidden; color: var(--c-white);
+  background: radial-gradient(ellipse 38% 62% at 58% 52%, var(--c-frame-light), var(--c-scrim-none) 72%), var(--c-grain);
+}
+.home-hero::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: url('../../../assets/brand/grain.webp') repeat; opacity: 0.06;
+}
+.home-hero__figure { position: absolute; left: 58%; bottom: 0; height: 98%; transform: translateX(-50%); }
+.home-hero__figure img { height: 100%; width: auto; max-width: none; }
+.home-hero__script {
+  position: absolute; left: 50%; top: 47%; width: min(73.75rem, 94vw); aspect-ratio: 937 / 202;
+  transform: translateX(-50%); background: var(--c-white); opacity: 0.9; pointer-events: none;
+  -webkit-mask: url('../../../assets/brand/logo-script-watermark.png') center / contain no-repeat;
+  mask: url('../../../assets/brand/logo-script-watermark.png') center / contain no-repeat;
+}
+/* Bottom scrim so small white text stays ≥ 4.5:1 on the grey. */
+.home-hero::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(0deg, var(--c-scrim) 0%, var(--c-scrim-none) 42%);
+}
+.home-hero__frame { position: absolute; inset: 1.75rem; z-index: 2; border: 1px solid var(--c-frame-light); pointer-events: none; }
+.home-hero__content {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 3;
+  display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 2rem 3rem;
+  padding-bottom: clamp(3.5rem, 6vw, 5rem);
+}
+.home-hero__eyebrow { font-size: var(--t-label); font-weight: 500; letter-spacing: var(--tr-label); text-transform: uppercase; }
+.home-hero__title {
+  margin-top: 1rem; font-size: var(--t-h1); font-weight: 300; line-height: 1.35;
+  letter-spacing: 0.14em; text-transform: uppercase;
+}
+.home-hero__actions { display: flex; flex-wrap: wrap; gap: 1rem 2.5rem; }
+@media (max-width: 767px) {
+  .home-hero { height: 46.25rem; }
+  .home-hero__figure { left: 50%; height: 90%; }
+  .home-hero__script { top: 44%; width: 120vw; }
+  .home-hero__frame { inset: 1rem; }
+  .home-hero::after { background: linear-gradient(0deg, var(--c-scrim-strong) 0%, var(--c-scrim) 24%, var(--c-scrim-none) 54%); }
+  .home-hero__content { flex-direction: column; align-items: flex-start; padding-bottom: 3rem; }
+}

@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Home 03 — Collections index
+   ========================================================================== */
+.home-collections__grid {
+  display: grid; grid-template-columns: minmax(0, 35rem) minmax(0, 1fr);
+  gap: clamp(2.5rem, 6vw, 6rem); align-items: center;
+}
+.home-collections__head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding-bottom: 1.5rem; }
+.home-collections__total {
+  font-size: var(--t-label); font-weight: 500; letter-spacing: var(--tr-label);
+  color: var(--c-gold-text); font-variant-numeric: tabular-nums;
+}
+.home-collections__rows { list-style: none; margin: 0; padding: 0; }
+.home-collections__rows li { border-top: 1px solid var(--c-line); }
+.home-collections__rows li:last-child { border-bottom: 1px solid var(--c-line); }
+.collection-row { display: block; padding: 2rem 0; text-decoration: none; color: inherit; transition: transform 0.5s var(--ease); }
+.collection-row:hover { transform: translateX(1rem); }
+.collection-row__line { display: flex; align-items: baseline; justify-content: space-between; gap: 1.5rem; }
+.collection-row__name {
+  font-size: clamp(1.625rem, 1.1rem + 1.4vw, 2.375rem); font-weight: 200; line-height: 1.15;
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+.collection-row__count {
+  flex: none; font-size: var(--t-label); font-weight: 500;
+  letter-spacing: var(--tr-link); text-transform: uppercase; color: var(--c-taupe);
+}
+.collection-row__desc { display: block; margin-top: 0.75rem; max-width: 34rem; font-size: var(--t-sm); line-height: 1.7; color: var(--c-ink-soft); }
+.home-collections__actions { margin-top: 2.5rem; }
+@media (max-width: 899px) {
+  .home-collections__grid { grid-template-columns: 1fr; }
+  .home-collections__media { aspect-ratio: 4 / 3 !important; }
+  .collection-row { padding: 1.5rem 0; }
+}

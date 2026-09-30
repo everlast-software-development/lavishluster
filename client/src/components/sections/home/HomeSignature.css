@@ -1,0 +1,24 @@
+/* ==========================================================================
+   Home 04 — Signature product
+   ========================================================================== */
+.home-signature__grid {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 35rem);
+  gap: clamp(2.5rem, 6vw, 6rem); align-items: center;
+}
+.home-signature__name { margin-top: 1.75rem; font-size: 0.8125rem; font-weight: 500; letter-spacing: var(--tr-name); }
+.home-signature__subtitle { margin-top: 0.75rem; font-size: var(--t-display); font-weight: 200; line-height: 1.1; text-wrap: balance; }
+.home-signature__desc { margin-top: 1.5rem; max-width: 30rem; font-size: var(--t-body); line-height: 1.75; color: var(--c-ink-soft); }
+.home-signature__figure {
+  display: flex; align-items: baseline; gap: 1.25rem; max-width: 30rem;
+  margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--c-gold);
+}
+.home-signature__num { font-size: var(--t-figure); font-weight: 200; line-height: 1; font-variant-numeric: lining-nums; }
+.home-signature__caption {
+  max-width: 12rem; font-size: var(--t-label); font-weight: 500; line-height: 1.6;
+  letter-spacing: var(--tr-link); text-transform: uppercase; color: var(--c-ink-soft);
+}
+.home-signature .section__actions { margin-top: 2.5rem; }
+@media (max-width: 899px) {
+  .home-signature__grid { grid-template-columns: 1fr; }
+  .home-signature__media { order: -1; }
+}
