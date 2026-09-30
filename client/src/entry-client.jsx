@@ -1,8 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import '@fontsource-variable/newsreader/opsz.css';
-import '@fontsource-variable/hanken-grotesk';
+import '@fontsource-variable/montserrat';
 import './styles/index.css';
 import App from './App.jsx';
 

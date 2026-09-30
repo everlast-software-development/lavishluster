@@ -10,8 +10,8 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = resolve(root, 'dist');
 const baseTemplate = readFileSync(resolve(dist, 'index.html'), 'utf8');
-// Preload the two Latin font files used above the fold.
-const fonts = readdirSync(resolve(dist, 'assets')).filter((f) => /^(newsreader-latin-opsz-normal|hanken-grotesk-latin-wght-normal)-.*\.woff2$/.test(f));
+// Preload the Latin Montserrat file used above the fold.
+const fonts = readdirSync(resolve(dist, 'assets')).filter((f) => /^montserrat-latin-wght-normal-.*\.woff2$/.test(f));
 const preload = fonts.map((f) => `<link rel="preload" href="/assets/${f}" as="font" type="font/woff2" crossorigin />`).join('\n    ');
 const template = baseTemplate.replace('<!--app-head-->', `${preload}\n    <!--app-head-->`);
 const { render, getPrerenderPaths } = await import(pathToFileURL(resolve(root, 'dist-ssr/entry-server.js')).href);

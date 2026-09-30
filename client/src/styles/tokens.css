@@ -1,35 +1,82 @@
+/*
+ * Lavish Luster — "Maison" design tokens.
+ * The only place colour values are written. Gold is jewellery only:
+ * hairlines, underlines, small labels and numerals — never fills.
+ */
 :root {
-  /* Color — cool mineral porcelain, graphite ink. */
-  --c-bg: #F2F3F1;
-  --c-tint: #E8EBE8;
-  --c-surface: #FAFAF8;
-  --c-ink: #1E2321;
-  --c-ink-2: #3B423F;
-  --c-muted: #646C68;
-  --c-line: #D5DAD6;
-  --c-line-strong: #B4BCB7;
-  --c-focus: #3F6468;
+  /* Surfaces */
+  --c-pearl: #F3F2EE;       /* page background */
+  --c-white: #FFFFFF;       /* alternate sections, image mats */
+  --c-silk: #EDECE7;        /* base under brand/silk.webp */
+  --c-noir: #151412;        /* dark sections, footer, mobile menu */
+  --c-grain: #8E8D8B;       /* grey base of the cover hero */
+
+  /* Ink */
+  --c-ink: #1C1B19;         /* headings, text, primary button */
+  --c-ink-hover: #3A3834;   /* primary button hover */
+  --c-ink-soft: #4E4A44;    /* body text on light (7.8:1) */
+  --c-taupe: #6F6860;       /* meta text, counts (4.9:1) */
+  --c-line: #D9D5CD;        /* hairlines */
+
+  /* Gold */
+  --c-gold: #B99A6B;        /* lines, underlines, icons — never text on light */
+  --c-gold-text: #7F6647;   /* small labels on light (4.8:1) */
+  --c-gold-light: #C9AE84;  /* labels, numerals, icons on dark */
+
+  /* Translucent layers (scrims and frames over photography only) */
+  --c-on-dark: rgba(243, 242, 238, 0.66);   /* secondary text on noir */
+  --c-line-dark: rgba(243, 242, 238, 0.16); /* hairlines on noir */
+  --c-frame-light: rgba(255, 255, 255, 0.34);
+  --c-scrim: rgba(21, 20, 18, 0.45);
+  --c-scrim-strong: rgba(21, 20, 18, 0.72);
+  --c-scrim-none: rgba(21, 20, 18, 0);
+  --c-pearl-scrim: rgba(243, 242, 238, 0.94);
+  --c-pearl-scrim-none: rgba(243, 242, 238, 0);
+  --c-focus: #7F6647;
   --c-error: #9B3D32;
 
-  /* Type */
-  --f-serif: 'Newsreader Variable', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
-  --f-sans: 'Hanken Grotesk Variable', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  --t-xs: 0.8125rem;
-  --t-sm: 0.9375rem;
-  --t-base: 1.0625rem;
-  --t-md: 1.1875rem;
-  --t-lg: clamp(1.25rem, 1.12rem + 0.45vw, 1.4375rem);
-  --t-xl: clamp(1.5rem, 1.28rem + 0.8vw, 1.875rem);
-  --t-2xl: clamp(1.875rem, 1.5rem + 1.35vw, 2.5rem);
-  --t-3xl: clamp(2.25rem, 1.7rem + 2vw, 3.25rem);
-  --t-display: clamp(2.75rem, 1.8rem + 3.6vw, 4.875rem);
+  /* Type — Montserrat only */
+  --f-sans: 'Montserrat Variable', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --t-label: 0.6875rem;                                   /* 11px */
+  --t-xs: 0.8125rem;                                      /* 13px */
+  --t-sm: 0.9375rem;                                      /* 15px */
+  --t-body: 1rem;                                         /* 16px */
+  --t-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --t-h3: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+  --t-h2: clamp(1.75rem, 1.2rem + 1.9vw, 2.75rem);        /* 28 → 44px */
+  --t-h1: clamp(1.5rem, 1.35rem + 0.5vw, 1.875rem);       /* 24 → 30px */
+  --t-statement: clamp(1.375rem, 0.95rem + 1.6vw, 2.125rem); /* 22 → 34px */
+  --t-display: clamp(2rem, 1.2rem + 2.3vw, 3.125rem);     /* 32 → 50px */
+  --t-figure: clamp(3.25rem, 2rem + 3.6vw, 5.25rem);      /* 52 → 84px */
+  --tr-label: 0.26em;
+  --tr-link: 0.2em;
+  --tr-button: 0.22em;
+  --tr-title: 0.07em;
+  --tr-name: 0.18em;
 
   /* Space & layout */
-  --space-section: clamp(4rem, 2.6rem + 5.5vw, 8rem);
-  --gutter: clamp(1.25rem, 3.6vw, 3.5rem);
-  --gap: clamp(1rem, 0.55rem + 1.6vw, 2.25rem);
-  --max: 1400px;
-  --header-h: 4.5rem;
-  --radius: 2px;
+  --max: 1200px;                                           /* content width */
+  --gutter: clamp(1.5rem, 8.33vw, 7.5rem);                 /* 24 → 120px */
+  --gap: clamp(1rem, 0.5rem + 1.6vw, 2rem);
+  --space-section: clamp(4.5rem, 2.6rem + 6.4vw, 9rem);    /* 72 → 144px */
+  --header-h: 5.25rem;
+  --radius: 0;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --t-page: 300ms;
+
+  /* Legacy aliases — removed in step 4 once every stylesheet uses the tokens above. */
+  --c-bg: var(--c-pearl);
+  --c-tint: var(--c-white);
+  --c-surface: var(--c-white);
+  --c-ink-2: var(--c-ink-soft);
+  --c-muted: var(--c-taupe);
+  --c-line-strong: var(--c-gold);
+  --f-serif: var(--f-sans);
+  --t-base: var(--t-body);
+  --t-md: var(--t-lead);
+  --t-lg: var(--t-lead);
+  --t-xl: var(--t-h3);
+  --t-2xl: var(--t-h2);
+  --t-3xl: var(--t-h2);
 }
+@media (max-width: 767px) { :root { --header-h: 4.25rem; } }
