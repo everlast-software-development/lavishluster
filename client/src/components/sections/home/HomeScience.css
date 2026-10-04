@@ -1,18 +1,34 @@
 /* ==========================================================================
-   Home 05 — The Science (pearl)
+   Home 05 — The Science (pearl) · ≈680px at 1440, no photograph
    ========================================================================== */
 .home-science { background: var(--c-pearl); }
-/* The capped frame is wider than this portrait photo. Anchoring at 70% keeps the "SONIC-PULSE 2.0"
-   lettering (≈40–80% of the photo height, read bottom to top) and the device in frame at every width. */
-.home-science__media img { object-position: center 70%; }
-.home-science .lead { font-size: var(--t-body); line-height: 1.8; }
+/* Desktop band height of the approved design (680px at 1440), content centred within it. */
+@media (min-width: 1024px) {
+  .home-science { display: flex; align-items: center; min-height: clamp(36rem, 47.2vw, 45rem); }
+  .home-science > .container { flex: 1; }
+}
+.home-science__grid {
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--grid-gap); row-gap: 3rem;
+  align-items: center;
+}
+.home-science__text { grid-column: 1 / span 5; }
+.home-science__title { margin-top: 1.75rem; font-size: var(--t-title-science); }
+.home-science__body { margin-top: 1.75rem; max-width: 27.5rem; font-size: 1.125rem; font-weight: 300; line-height: 1.75; color: var(--c-ink-soft); }
+.home-science__actions { margin-top: 2rem; }
+
 .home-science__tech {
-  list-style: none; margin: 2rem 0 0; padding: 0;
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.75rem var(--grid-gap);
+  grid-column: 7 / -1; list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--grid-gap);
 }
 .home-science__tech li {
-  padding-top: 0.875rem; border-top: 1px solid var(--c-line);
-  font-size: var(--t-label); font-weight: 500; letter-spacing: var(--tr-link); text-transform: uppercase; color: var(--c-ink-soft);
+  display: flex; align-items: baseline; gap: 1.5rem;
+  padding: 1.25rem 0 1.375rem; border-top: 1px solid var(--c-ink-a14);
 }
-.home-science__actions { margin-top: 2rem; }
-@media (max-width: 479px) { .home-science__tech { column-gap: 1rem; } }
+.home-science__num { flex: none; font-size: var(--t-label); font-weight: 500; letter-spacing: 0.08em; color: var(--c-gold-text); font-variant-numeric: lining-nums tabular-nums; }
+.home-science__name { font-size: 1.625rem; font-weight: 200; line-height: 1.2; letter-spacing: 0.08em; text-transform: uppercase; }
+
+@media (max-width: 1023px) {
+  .home-science__grid { grid-template-columns: minmax(0, 1fr); }
+  .home-science__text, .home-science__tech { grid-column: 1 / -1; }
+}
+@media (max-width: 479px) { .home-science__name { font-size: 1.25rem; } .home-science__tech li { gap: 1rem; } }

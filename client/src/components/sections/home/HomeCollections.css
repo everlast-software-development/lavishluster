@@ -1,46 +1,43 @@
 /* ==========================================================================
-   Home 03 — Collections (white)
+   Home 03 — Product Worlds (white) · ≈960px at 1440
    ========================================================================== */
-.home-collections { background: var(--c-white); }
-.home-collections__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1rem; margin-bottom: 2.5rem; }
-.home-collections__total {
-  font-size: var(--t-label); font-weight: 500; letter-spacing: var(--tr-label);
-  color: var(--c-gold-text); font-variant-numeric: lining-nums tabular-nums;
+.home-worlds { background: var(--c-white); }
+.home-worlds__head {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem;
+  padding-bottom: 1.5rem; margin-bottom: 3rem; border-bottom: 1px solid var(--c-ink-a14);
 }
-.home-collections__all { margin-left: auto; }
+.home-worlds__heading { display: flex; align-items: center; gap: 1rem; }
+.home-worlds__total { font-size: var(--t-label); font-weight: 500; letter-spacing: var(--tr-label); color: var(--c-taupe); font-variant-numeric: lining-nums tabular-nums; }
 
-/* Three equal cards; images never wider than 480px, so wide screens spread them to the container edges. */
-.home-collections__cards {
-  list-style: none; margin: 0; padding: 0;
-  display: grid; grid-template-columns: repeat(3, minmax(0, var(--img-max-w))); justify-content: space-between; gap: var(--grid-gap);
-}
-.collection-card { display: flex; flex-direction: column; height: 100%; text-decoration: none; color: inherit; }
-.collection-card__media { aspect-ratio: 3 / 4; max-height: 27.5rem; width: 100%; }
-.collection-card__media img { object-position: center; }
-.collection-card:hover .collection-card__media > img { transform: scale(1.035); }
-.collection-card__name { margin-top: 1rem; }
-.collection-card__count {
-  margin-top: 0.625rem; font-size: var(--t-label); font-weight: 500;
-  letter-spacing: var(--tr-link); text-transform: uppercase; color: var(--c-taupe);
-}
-.collection-card__desc { margin-top: 0.625rem; max-width: 34ch; font-size: 0.875rem; font-weight: 300; line-height: 1.6; color: var(--c-ink-soft); }
-.collection-card__cta {
-  align-self: flex-start; margin-top: 0.75rem; padding-bottom: 0.4rem;
-  font-size: var(--t-label); font-weight: 500; letter-spacing: var(--tr-link); text-transform: uppercase;
-  background: linear-gradient(var(--c-gold), var(--c-gold)) no-repeat 0 100% / 100% 1px;
-  transition: background-size 0.4s var(--ease);
-}
-.collection-card:hover .collection-card__cta { background-size: 40% 1px; }
+/* Image 520×650 (4:5), 96px gap, then three equal-height rows filling the image height. */
+.home-worlds__body { display: grid; grid-template-columns: min(32.5rem, 45%) minmax(0, 1fr); column-gap: clamp(3rem, 6.67vw, 6rem); }
+.home-worlds__media { aspect-ratio: 4 / 5; }
+.home-worlds__media img { object-position: 30% center; }
+.home-worlds__rows { list-style: none; margin: 0; padding: 0; display: grid; grid-template-rows: repeat(3, minmax(0, 1fr)); }
+.home-worlds__rows li { display: flex; border-bottom: 1px solid var(--c-ink-a14); }
 
-/* Under 1024px: one swipeable row, ~1.2 cards visible, bleeding to the right edge; no arrows. */
+.world-row {
+  flex: 1; display: grid; grid-template-columns: 3.5rem minmax(0, 1fr) auto; column-gap: 1.5rem; align-items: center;
+  padding: 0 1rem; text-decoration: none; color: inherit;
+  transition: background-color 0.4s var(--ease);
+}
+.world-row:hover { background: var(--c-row-hover); }
+.world-row__num { align-self: center; font-size: var(--t-label); font-weight: 500; letter-spacing: 0.08em; color: var(--c-gold-text); font-variant-numeric: lining-nums tabular-nums; }
+.world-row__main { display: flex; flex-direction: column; }
+.world-row__name { font-size: var(--t-world-name); font-weight: 200; line-height: 1.15; letter-spacing: var(--tr-home-title); text-transform: uppercase; }
+.world-row__desc { margin-top: 0.875rem; max-width: 25rem; font-size: var(--t-sm); font-weight: 300; line-height: 1.7; color: var(--c-ink-soft); }
+.world-row__meta { display: flex; align-items: center; gap: 1.25rem; }
+.world-row__count { color: var(--c-taupe); white-space: nowrap; }
+.world-row__arrow { color: var(--c-gold); font-size: 1.125rem; line-height: 1; transition: transform 0.4s var(--ease); }
+.world-row:hover .world-row__arrow { transform: translateX(6px); }
+
 @media (max-width: 1023px) {
-  .home-collections__cards {
-    display: flex; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
-    margin-right: calc(-1 * var(--page-pad)); padding-right: var(--page-pad);
-    scrollbar-width: none;
-  }
-  .home-collections__cards::-webkit-scrollbar { display: none; }
-  /* visible width = content + right padding; 1.2 cards and one gap fit in it (max 480px each) */
-  .home-collections__cards > li { flex: 0 0 min(var(--img-max-w), calc((100% + var(--page-pad) - var(--grid-gap)) / 1.2)); scroll-snap-align: start; }
+  .home-worlds__body { grid-template-columns: minmax(0, 1fr); row-gap: 1.5rem; }
+  .home-worlds__media { max-height: 30rem; width: 100%; }
+  .home-worlds__rows { grid-template-rows: none; }
+  .world-row { padding: 1.75rem 0.5rem; }
 }
-@media (max-width: 479px) { .home-collections__all { margin-left: 0; flex-basis: 100%; } }
+@media (max-width: 559px) {
+  .world-row { grid-template-columns: 2.25rem minmax(0, 1fr); row-gap: 0.75rem; }
+  .world-row__meta { grid-column: 2; }
+}

@@ -1,50 +1,47 @@
 import { Link } from 'react-router-dom';
-import Placeholder from '../../ui/Placeholder.jsx';
+import BrandImage from '../../ui/BrandImage.jsx';
 import { TextLink } from '../../ui/Links.jsx';
-import { catalogHref, getProduct, products } from '../../../data/catalog.js';
+import { catalogHref, products } from '../../../data/catalog.js';
 import { home } from '../../../data/content/home.js';
 import './HomeCollections.css';
 
 /**
- * Which product photograph represents each collection is a presentation
- * choice (never luster-instant-glow-shot, never the marble group photo used
- * by the Signature section).
+ * 03 — Product Worlds (white). Header row (eyebrow + total, Explore link) over
+ * a hairline; then couple.webp at 520×650 beside three equal rows, each one
+ * link to its filtered catalog.
  */
-const COVER = {
-  'facial-treatment': 'luster-purify-and-glow',
-  'flash-treatment': 'luster-collagen-eye-revive',
-  'beauty-devices': 'luster-tech-eye-mask',
-};
-
-/** 03 — Product Worlds (white): the three categories with counts and descriptions, then the catalog CTA. */
 export default function HomeCollections() {
   const { eyebrow, categories, cta } = home.productWorlds;
   return (
-    <section className="home-band home-collections" aria-labelledby="collections-title">
+    <section className="home-band home-worlds" aria-labelledby="worlds-title">
       <div className="container">
-        <header className="home-collections__head">
-          <h2 id="collections-title" className="eyebrow home-collections__eyebrow">{eyebrow}</h2>
-          <span className="home-collections__total" aria-label={`${products.length} products and devices`}>{products.length}</span>
-          <TextLink to={cta.to} className="home-collections__all">{cta.label}</TextLink>
+        <header className="home-worlds__head">
+          <div className="home-worlds__heading">
+            <h2 id="worlds-title" className="home-eyebrow">{eyebrow}</h2>
+            <span className="home-worlds__total" aria-label={`${products.length} products and devices`}>{products.length}</span>
+          </div>
+          <TextLink to={cta.to}>{cta.label}</TextLink>
         </header>
-        <ul className="home-collections__cards">
-          {categories.map((c) => {
-            const src = getProduct(COVER[c.slug])?.images.primary;
-            return (
+        <div className="home-worlds__body">
+          <BrandImage name="couple" alt="" className="home-worlds__media" />
+          <ul className="home-worlds__rows">
+            {categories.map((c, i) => (
               <li key={c.slug}>
-                <Link to={catalogHref(c.slug)} className="collection-card">
-                  <div className="media collection-card__media">
-                    {src ? <img src={src} alt="" loading="lazy" decoding="async" /> : <Placeholder title={c.label} />}
-                  </div>
-                  <h3 className="sub-title collection-card__name">{c.label}</h3>
-                  <p className="collection-card__count">{c.count}</p>
-                  <p className="collection-card__desc">{c.text}</p>
-                  <span className="collection-card__cta" aria-hidden="true">Explore</span>
+                <Link to={catalogHref(c.slug)} className="world-row">
+                  <span className="world-row__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="world-row__main">
+                    <span className="world-row__name">{c.label}</span>
+                    <span className="world-row__desc">{c.text}</span>
+                  </span>
+                  <span className="world-row__meta">
+                    <span className="home-label world-row__count">{c.count}</span>
+                    <span className="world-row__arrow" aria-hidden="true">→</span>
+                  </span>
                 </Link>
               </li>
-            );
-          })}
-        </ul>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );

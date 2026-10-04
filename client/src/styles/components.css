@@ -30,6 +30,19 @@
 .section-header--light .eyebrow, .section--noir .eyebrow { color: var(--c-gold-light); }
 .section--noir .lead, .section--noir .prose, .section--noir .prose-lg, .section--noir .note { color: var(--c-on-dark); }
 
+/* ---------- Home section primitives (approved design) ---------- */
+/* Eyebrow with a 36×1px gold line; gold-text on light, gold-light on dark (.on-dark). */
+.home-eyebrow {
+  display: flex; align-items: center; gap: 1rem;
+  font-size: var(--t-label); font-weight: 500; line-height: 1.5; letter-spacing: var(--tr-label); text-transform: uppercase;
+  color: var(--c-gold-text);
+}
+.home-eyebrow::before { content: ''; flex: none; width: 2.25rem; height: 1px; background: currentColor; }
+.on-dark .home-eyebrow { color: var(--c-gold-light); }
+.home-title { font-weight: 200; line-height: 1.1; letter-spacing: var(--tr-home-title); text-transform: uppercase; }
+.home-title__line { display: block; }
+.home-label { font-size: var(--t-label); font-weight: 500; line-height: 1.6; letter-spacing: var(--tr-link); text-transform: uppercase; }
+
 /* ---------- Buttons & links ---------- */
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
@@ -142,13 +155,18 @@
   .page-hero--grain .page-hero__media img { object-position: 50% 100%; }
 }
 
-/* ---------- Consultation band (50/50, couple.webp left) ---------- */
-.consult { background: var(--c-pearl); }
-.consult__title { font-size: var(--t-h2); font-weight: 200; line-height: 1.1; letter-spacing: var(--tr-title); text-transform: uppercase; text-wrap: balance; }
-/* Compact band: image clamp(360px, 30vw, 480px) tall; title, then the button and the email link in one row. */
-.consult .halves__media { min-height: clamp(22.5rem, 30vw, 30rem); }
-.consult .section__actions { margin-top: 2rem; gap: 1.25rem 2rem; }
-@media (max-width: 1023px) { .consult .halves__media { min-height: 0; } }
+/* ---------- Consultation band (pearl, centred, no image) · ≈440px at 1440 ---------- */
+.consult { background: var(--c-pearl); padding-block: clamp(4rem, 6.7vw, 6rem); }
+.consult__inner { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.consult__rule { display: block; width: 1px; height: 3.5rem; background: var(--c-gold); }
+.consult__title { margin-top: 2.25rem; font-size: var(--t-title-consult); }
+.consult__actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 1.25rem 2.25rem; margin-top: 2.5rem; }
+@media (max-width: 559px) {
+  .consult__title { max-width: 18ch; }
+  .consult__title .home-title__line { display: inline; }
+  .consult__actions { flex-direction: column; align-self: stretch; }
+  .consult__actions .btn { width: 100%; }
+}
 
 /* ---------- Header ---------- */
 .site-header {
@@ -185,7 +203,7 @@
 /* Mobile menu: 40px, scaled down only where the screen is too narrow for it to clear the Close button. */
 .site-header.is-open .wordmark__mark { --logo-h: min(2.5rem, calc((100vw - 8rem) * 204 / 1200)); }
 .site-footer .wordmark--light { color: var(--c-pearl); background: none; }                  /* not the 66% link colour or the link underline */
-.wordmark--footer .wordmark__mark { --logo-h: 2.25rem; }                                  /* ≈210px wide, as before */
+.wordmark--footer .wordmark__mark { --logo-h: 2.125rem; }                                  /* 200×34 at its natural ratio */
 @media (max-width: 767px) { .wordmark--footer .wordmark__mark { --logo-h: 1.5rem; } }     /* ≈140px wide, as before */
 
 .site-nav { display: flex; justify-content: space-between; align-items: center; width: 100%; }
@@ -241,64 +259,41 @@
   .menu-toggle { display: inline-flex; }
 }
 
-/* ---------- Footer ---------- */
-.site-footer {
-  position: relative; overflow: hidden; background: var(--c-noir); color: var(--c-pearl);
-  padding-block: 4.5rem 2rem; font-size: 0.875rem;
-}
-.site-footer__brand-line { margin-top: 1.5rem; max-width: 40ch; font-size: 0.875rem; font-weight: 300; line-height: 1.7; color: var(--c-pearl-a62); }
-/* 12 columns in the shared container: logo 4 · Explore 2 · Visit 3 · Contact 3. */
-.site-footer__grid {
-  position: relative; z-index: 1; display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 3rem var(--grid-gap);
-}
-.site-footer__brand { grid-column: span 4; }
+/* ---------- Footer (noir) · ≈460px at 1440 ---------- */
+.site-footer { background: var(--c-noir); color: var(--c-pearl); padding: 6rem 0 2.25rem; font-size: 0.875rem; }
+/* 12 columns: logo + sentence 1–4 · Explore 6–7 · Visit 8–10 · Contact 11–12. */
+.site-footer__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 2.5rem var(--grid-gap); }
+.site-footer__brand { grid-column: 1 / span 4; }
+.site-footer__col--explore { grid-column: 6 / span 2; }
 .site-footer__col { grid-column: span 3; }
-.site-footer__col--explore { grid-column: span 2; }
+.site-footer__col--explore + .site-footer__col { grid-column: 8 / span 3; }
+.site-footer__col:last-child { grid-column: 11 / span 2; }
+.site-footer .wordmark { background: none; }
+.site-footer__brand-line { margin-top: 1.75rem; max-width: 21.25rem; font-size: 0.875rem; font-weight: 300; line-height: 1.75; color: var(--c-pearl-a62); }
 .site-footer__heading {
-  margin-bottom: 1.5rem; font-size: var(--t-label); font-weight: 500;
+  margin-bottom: 1.375rem; font-size: var(--t-label); font-weight: 500;
   letter-spacing: var(--tr-label); text-transform: uppercase; color: var(--c-gold-light);
 }
-.site-footer__links { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.875rem; }
-.site-footer address { display: grid; gap: 0.875rem; justify-items: start; max-width: 16rem; line-height: 1.7; }
+.site-footer__links { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; line-height: 1.5; }
+.site-footer address { display: grid; gap: 0.75rem; justify-items: start; max-width: 15rem; line-height: 1.7; }
 .site-footer a {
-  font-size: 0.875rem; text-decoration: none; color: var(--c-pearl-a72);
+  font-size: 0.875rem; font-weight: 300; text-decoration: none; color: var(--c-pearl-a72);
   background: linear-gradient(var(--c-gold), var(--c-gold)) no-repeat 0 100% / 0 1px;
   transition: color 0.3s var(--ease), background-size 0.4s var(--ease);
 }
 .site-footer a:hover { color: var(--c-pearl); background-size: 100% 1px; }
-.site-footer .wordmark { background: none; }
-/* Bottom row: hairline, © left, legal links right. */
+.site-footer__social { margin-top: 1.5rem; }
+/* Bottom row: 36px above the footer's bottom edge, a pearl hairline at 12%, then the © line. */
 .site-footer__base {
-  position: relative; z-index: 1;
   display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem 2rem;
-  margin-top: clamp(4rem, 6vw, 4.5rem); padding-top: 1.5rem; border-top: 1px solid var(--c-pearl-a12);
+  margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--c-pearl-a12);
   font-size: 0.75rem; color: var(--c-pearl-a50);
 }
 .site-footer__base p { letter-spacing: 0.04em; }
-.site-footer__social { margin-top: 1.5rem; }
 .site-footer__legal { display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; list-style: none; margin: 0; padding: 0; }
 .site-footer__base .site-footer__legal a { font-size: 0.75rem; color: var(--c-pearl-a50); }
-.site-footer__base .site-footer__legal a:hover { color: var(--c-pearl); }
-/* Watermark: 6%, centred along the bottom edge and clipped by the footer. Its box is 160px tall
-   (glyphs at 14–86%) and sits 40px below the edge, so the glyphs occupy only the bottom ~138px —
-   the base row area below the columns (64–72px gap + base row + 32px padding), never the columns. */
-.site-footer__watermark {
-  position: absolute; left: 0; right: 0; bottom: -2.5rem; z-index: 0;
-  height: 10rem; margin-inline: auto; aspect-ratio: 937 / 202; max-width: 100%;
-  background: var(--c-white); opacity: 0.06; pointer-events: none;
-  -webkit-mask: url('../assets/brand/logo-script-watermark.png') center / contain no-repeat;
-  mask: url('../assets/brand/logo-script-watermark.png') center / contain no-repeat;
-}
 @media (max-width: 1023px) {
-  .site-footer__brand { grid-column: 1 / -1; }
-  .site-footer__col, .site-footer__col--explore { grid-column: span 4; }
-}
-@media (max-width: 639px) {
-  .site-footer__grid { gap: 2.75rem; }
-  .site-footer__col, .site-footer__col--explore { grid-column: 1 / -1; }
-  .site-footer__links { gap: 0; }
-  .site-footer__links li { border-top: 1px solid var(--c-pearl-a12); }
-  .site-footer__links li:last-child { border-bottom: 1px solid var(--c-pearl-a12); }
-  .site-footer__links a { display: block; padding: 0.95rem 0; background: none; }
+  .site-footer__grid { grid-template-columns: minmax(0, 1fr); row-gap: 2.5rem; }
+  .site-footer__brand, .site-footer__col, .site-footer__col--explore,
+  .site-footer__col--explore + .site-footer__col, .site-footer__col:last-child { grid-column: 1 / -1; }
 }

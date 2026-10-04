@@ -35,6 +35,8 @@
   --c-pearl-a18: rgba(243, 242, 238, 0.18);  /* hairlines on noir */
   --c-pearl-a12: rgba(243, 242, 238, 0.12);  /* footer base rule */
   --c-pearl-a50: rgba(243, 242, 238, 0.5);   /* footer base text */
+  --c-ink-a14: rgba(28, 27, 25, 0.14);      /* hairlines on light (Home) */
+  --c-row-hover: #F7F6F2;                    /* Product Worlds row hover */
   --c-noir-raised: #1E1C19;                  /* Home hero stage panel */
   --c-gold-a60: rgba(185, 154, 107, 0.6);    /* Home hero stage panel border */
   --c-pearl-scrim: rgba(243, 242, 238, 0.94);
@@ -62,6 +64,14 @@
   --tr-button: 0.22em;
   --tr-title: 0.06em;
   --tr-subtitle: 0.08em;
+  --tr-home-title: 0.05em;
+  /* Home section titles (approved design), each scaling down to 30px */
+  --t-title-philosophy: clamp(1.875rem, 3.6vw, 3.25rem);   /* 52px max */
+  --t-title-science: clamp(1.875rem, 3.2vw, 2.875rem);     /* 46px max */
+  --t-title-section: clamp(1.875rem, 3vw, 2.75rem);        /* 44px max: Signature, LusterScan, Results */
+  --t-title-consult: clamp(1.75rem, 2.9vw, 2.625rem);      /* 42px max */
+  --t-world-name: clamp(1.5rem, 2.2vw, 2rem);              /* Product Worlds category: 32px max */
+  --t-figure-home: clamp(3.5rem, 6.1vw, 5.5rem);           /* Signature evidence figure: 88px max */
   --tr-name: 0.18em;
 
   /* Space & layout */
@@ -69,7 +79,7 @@
   --content-max: 1600px;
   --page-pad: clamp(1.5rem, 8.33vw, 11.25rem);             /* 24 → 120 (1440) → 180px; = --hero-pad-left */
   --grid-gap: 2rem;                                        /* 12-column grid gutter */
-  --section-y: clamp(4rem, 7vw, 7rem);                     /* Home section padding: 64 → 112px */
+  --section-y: clamp(4.5rem, 7.8vw, 8rem);                 /* Home section padding: 72 → 112 (1440) → 128px */
   --halves-img-h: clamp(27.5rem, 40vw, 40rem);             /* edge-to-edge .halves image height: 440 → 640px */
   --halves-pad-in: clamp(2.5rem, 6vw, 6rem);               /* .halves text, inside edge: 40 → 96px */
   --text-max: 32.5rem;                                     /* text columns: 520px */

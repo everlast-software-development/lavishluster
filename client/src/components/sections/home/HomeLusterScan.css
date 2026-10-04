@@ -1,39 +1,36 @@
 /* ==========================================================================
-   Home 06 — LusterScan AI (noir)
+   Home 06 — LusterScan AI (noir) · ≈920px at 1440
    ========================================================================== */
 .home-scan { background: var(--c-noir); color: var(--c-pearl); }
-.home-scan__intro {
-  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--grid-gap); row-gap: 2.5rem;
+/* Below the small note the band ends sooner: 72px at 1440 (keeps the section near 920px). */
+.home-band.home-scan { padding-bottom: clamp(3.5rem, 5vw, 4.5rem); }
+.home-scan__top {
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--grid-gap); row-gap: 3rem;
   align-items: center;
 }
-.home-scan__text { grid-column: 1 / span 6; max-width: var(--text-max); }
-.home-scan .section-title { color: var(--c-pearl); }
-.home-scan .lead { font-size: var(--t-body); line-height: 1.8; color: var(--c-pearl-a72); }
-.home-scan__note { margin-top: 1.5rem; max-width: 60ch; font-size: var(--t-xs); line-height: 1.7; color: var(--c-pearl-a62); }
-.home-scan__actions { margin-top: 1.75rem; }
+.home-scan__text { grid-column: 1 / span 6; }
+.home-scan__title { margin-top: 1.75rem; font-size: var(--t-title-section); color: var(--c-pearl); }
+.home-scan__lead { margin-top: 1.75rem; max-width: 30rem; font-size: 1.0625rem; font-weight: 300; line-height: 1.8; color: var(--c-pearl-a72); }
+.home-scan__actions { margin-top: 2rem; }
 
-/* Face: 4:5, at most 352×440 (keeps the section ≤ 860px at 1440 and 1920 with the step texts); a gold hairline
-   rectangle offset 24px up and right sits behind it, reaching into the section padding. */
-.home-scan__figure { grid-column: 8 / -1; justify-self: end; position: relative; isolation: isolate; width: min(100%, 22rem); margin-right: 1.5rem; }
-.home-scan__frame { position: absolute; inset: -1.5rem -1.5rem 1.5rem 1.5rem; z-index: -1; border: 1px solid var(--c-gold-a60); }
-.home-scan__media { aspect-ratio: 4 / 5; background: var(--c-noir-raised); }
-.home-scan__media img { object-position: center 30%; }
+/* Analysis motif, 440×440, right-aligned; strokes in gold-light via currentColor. */
+.home-scan__figure { grid-column: 8 / -1; justify-self: end; width: min(100%, 27.5rem); color: var(--c-gold-light); }
+.home-scan__motif { display: block; width: 100%; height: auto; overflow: visible; }
+.home-scan__motif-labels { fill: var(--c-pearl-a62); font-family: var(--f-sans); font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; }
 
 .home-scan__steps {
-  list-style: none; margin: 2rem 0 0; padding: 0;
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem var(--grid-gap);
+  list-style: none; margin: 4.5rem 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2.5rem var(--grid-gap);
 }
-.home-scan__steps li { padding-top: 1.25rem; border-top: 1px solid var(--c-pearl-a18); }
-.home-scan__step-text { margin-top: 0.5rem; max-width: 30ch; font-size: var(--t-xs); font-weight: 300; line-height: 1.6; color: var(--c-pearl-a72); }
-.home-scan__num { display: block; font-size: min(var(--t-numeral), 3rem); color: var(--c-gold-light); }
-.home-scan__step {
-  display: block; margin-top: 0.75rem; font-size: var(--t-label); font-weight: 500;
-  letter-spacing: var(--tr-link); text-transform: uppercase; color: var(--c-pearl);
-}
+.home-scan__steps li { padding-top: 1.5rem; border-top: 1px solid var(--c-pearl-a18); }
+.home-scan__num { display: block; font-size: 2.5rem; font-weight: 200; line-height: 1; color: var(--c-gold-light); font-variant-numeric: lining-nums tabular-nums; }
+.home-scan__step { margin-top: 1.125rem; color: var(--c-pearl); }
+.home-scan__step-text { margin-top: 0.625rem; max-width: 15.625rem; font-size: 0.875rem; font-weight: 300; line-height: 1.7; color: var(--c-pearl-a62); }
+.home-scan__note { margin-top: 2.5rem; max-width: 40rem; font-size: var(--t-xs); font-weight: 300; line-height: 1.7; color: var(--c-pearl-a50); }
+
 @media (max-width: 1023px) {
-  .home-scan__intro { grid-template-columns: minmax(0, 1fr); }
+  .home-scan__top { grid-template-columns: minmax(0, 1fr); }
   .home-scan__text, .home-scan__figure { grid-column: 1 / -1; }
-  .home-scan__figure { order: -1; justify-self: start; margin-top: 1.5rem; }
-  .home-scan__steps { margin-top: 3rem; }
+  .home-scan__figure { justify-self: center; width: min(100%, 20rem); }
+  .home-scan__steps { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 3.5rem; }
 }
-@media (max-width: 767px) { .home-scan__steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

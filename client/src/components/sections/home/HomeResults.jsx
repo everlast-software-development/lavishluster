@@ -1,25 +1,27 @@
 import BrandImage from '../../ui/BrandImage.jsx';
-import SectionHeader from '../../ui/SectionHeader.jsx';
 import { TextLink } from '../../ui/Links.jsx';
+import TitleLines from './TitleLines.jsx';
 import { home } from '../../../data/content/home.js';
 import './HomeResults.css';
 
 /**
- * 07 — Results (white): content left, photograph right, edge to edge
- * (brand/intro.webp, the verified brand photograph also used for the Results page hero).
+ * 07 — Results (white), edge to edge 50/50. Left: eyebrow, two-line title,
+ * paragraph, link. Right: brand/intro.webp (the same photograph heads the
+ * Results page), full height, both faces in frame.
  */
 export default function HomeResults() {
-  const { eyebrow, title, text, cta } = home.results;
+  const { eyebrow, title, titleLines, text, cta } = home.results;
   return (
-    <section className="home-results halves halves--media-right" aria-labelledby="results-title">
-      <div className="halves__media"><BrandImage name="intro" className="home-results__media" /></div>
-      <div className="halves__text">
-        <SectionHeader id="results-title" eyebrow={eyebrow} title={title} />
+    <section className="home-results" aria-labelledby="results-title">
+      <div className="home-results__text">
+        <p className="home-eyebrow">{eyebrow}</p>
+        <TitleLines id="results-title" lines={titleLines} title={title} className="home-results__title" />
         <p className="home-results__body">{text}</p>
-        <div className="section__actions home-results__actions">
+        <div className="home-results__actions">
           <TextLink to={cta.to}>{cta.label}</TextLink>
         </div>
       </div>
+      <div className="home-results__media"><BrandImage name="intro" alt="" /></div>
     </section>
   );
 }

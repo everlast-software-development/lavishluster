@@ -1,26 +1,32 @@
 /* ==========================================================================
-   Home 04 — Signature product (noir)
+   Home 04 — Signature (noir) · ≈760px at 1440, edge to edge 50/50
    ========================================================================== */
-.home-signature { background: var(--c-noir); color: var(--c-pearl); }
-.home-signature__media .media { background: var(--c-noir-raised); }
+.home-signature {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  background: var(--c-noir); color: var(--c-pearl);
+}
+.home-signature__media { position: relative; min-height: clamp(30rem, 52.8vw, 47.5rem); }
+.home-signature__media .media { position: absolute; inset: 0; background: var(--c-noir-raised); }
 .home-signature__media img { object-position: center; }
-/* The hero panel's jewellery motif: a 1px gold hairline inset 24px over the photograph. */
-.home-signature__frame { position: absolute; inset: 1.5rem; border: 1px solid var(--c-gold-a60); pointer-events: none; }
+.home-signature__frame { position: absolute; inset: 1.75rem; border: 1px solid var(--c-gold-light); pointer-events: none; }
 
-.home-signature .eyebrow { color: var(--c-gold-light); }
-.home-signature__line {
-  margin-top: 1.25rem; font-size: var(--t-label); font-weight: 500;
-  letter-spacing: var(--tr-name); text-transform: uppercase; color: var(--c-pearl-a62);
+.home-signature__text {
+  display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+  padding: 3.5rem var(--page-pad) 3.5rem 6rem;
 }
-.home-signature__title { margin-top: 1rem; color: var(--c-pearl); }
-.home-signature__desc { margin-top: 1.25rem; font-size: var(--t-body); font-weight: 300; line-height: 1.8; color: var(--c-pearl-a72); }
+.home-signature__name { margin-top: 1.75rem; color: var(--c-pearl-a62); }
+.home-signature__title { margin-top: 0.875rem; font-size: var(--t-title-section); color: var(--c-pearl); }
+.home-signature__desc { margin-top: 1.5rem; max-width: 25rem; font-size: var(--t-body); font-weight: 300; line-height: 1.8; color: var(--c-pearl-a72); }
 .home-signature__figure {
-  display: flex; align-items: center; gap: 1.5rem;
-  margin-top: 2rem; padding-top: 1.75rem; border-top: 1px solid var(--c-pearl-a18);
+  display: flex; align-items: center; gap: 1.75rem; align-self: stretch; max-width: 30rem;
+  margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--c-pearl-a18);
 }
-.home-signature__num { color: var(--c-gold-light); }
-.home-signature__caption {
-  max-width: 14rem; font-size: var(--t-label); font-weight: 500; line-height: 1.6;
-  letter-spacing: var(--tr-link); text-transform: uppercase; color: var(--c-pearl-a62);
+.home-signature__num { font-size: var(--t-figure-home); font-weight: 200; line-height: 1; color: var(--c-gold-light); font-variant-numeric: lining-nums; }
+.home-signature__caption { max-width: 11rem; color: var(--c-pearl-a62); }
+.home-signature__actions { margin-top: 2.75rem; }
+
+@media (max-width: 1023px) {
+  .home-signature { grid-template-columns: minmax(0, 1fr); }
+  .home-signature__media { min-height: 0; aspect-ratio: 4 / 5; max-height: 30rem; }
+  .home-signature__text { padding: var(--section-y) var(--page-pad); }
 }
-.home-signature__actions { margin-top: 2rem; }

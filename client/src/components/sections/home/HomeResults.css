@@ -1,7 +1,21 @@
 /* ==========================================================================
-   Home 07 — Results (white)
+   Home 07 — Results (white) · ≈720px at 1440, edge to edge 50/50
    ========================================================================== */
-.home-results { background: var(--c-white); }
-.home-results__media img { object-position: 45% center; }
-.home-results__body { margin-top: 1.25rem; max-width: min(52ch, var(--text-max)); font-size: var(--t-body); font-weight: 300; line-height: 1.8; color: var(--c-ink-soft); }
+.home-results { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); background: var(--c-white); }
+.home-results__text {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 3.5rem 4.5rem 3.5rem var(--edge);
+}
+.home-results__title { margin-top: 1.75rem; font-size: var(--t-title-section); }
+.home-results__body { margin-top: 1.75rem; max-width: 31.25rem; font-size: var(--t-body); font-weight: 300; line-height: 1.85; color: var(--c-ink-soft); }
 .home-results__actions { margin-top: 2rem; }
+.home-results__media { position: relative; min-height: clamp(30rem, 50vw, 45rem); }
+.home-results__media .media { position: absolute; inset: 0; }
+/* Anchored high so both faces stay whole at every crop. */
+.home-results__media img { object-position: 55% 18%; }
+
+@media (max-width: 1023px) {
+  .home-results { grid-template-columns: minmax(0, 1fr); }
+  .home-results__media { order: -1; min-height: 0; aspect-ratio: 4 / 5; max-height: 30rem; }
+  .home-results__text { padding: var(--section-y) var(--page-pad); }
+}

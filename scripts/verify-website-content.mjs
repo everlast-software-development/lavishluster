@@ -46,7 +46,10 @@ const files = { 'home.js': home, 'about.js': about, 'lusterscan.js': lusterscanP
 for (const [name, data] of Object.entries(files)) {
   for (const s of strings(data)) check(doc.includes(squash(s)), `${name}: "${s.slice(0, 70)}" not in website-content.md`);
 }
-check(home.hero.titleLines.join(' ') === home.hero.title, 'home.js: hero title lines do not join to the title');
+// Title line breaks are presentation only: the lines must join back to the verbatim title.
+for (const [name, block] of Object.entries(home)) {
+  if (block.titleLines) check(block.titleLines.join(' ') === block.title, `home.js: ${name} title lines do not join to the title`);
+}
 
 // ---------------------------------------------------------------- 2
 section('2. Nothing pending (section 16) is published');

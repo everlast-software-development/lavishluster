@@ -1,23 +1,35 @@
 /* ==========================================================================
-   Home 02 — Brand Philosophy (pearl)
-   Left (columns 1–7): eyebrow, title, welcome paragraph. Right (9–12): label + CTA.
+   Home 02 — Brand Philosophy (pearl) · ≈760px at 1440
    ========================================================================== */
-.home-intro { background: var(--c-pearl); }
-.home-intro__grid {
-  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--grid-gap); row-gap: 2.5rem;
-  align-items: end;
+.home-philosophy { background: var(--c-pearl); }
+.home-philosophy__grid {
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--grid-gap);
+  align-items: center;
 }
-.home-intro__main { grid-column: 1 / span 7; }
-.home-intro__title { margin-top: 1rem; }
-.home-intro__statement { margin-top: 1.25rem; max-width: 60ch; }
-.home-intro__aside { grid-column: 9 / -1; display: flex; flex-direction: column; align-items: flex-start; }
-.home-intro__rule { display: block; width: 4rem; height: 1px; background: var(--c-gold); }
-.home-intro__label {
-  margin-top: 1.5rem; font-size: var(--t-label); font-weight: 500; line-height: 1.6;
-  letter-spacing: var(--tr-label); text-transform: uppercase; color: var(--c-gold-text);
+.home-philosophy__text { grid-column: 1 / span 6; }
+.home-philosophy__title { margin-top: 1.875rem; font-size: var(--t-title-philosophy); }
+/* Desktop: each title line stays whole; the longest may run into the empty column 7 before the image. */
+@media (min-width: 1024px) { .home-philosophy__title .home-title__line { white-space: nowrap; } }
+.home-philosophy__body { margin-top: 2rem; max-width: 32.5rem; font-size: 1.125rem; font-weight: 300; line-height: 1.8; color: var(--c-ink-soft); }
+.home-philosophy__row {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 1rem 2rem;
+  max-width: 32.5rem; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--c-ink-a14);
 }
-.home-intro__cta { margin-top: 1.5rem; }
+.home-philosophy__label { color: var(--c-gold-text); }
+
+/* 440×550 (4:5) image, right-aligned; a 1px gold rectangle of the same size sits 28px right and 28px up behind it. */
+.home-philosophy__figure {
+  grid-column: 8 / -1; justify-self: end; position: relative; isolation: isolate;
+  width: min(100%, 27.5rem); margin-right: 1.75rem;
+}
+.home-philosophy__frame { position: absolute; inset: -1.75rem -1.75rem 1.75rem 1.75rem; z-index: -1; border: 1px solid var(--c-gold); }
+.home-philosophy__media { aspect-ratio: 4 / 5; }
+.home-philosophy__media img { object-position: center; }
+
 @media (max-width: 1023px) {
-  .home-intro__grid { grid-template-columns: minmax(0, 1fr); }
-  .home-intro__main, .home-intro__aside { grid-column: 1 / -1; }
+  .home-philosophy__grid { grid-template-columns: minmax(0, 1fr); row-gap: 3.5rem; }
+  .home-philosophy__text, .home-philosophy__figure { grid-column: 1 / -1; }
+  .home-philosophy__figure { order: -1; justify-self: start; margin: 1rem 1rem 0 0; }
+  .home-philosophy__frame { inset: -1rem -1rem 1rem 1rem; }
+  .home-philosophy__row { flex-direction: column; align-items: flex-start; }
 }

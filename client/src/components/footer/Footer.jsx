@@ -14,7 +14,7 @@ const SOCIAL = [
 /**
  * Noir footer in the shared container: logo + brand line (4 columns) · Explore (2) ·
  * Visit (3) · Contact (3); then a hairline with © left and legal links right
- * (when enabled); the script watermark runs along the bottom edge, below the columns.
+ * (when enabled).
  */
 export default function Footer() {
   const f = home.footer;
@@ -68,7 +68,6 @@ export default function Footer() {
           )}
         </div>
       </div>
-      <span className="site-footer__watermark" aria-hidden="true" />
     </footer>
   );
 }
