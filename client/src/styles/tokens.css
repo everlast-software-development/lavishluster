@@ -54,6 +54,8 @@
   /* Product Worlds panel layers */
   /* Base scrim: the bottom 46% only; the extra 52% stop at 33% darkens the number/count row (4.5:1). */
   --g-worlds-base: linear-gradient(0deg, var(--c-noir-a92) 0%, var(--c-noir-a60) 24%, var(--c-noir-a52) 33%, var(--c-noir-a0) 46%);
+  /* Flash Treatment only: its white box sits behind the count, so the count row is a little darker. */
+  --g-worlds-base-strong: linear-gradient(0deg, var(--c-noir-a92) 0%, var(--c-noir-a65) 28%, var(--c-noir-a52) 34%, var(--c-noir-a0) 46%);
   /* Stacked cards (< 1024px), where the text takes more of the card: the taller scrim. */
   --g-worlds-base-tall: linear-gradient(0deg, var(--c-noir-a95) 0%, var(--c-noir-a78) 28%, var(--c-noir-a30) 52%, var(--c-noir-a0) 70%);
   --g-worlds-top: linear-gradient(180deg, var(--c-noir-a55) 0%, var(--c-noir-a0) 22%);

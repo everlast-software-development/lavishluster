@@ -1,9 +1,9 @@
 /* ==========================================================================
-   Home 03 — Product Worlds (noir) · ≈950px at 1440
+   Home 03 — Product Worlds (noir) · ≈985px at 1440
    Three expanding full-image panels, text on the image. --o is the open
    state of a panel (0 or 1); overlays and content fades follow it. The open
-   panel is exactly as wide as its photograph at the row height (--ar, the
-   image's width / height read at build time), so the whole image shows.
+   panel's width follows its photograph's ratio (--ar, width / height read at
+   build time), kept to 50–60% of the row; the image always covers the panel.
    ========================================================================== */
 .home-worlds { background: var(--c-noir); color: var(--c-pearl); }
 .home-worlds__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1rem 2rem; margin-bottom: 3rem; }
@@ -11,9 +11,9 @@
 .home-worlds__count { font-size: 2.75rem; font-weight: 200; line-height: 1; color: var(--c-pearl); font-variant-numeric: lining-nums tabular-nums; }
 .home-worlds__count-label { color: var(--c-pearl-a62); }
 
-/* ---------- Panels row: 600px at 1440 ---------- */
+/* ---------- Panels row: 640px at 1440 ---------- */
 .world-panels {
-  --row-h: clamp(30rem, 41.7vw, 37.5rem);
+  --row-h: clamp(31.25rem, 44.4vw, 40rem);
   container-type: inline-size;
   list-style: none; margin: 0; padding: 0;
   display: flex; height: var(--row-h);
@@ -21,22 +21,18 @@
 }
 .world-panel {
   --o: 0;
-  --fx: var(--fx-closed, 50%);                             /* horizontal focal point (closed panels crop) */
-  --img-w: calc((var(--row-h) - 2px) * var(--ar, 0.8));    /* the image's width at the panel height */
-  --open-w: clamp(40cqw, var(--img-w), 68cqw);             /* open width: the image's, kept to 40–68% of the row */
-  --bw: 0px;                                               /* the panel's left border, added to its open basis */
+  --open-w: clamp(50cqw, calc(var(--row-h) * var(--ar, 0.8)), 60cqw);  /* open width: the image's ratio, kept to 50–60% of the row */
   position: relative; flex: 1 1 0; min-width: 0; overflow: hidden;
   transition: flex-basis 0.6s var(--ease), flex-grow 0.6s var(--ease);
 }
-.world-panel + .world-panel { --bw: 1px; border-left: 1px solid var(--c-pearl-a18); }
-.world-panel--flash-treatment { --fx-closed: 35%; }
+.world-panel + .world-panel { border-left: 1px solid var(--c-pearl-a18); }
 /* Open: the first panel by default; while the row is hovered, the hovered panel;
    while focus is in the row (and it is not hovered), the focused panel. */
-.world-panel:first-child { --o: 1; --fx: 50%; flex: 0 0 calc(var(--open-w) + var(--bw)); }
+.world-panel:first-child { --o: 1; flex: 0 0 var(--open-w); }
 .world-panels:hover .world-panel,
-.world-panels:focus-within .world-panel { --o: 0; --fx: var(--fx-closed, 50%); flex: 1 1 0; }
+.world-panels:focus-within .world-panel { --o: 0; flex: 1 1 0; }
 .world-panels .world-panel:hover,
-.world-panels:not(:hover) .world-panel:focus-within { --o: 1; --fx: 50%; flex: 0 0 calc(var(--open-w) + var(--bw)); }
+.world-panels:not(:hover) .world-panel:focus-within { --o: 1; flex: 0 0 var(--open-w); }
 
 .world-panel__link { position: absolute; inset: 0; display: block; color: var(--c-pearl); text-decoration: none; }
 .world-panel__link:focus-visible { outline: 1px solid var(--c-gold); outline-offset: -1px; }
@@ -44,27 +40,24 @@
 /* Layers, bottom to top: image (0) · shade, base scrim, top shade (1) · content (2).
    Scoped under .world-panel so the global .media rules can never re-position them. */
 .world-panel .world-panel__media { position: absolute; inset: 0; z-index: 0; background: var(--c-noir); }
-/* The photograph keeps its own ratio: as tall as the panel and --img-w wide (narrower only when the
-   open width is clamped; then it shows whole, centred over its blurred copy). Open, it fills the
-   panel exactly; closed, the panel crops it around --fx. */
+/* The photograph always covers the panel edge to edge, open or closed, framed by its focal point. */
 .world-panel .world-panel__img {
-  position: absolute; top: 50%; left: var(--fx);
-  width: min(var(--img-w), var(--open-w)); height: auto; max-width: none; aspect-ratio: var(--ar, 0.8);
-  object-fit: cover; filter: brightness(0.88) saturate(0.92);
-  transform: translate(calc(var(--fx) * -1), -50%);
-  transition: left 0.6s var(--ease), transform 0.6s var(--ease);
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: var(--focus, center); filter: brightness(0.88) saturate(0.92); transform: none;
 }
-/* Blurred copy of the same photograph behind it: covers any area the whole image leaves free. */
-.world-panel .world-panel__fill {
-  position: absolute; inset: 0; width: 100%; height: 100%; max-width: none;
-  object-fit: cover; filter: blur(28px) brightness(0.5); transform: scale(1.1);
-}
+/* Facial: 80% (not 45%) lifts the jar so its lid label clears the count, with headroom above. */
+.world-panel--facial-treatment { --focus: center 80%; }   /* the jar */
+.world-panel--flash-treatment { --focus: center 22%; }    /* eyes, patches and sachet */
+.world-panel--beauty-devices { --focus: center 50%; }     /* the whole mask */
+/* Wide screens crop the 4:5 photographs more (the open panel is 50% of a 1600px row): keep the jar off the top edge. */
+@media (min-width: 1680px) { .world-panel--facial-treatment { --focus: center 70%; } }
 
 .world-panel .world-panel__shade, .world-panel .world-panel__scrim, .world-panel .world-panel__top { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
 /* Closed only: a left gradient behind the vertical name over a flat veil; fades out as the panel opens. */
 .world-panel .world-panel__shade { background: var(--g-worlds-closed-name), var(--c-noir-a50); opacity: calc(1 - var(--o)); transition: opacity 0.6s var(--ease); }
 /* Always, on every panel: the base scrim under the text (the bottom 46% only), and a top shade for the number. */
 .world-panel .world-panel__scrim { background: var(--g-worlds-base); }
+.world-panel--flash-treatment .world-panel__scrim { background: var(--g-worlds-base-strong); }
 .world-panel .world-panel__top { background: var(--g-worlds-top); }
 
 /* Content fades: in over 0.3s after 0.15s when opening; out over 0.15s when closing. */
@@ -101,15 +94,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .world-panel, .world-panel .world-panel__img, .world-panel .world-panel__shade, .world-panel__open, .world-panel__closed { transition: none; }
+  .world-panel, .world-panel .world-panel__shade, .world-panel__open, .world-panel__closed { transition: none; }
 }
 
-/* Under 1024px: no accordion — three open cards at their image's own ratio (max 560px tall; above
-   that the whole image is contained over its blurred copy), 16px apart. */
+/* Under 1024px: no accordion — three open 4:5 cards (the photographs' own ratio), image covering
+   the card with the same focal points, 16px apart. */
 @media (max-width: 1023px) {
   .world-panels { flex-direction: column; height: auto; gap: 1rem; border: 0; }
-  .world-panel, .world-panel + .world-panel { --o: 1 !important; flex: none !important; aspect-ratio: var(--ar, 0.8); max-height: 35rem; border: 1px solid var(--c-pearl-a18); }
-  .world-panel .world-panel__img { inset: 0; width: 100%; height: 100%; aspect-ratio: auto; object-fit: contain; transform: none; transition: none; }
+  .world-panel, .world-panel + .world-panel { --o: 1 !important; flex: none !important; aspect-ratio: 4 / 5; border: 1px solid var(--c-pearl-a18); }
   .world-panel__closed { display: none; }
   .world-panel .world-panel__scrim { background: var(--g-worlds-base-tall), var(--c-noir-a30); }
   .world-panel__open { left: 1.5rem; right: 1.5rem; bottom: 1.25rem; width: auto; }

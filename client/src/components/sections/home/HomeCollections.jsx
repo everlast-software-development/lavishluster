@@ -40,20 +40,14 @@ export default function HomeCollections() {
           {categories.map((c, i) => {
             const images = getProduct(COVER[c.slug])?.images;
             const src = images?.primary;
-            // The open panel is as wide as the image at the row height: its aspect, read at build time.
+            // The open panel's width follows the image's aspect (read at build time), kept to 50–60% of the row.
             const style = images?.primaryAspect ? { '--ar': images.primaryAspect.toFixed(6) } : undefined;
             const num = String(i + 1).padStart(2, '0');
             return (
               <li key={c.slug} className={`world-panel world-panel--${c.slug}`} style={style}>
                 <Link to={catalogHref(c.slug)} className="world-panel__link">
                   <span className="media world-panel__media">
-                    {src ? (
-                      <>
-                        {/* Blurred copy behind: fills any area the complete image leaves when its width is clamped. */}
-                        <img className="world-panel__fill" src={src} alt="" aria-hidden="true" loading="lazy" decoding="async" />
-                        <img className="world-panel__img" src={src} alt="" loading="lazy" decoding="async" />
-                      </>
-                    ) : <Placeholder title={c.label} />}
+                    {src ? <img className="world-panel__img" src={src} alt="" loading="lazy" decoding="async" /> : <Placeholder title={c.label} />}
                   </span>
                   {/* Layers over the image: closed-panel shade, base scrim (always), top shade (always). */}
                   <span className="world-panel__shade" aria-hidden="true" />
