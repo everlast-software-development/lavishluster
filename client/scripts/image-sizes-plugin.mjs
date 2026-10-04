@@ -56,13 +56,25 @@ export default function imageSizes() {
   return {
     name: 'image-sizes',
     configResolved(config) { root = config.root; },
+    // Dev: when an image in the asset folders is added, changed or removed, rebuild the module and
+    // reload. (Not this.addWatchFile: the dev server would treat the folders as imports.)
+    configureServer(server) {
+      const norm = (p) => p.split(sep).join('/').toLowerCase();
+      const dirs = DIRS.map((d) => norm(join(root, d)) + '/');
+      const onChange = (file) => {
+        const f = norm(file);
+        if (!/\.(webp|png|jpe?g)$/i.test(f) || !dirs.some((d) => f.startsWith(d))) return;
+        const mod = server.moduleGraph.getModuleById(RESOLVED);
+        if (mod) { server.moduleGraph.invalidateModule(mod); server.ws.send({ type: 'full-reload' }); }
+      };
+      for (const event of ['add', 'change', 'unlink']) server.watcher.on(event, onChange);
+    },
     resolveId(id) { return id === ID ? RESOLVED : null; },
     load(id) {
       if (id !== RESOLVED) return null;
       const sizes = {};
       for (const dir of DIRS) {
         const abs = join(root, dir);
-        this.addWatchFile(abs);
         for (const file of walk(abs)) {
           const size = readImageSize(readFileSync(file));
           if (size) sizes['/' + relative(root, file).split(sep).join('/')] = size;
