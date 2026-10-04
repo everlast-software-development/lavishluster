@@ -1,7 +1,9 @@
 /* ==========================================================================
    Home 03 — Product Worlds (noir) · ≈950px at 1440
    Three expanding full-image panels, text on the image. --o is the open
-   state of a panel (0 or 1); width, overlays and content fades follow it.
+   state of a panel (0 or 1); overlays and content fades follow it. The open
+   panel is exactly as wide as its photograph at the row height (--ar, the
+   image's width / height read at build time), so the whole image shows.
    ========================================================================== */
 .home-worlds { background: var(--c-noir); color: var(--c-pearl); }
 .home-worlds__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1rem 2rem; margin-bottom: 3rem; }
@@ -11,46 +13,57 @@
 
 /* ---------- Panels row: 600px at 1440 ---------- */
 .world-panels {
+  --row-h: clamp(30rem, 41.7vw, 37.5rem);
   container-type: inline-size;
   list-style: none; margin: 0; padding: 0;
-  display: flex; height: clamp(30rem, 41.7vw, 37.5rem);
+  display: flex; height: var(--row-h);
   border: 1px solid var(--c-pearl-a18);
 }
 .world-panel {
   --o: 0;
+  --fx: var(--fx-closed, 50%);                             /* horizontal focal point (closed panels crop) */
+  --img-w: calc((var(--row-h) - 2px) * var(--ar, 0.8));    /* the image's width at the panel height */
+  --open-w: clamp(40cqw, var(--img-w), 68cqw);             /* open width: the image's, kept to 40–68% of the row */
+  --bw: 0px;                                               /* the panel's left border, added to its open basis */
   position: relative; flex: 1 1 0; min-width: 0; overflow: hidden;
-  transition: flex 0.6s var(--ease);
+  transition: flex-basis 0.6s var(--ease), flex-grow 0.6s var(--ease);
 }
-.world-panel + .world-panel { border-left: 1px solid var(--c-pearl-a18); }
+.world-panel + .world-panel { --bw: 1px; border-left: 1px solid var(--c-pearl-a18); }
+.world-panel--flash-treatment { --fx-closed: 35%; }
 /* Open: the first panel by default; while the row is hovered, the hovered panel;
    while focus is in the row (and it is not hovered), the focused panel. */
-.world-panel:first-child { --o: 1; flex: 0 0 53%; }
+.world-panel:first-child { --o: 1; --fx: 50%; flex: 0 0 calc(var(--open-w) + var(--bw)); }
 .world-panels:hover .world-panel,
-.world-panels:focus-within .world-panel { --o: 0; flex: 1 1 0; }
+.world-panels:focus-within .world-panel { --o: 0; --fx: var(--fx-closed, 50%); flex: 1 1 0; }
 .world-panels .world-panel:hover,
-.world-panels:not(:hover) .world-panel:focus-within { --o: 1; flex: 0 0 53%; }
+.world-panels:not(:hover) .world-panel:focus-within { --o: 1; --fx: 50%; flex: 0 0 calc(var(--open-w) + var(--bw)); }
 
 .world-panel__link { position: absolute; inset: 0; display: block; color: var(--c-pearl); text-decoration: none; }
 .world-panel__link:focus-visible { outline: 1px solid var(--c-gold); outline-offset: -1px; }
 
-/* Image: the whole panel height. Focal points keep each product and its label clear of the
-   text at the bottom; the 4:5 photographs crop only vertically, by more as the open panel widens. */
 /* Layers, bottom to top: image (0) · shade, base scrim, top shade (1) · content (2).
    Scoped under .world-panel so the global .media rules can never re-position them. */
 .world-panel .world-panel__media { position: absolute; inset: 0; z-index: 0; background: var(--c-noir); }
-.world-panel .world-panel__media > img { object-position: center; filter: brightness(0.88) saturate(0.92); transform: none; }
-.world-panel--facial-treatment .world-panel__media > img { object-position: center 100%; }
-.world-panel--flash-treatment .world-panel__media > img { object-position: 35% 100%; }
-.world-panel--beauty-devices .world-panel__media > img { object-position: center 35%; }
-@media (min-width: 1680px) {
-  .world-panel--facial-treatment .world-panel__media > img { object-position: center 82%; }
-  .world-panel--flash-treatment .world-panel__media > img { object-position: 35% 78%; }
+/* The photograph keeps its own ratio: as tall as the panel and --img-w wide (narrower only when the
+   open width is clamped; then it shows whole, centred over its blurred copy). Open, it fills the
+   panel exactly; closed, the panel crops it around --fx. */
+.world-panel .world-panel__img {
+  position: absolute; top: 50%; left: var(--fx);
+  width: min(var(--img-w), var(--open-w)); height: auto; max-width: none; aspect-ratio: var(--ar, 0.8);
+  object-fit: cover; filter: brightness(0.88) saturate(0.92);
+  transform: translate(calc(var(--fx) * -1), -50%);
+  transition: left 0.6s var(--ease), transform 0.6s var(--ease);
+}
+/* Blurred copy of the same photograph behind it: covers any area the whole image leaves free. */
+.world-panel .world-panel__fill {
+  position: absolute; inset: 0; width: 100%; height: 100%; max-width: none;
+  object-fit: cover; filter: blur(28px) brightness(0.5); transform: scale(1.1);
 }
 
 .world-panel .world-panel__shade, .world-panel .world-panel__scrim, .world-panel .world-panel__top { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
 /* Closed only: a left gradient behind the vertical name over a flat veil; fades out as the panel opens. */
 .world-panel .world-panel__shade { background: var(--g-worlds-closed-name), var(--c-noir-a50); opacity: calc(1 - var(--o)); transition: opacity 0.6s var(--ease); }
-/* Always, on every panel: the base scrim under the text, and a top shade for the number. */
+/* Always, on every panel: the base scrim under the text (the bottom 46% only), and a top shade for the number. */
 .world-panel .world-panel__scrim { background: var(--g-worlds-base); }
 .world-panel .world-panel__top { background: var(--g-worlds-top); }
 
@@ -71,40 +84,43 @@
 .world-panel__count { color: var(--c-pearl-a80); white-space: nowrap; }
 .world-panel__count--corner { position: absolute; right: 2rem; bottom: 2.25rem; }
 
-/* Open state: content at the bottom with 40px insets, sized to the open width so it never reflows. */
-.world-panel__open { left: 2.5rem; bottom: 2.5rem; width: calc(53cqw - 5rem); display: flex; flex-direction: column; align-items: flex-start; }
+/* Open state: content at the bottom with 32px insets, sized to the open width so it never reflows;
+   spacing kept tight so the text stays in the bottom 36% of the panel. */
+.world-panel__open { left: 2rem; bottom: 2rem; width: calc(var(--open-w) - 4rem); display: flex; flex-direction: column; align-items: flex-start; }
 .world-panel__meta { display: flex; justify-content: space-between; align-items: baseline; align-self: stretch; gap: 1rem; }
-/* 36px at 1440, scaled down on narrower open panels so the name keeps to one line. */
-.world-panel__name { margin-top: 1.125rem; font-size: clamp(1.5rem, 2.5vw, 2.25rem); font-weight: 200; line-height: 1.1; letter-spacing: var(--tr-home-title); text-transform: uppercase; color: var(--c-pearl); text-shadow: var(--shadow-worlds-text); }
-.world-panel__desc { margin-top: 0.75rem; max-width: 26.25rem; font-size: var(--t-sm); font-weight: 300; line-height: 1.7; color: var(--c-pearl-a80); text-shadow: var(--shadow-worlds-text); }
-.world-panel__cta { margin-top: 1.25rem; color: var(--c-pearl-a80); }
+/* 32px at 1440, scaled down on narrower open panels so the name keeps to one line. */
+.world-panel__name { margin-top: 0.875rem; font-size: clamp(1.375rem, 2.22vw, 2rem); font-weight: 200; line-height: 1.1; letter-spacing: var(--tr-home-title); text-transform: uppercase; color: var(--c-pearl); text-shadow: var(--shadow-worlds-text); }
+.world-panel__desc { margin-top: 0.625rem; max-width: 26.25rem; font-size: var(--t-sm); font-weight: 300; line-height: 1.6; color: var(--c-pearl-a80); text-shadow: var(--shadow-worlds-text); }
+.world-panel__cta { margin-top: 1rem; color: var(--c-pearl-a80); }
 .world-panel__arrow { color: var(--c-gold-light); }
-/* Narrower desktop panels (480–530px tall): tighter insets and gaps keep the open content in the bottom 40%. */
+/* Narrower desktop panels (480–530px tall, open ≈ 380–430px wide): smaller insets and description. */
 @media (min-width: 1024px) and (max-width: 1279px) {
-  .world-panel__open { left: 2rem; bottom: 2rem; width: calc(53cqw - 4rem); }
-  .world-panel__name { margin-top: 0.875rem; }
-  .world-panel__cta { margin-top: 1rem; }
+  .world-panel__open { left: 1.5rem; bottom: 1.5rem; width: calc(var(--open-w) - 3rem); }
+  .world-panel__desc { font-size: 0.875rem; }
+  .world-panel__cta { margin-top: 0.75rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .world-panel, .world-panel .world-panel__shade, .world-panel__open, .world-panel__closed { transition: none; }
+  .world-panel, .world-panel .world-panel__img, .world-panel .world-panel__shade, .world-panel__open, .world-panel__closed { transition: none; }
 }
 
-/* Under 1024px: no accordion — three open cards, 4:5 (max 520px tall), 16px apart. */
+/* Under 1024px: no accordion — three open cards at their image's own ratio (max 560px tall; above
+   that the whole image is contained over its blurred copy), 16px apart. */
 @media (max-width: 1023px) {
   .world-panels { flex-direction: column; height: auto; gap: 1rem; border: 0; }
-  .world-panel, .world-panel + .world-panel { --o: 1 !important; flex: none !important; aspect-ratio: 4 / 5; max-height: 32.5rem; border: 1px solid var(--c-pearl-a18); }
+  .world-panel, .world-panel + .world-panel { --o: 1 !important; flex: none !important; aspect-ratio: var(--ar, 0.8); max-height: 35rem; border: 1px solid var(--c-pearl-a18); }
+  .world-panel .world-panel__img { inset: 0; width: 100%; height: 100%; aspect-ratio: auto; object-fit: contain; transform: none; transition: none; }
   .world-panel__closed { display: none; }
-  .world-panel__open { left: 1.5rem; right: 1.5rem; bottom: 1.5rem; width: auto; }
-  /* Compact: the name keeps to 24–30px and the gaps tighten, so the content stays low on the card. */
-  .world-panel__open { bottom: 1.25rem; }
-  .world-panel__name { margin-top: 0.75rem; font-size: clamp(1.5rem, 4vw, 1.875rem); }
-  .world-panel__desc { margin-top: 0.5rem; line-height: 1.6; }
+  .world-panel .world-panel__scrim { background: var(--g-worlds-base-tall), var(--c-noir-a30); }
+  .world-panel__open { left: 1.5rem; right: 1.5rem; bottom: 1.25rem; width: auto; }
+  /* Compact: the name keeps to one line (20–30px) and the gaps tighten, so the content stays low on the card. */
+  .world-panel__name { margin-top: 0.75rem; font-size: clamp(1.25rem, 5.3vw, 1.875rem); }
+  .world-panel__desc { margin-top: 0.5rem; }
   .world-panel__cta { margin-top: 0.875rem; }
 }
 
 /* Small panels (below 1280px): the photographs are bright for their size, so the base scrim
    carries a flat 30% veil too; the text then keeps 4.5:1 (count, description, Explore). */
-@media (max-width: 1279px) {
+@media (min-width: 1024px) and (max-width: 1279px) {
   .world-panel .world-panel__scrim { background: var(--g-worlds-base), var(--c-noir-a30); }
 }

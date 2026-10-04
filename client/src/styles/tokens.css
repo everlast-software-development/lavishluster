@@ -40,16 +40,22 @@
   --c-gold-light-a90: rgba(201, 174, 132, 0.9);  /* LusterScan scan line */
   --c-gold-light-a0: rgba(201, 174, 132, 0);     /* scan line fade ends */
   --c-noir-a78: rgba(21, 20, 18, 0.78);          /* LusterScan caption bar */
-  --c-noir-a95: rgba(21, 20, 18, 0.95);          /* Product Worlds base scrim */
+  --c-noir-a92: rgba(21, 20, 18, 0.92);          /* Product Worlds base scrim */
+  --c-noir-a60: rgba(21, 20, 18, 0.6);           /* Product Worlds base scrim mid-stop */
+  --c-noir-a52: rgba(21, 20, 18, 0.52);          /* Product Worlds base scrim, number row */
+  --c-noir-a95: rgba(21, 20, 18, 0.95);          /* Product Worlds tall scrim (stacked cards) */
   --c-noir-a65: rgba(21, 20, 18, 0.65);          /* Product Worlds closed-panel name gradient */
   --c-noir-a55: rgba(21, 20, 18, 0.55);          /* Product Worlds top shade */
   --c-noir-a50: rgba(21, 20, 18, 0.5);           /* Product Worlds closed-panel flat shade */
   --c-noir-a35: rgba(21, 20, 18, 0.35);          /* Product Worlds text shadow */
-  --c-noir-a30: rgba(21, 20, 18, 0.3);           /* Product Worlds base scrim mid-stop */
+  --c-noir-a30: rgba(21, 20, 18, 0.3);           /* Product Worlds veil below 1280px */
   --c-pearl-a80: rgba(243, 242, 238, 0.8);       /* Product Worlds description, count, Explore */
   --c-noir-a0: rgba(21, 20, 18, 0);              /* Product Worlds scrim top */
   /* Product Worlds panel layers */
-  --g-worlds-base: linear-gradient(0deg, var(--c-noir-a95) 0%, var(--c-noir-a78) 28%, var(--c-noir-a30) 52%, var(--c-noir-a0) 70%);
+  /* Base scrim: the bottom 46% only; the extra 52% stop at 33% darkens the number/count row (4.5:1). */
+  --g-worlds-base: linear-gradient(0deg, var(--c-noir-a92) 0%, var(--c-noir-a60) 24%, var(--c-noir-a52) 33%, var(--c-noir-a0) 46%);
+  /* Stacked cards (< 1024px), where the text takes more of the card: the taller scrim. */
+  --g-worlds-base-tall: linear-gradient(0deg, var(--c-noir-a95) 0%, var(--c-noir-a78) 28%, var(--c-noir-a30) 52%, var(--c-noir-a0) 70%);
   --g-worlds-top: linear-gradient(180deg, var(--c-noir-a55) 0%, var(--c-noir-a0) 22%);
   --g-worlds-closed-name: linear-gradient(90deg, var(--c-noir-a65) 0%, var(--c-noir-a0) 45%);
   --shadow-worlds-text: 0 1px 12px var(--c-noir-a35);

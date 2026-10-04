@@ -1,8 +1,9 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import imageSizes from './scripts/image-sizes-plugin.mjs';
 
 export default defineConfig(({ isSsrBuild }) => ({
-  plugins: [react()],
+  plugins: [react(), imageSizes()],
   build: isSsrBuild
     ? { assetsInlineLimit: 0 }
     : {
