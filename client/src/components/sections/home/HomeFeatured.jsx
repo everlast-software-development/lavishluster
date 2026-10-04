@@ -8,7 +8,7 @@ import './HomeFeatured.css';
 export default function HomeFeatured() {
   return (
     <Feature flag="featuredProducts" data={featuredProducts}>
-      <section className="section section--pearl home-featured" aria-labelledby="featured-title">
+      <section className="home-band home-featured" aria-labelledby="featured-title">
         <div className="container">
           <header className="home-featured__head">
             <h2 id="featured-title" className="section-title">Featured products</h2>

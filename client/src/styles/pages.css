@@ -173,18 +173,21 @@
 .halves__text > .section-title + .duo { margin-top: 2.5rem; }
 .duo { display: grid; gap: 2.25rem; }
 .duo__title { margin-bottom: 0.75rem; color: var(--c-gold-text); }
-.values { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 var(--gap); }
-.values__item { padding: 2rem 0; border-top: 1px solid var(--c-line); }
-.values dt { font-size: var(--t-label); font-weight: 500; letter-spacing: var(--tr-link); text-transform: uppercase; }
-.values dd { margin-top: 0.9rem; font-size: var(--t-sm); line-height: 1.75; color: var(--c-ink-soft); }
+.about-duo__title { margin-bottom: 1rem; font-size: var(--t-h3); }
+/* Core values: numbered 01–06, title + text, three per row. */
+.values { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 var(--grid-gap); }
+.values__item { padding: 1.75rem 0 2rem; border-top: 1px solid var(--c-line); }
+.values__num { display: block; font-size: var(--t-label); font-weight: 500; letter-spacing: 0.08em; color: var(--c-gold-text); font-variant-numeric: lining-nums tabular-nums; }
+.values__title { margin-top: 0.75rem; font-size: var(--t-label); font-weight: 500; letter-spacing: var(--tr-link); text-transform: uppercase; }
+.values__text { margin-top: 0.75rem; font-size: var(--t-sm); line-height: 1.75; color: var(--c-ink-soft); }
+.about-values .section-header { margin-bottom: 2.5rem; }
+.about-values__actions { margin-top: 2.5rem; }
 @media (max-width: 1023px) { .values { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 599px) { .values { grid-template-columns: minmax(0, 1fr); } }
-.pillar-list { margin-top: 2.5rem; }
-.pillar-list li { font-size: var(--t-label); font-weight: 500; letter-spacing: var(--tr-link); text-transform: uppercase; }
-.about-cta__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 2rem; }
 
 /* ---------- LusterScan AI ---------- */
 .scan-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2.5rem var(--gap); }
+.section__body > .lead + .scan-steps { margin-top: 3rem; }
 .scan-steps__item { padding-top: 1.5rem; border-top: 1px solid var(--c-line); }
 .scan-steps__num { display: block; font-size: 2.125rem; font-weight: 200; line-height: 1; color: var(--c-gold-text); font-variant-numeric: lining-nums tabular-nums; }
 .scan-steps__title { margin-top: 1.25rem; font-size: var(--t-label); font-weight: 500; letter-spacing: var(--tr-link); text-transform: uppercase; }

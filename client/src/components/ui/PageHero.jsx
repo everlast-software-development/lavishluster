@@ -5,14 +5,15 @@ import { getBrandImage } from '../../utils/assets.js';
  *  variant="photo": a brand photograph under a pearl scrim, ink text (default).
  *  variant="grain": the cover treatment — grey grain base and a cutout figure, white text.
  *  No image: a plain silk band.
+ *  `position` sets the photo focal point (object-position) when the default crop cuts the subject.
  */
-export default function PageHero({ title, kicker, intro, image, variant = 'photo', children }) {
+export default function PageHero({ title, kicker, intro, image, variant = 'photo', position, children }) {
   const src = image ? getBrandImage(image) : null;
   return (
     <header className={`page-hero page-hero--${src ? variant : 'plain'}`}>
       {src && (
         <div className="page-hero__media">
-          <div className="media"><img src={src} alt="" loading="eager" fetchpriority="high" decoding="async" /></div>
+          <div className="media"><img src={src} alt="" loading="eager" fetchpriority="high" decoding="async" style={position ? { objectPosition: position } : undefined} /></div>
         </div>
       )}
       <div className="container page-hero__inner">

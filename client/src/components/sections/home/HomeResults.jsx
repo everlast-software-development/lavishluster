@@ -1,23 +1,24 @@
+import BrandImage from '../../ui/BrandImage.jsx';
+import SectionHeader from '../../ui/SectionHeader.jsx';
 import { TextLink } from '../../ui/Links.jsx';
-import { site } from '../../../data/content/site.js';
-import { getBrandImage } from '../../../utils/assets.js';
+import { home } from '../../../data/content/home.js';
 import './HomeResults.css';
 
-const studio = getBrandImage('studio');
-
-/** 08 — Results: full-bleed studio photograph with a dark scrim, text on the left. */
+/**
+ * 07 — Results (white): content left, photograph right, edge to edge.
+ * brand/studio.webp shows studio lights and stands at every crop, so this
+ * uses brand/intro.webp (verified brand photograph, not used elsewhere on Home).
+ */
 export default function HomeResults() {
+  const { eyebrow, title, text, cta } = home.results;
   return (
-    <section className="home-results" aria-labelledby="results-title">
-      {studio && <img className="home-results__img" src={studio} alt="" loading="lazy" decoding="async" />}
-      <div className="container home-results__inner">
-        <div className="home-results__text">
-          <p className="eyebrow">{site.results.label.text}</p>
-          <h2 id="results-title" className="section-title home-results__title">{site.results.title.text}</h2>
-          <p className="home-results__body">{site.results.body.text}</p>
-          <div className="section__actions">
-            <TextLink to="/results" tone="light">Explore results</TextLink>
-          </div>
+    <section className="home-results halves halves--media-right" aria-labelledby="results-title">
+      <div className="halves__media"><BrandImage name="intro" className="home-results__media" /></div>
+      <div className="halves__text">
+        <SectionHeader id="results-title" eyebrow={eyebrow} title={title} />
+        <p className="home-results__body">{text}</p>
+        <div className="section__actions home-results__actions">
+          <TextLink to={cta.to}>{cta.label}</TextLink>
         </div>
       </div>
     </section>

@@ -1,42 +1,51 @@
 /* ---------- Container & grids ---------- */
+/*
+ * One shared container for every page and the footer: content up to
+ * var(--content-max) (1600px), side padding var(--page-pad), which equals the
+ * Home hero's text edge at every width — so all left edges line up with it.
+ */
 .container {
   width: 100%;
-  max-width: calc(var(--max) + 2 * var(--gutter));
+  max-width: calc(var(--content-max) + 2 * var(--page-pad));
   margin-inline: auto;
-  padding-inline: var(--gutter);
+  padding-inline: var(--page-pad);
 }
+/* The container's content edge, measured from the viewport edge (for edge-to-edge layouts). */
+:root { --edge: max(var(--page-pad), calc((100vw - var(--content-max)) / 2)); }
 
-/* Split: header columns 1–5, content 7–12 (stacks below 900px). */
+/* Split: 12-column grid, header in columns 1–5, content in 7–12 (stacks below 1024px). */
 .split {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: var(--gap);
+  column-gap: var(--grid-gap);
   row-gap: 2.5rem;
 }
 .split > :first-child { grid-column: 1 / span 5; }
 .split > :last-child { grid-column: 7 / -1; }
-.stack > .section-header { margin-bottom: clamp(2.5rem, 5vw, 4rem); }
-@media (max-width: 899px) {
+.stack > .section-header { margin-bottom: 2.5rem; }
+@media (max-width: 1023px) {
+  .split { grid-template-columns: minmax(0, 1fr); row-gap: 2rem; }
   .split > :first-child, .split > :last-child { grid-column: 1 / -1; }
-  .split { row-gap: 2rem; }
 }
 
-/* 50/50 edge-to-edge: media fills one half, text sits in the other. */
-.halves { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: stretch; }
-.halves__media { position: relative; min-height: 100%; }
+/*
+ * Halves: 50/50. The image side is edge to edge with a capped height
+ * (var(--halves-img-h), cover) — it grows only if the text is taller. The
+ * text side is aligned to the container edge, vertically centred, max 520px.
+ * Below 1024px it stacks: image first (4:5, max 480px tall), then the text.
+ */
+.halves { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; }
+.halves__media { position: relative; align-self: stretch; width: 100%; min-width: 0; min-height: var(--halves-img-h); overflow: hidden; }
 .halves__media > .media { position: absolute; inset: 0; height: 100%; }
-.halves__text {
-  display: flex; flex-direction: column; justify-content: center;
-  padding: var(--space-section) max(var(--gutter), calc((100vw - var(--max)) / 2));
-}
-.halves__text > * { max-width: 34rem; }
-.halves--media-left .halves__text { padding-left: clamp(2rem, 6vw, 6rem); }
-.halves--media-right .halves__text { padding-right: clamp(2rem, 6vw, 6rem); }
+.halves__text { display: flex; flex-direction: column; justify-content: center; padding-block: clamp(2.5rem, 4vw, 4rem); }
+.halves__text > * { max-width: var(--text-max); }
+.halves--media-left .halves__text { padding-inline: var(--halves-pad-in) var(--edge); }
+.halves--media-right .halves__text { padding-inline: var(--edge) var(--halves-pad-in); }
 .halves--media-right .halves__media { order: 2; }
-@media (max-width: 899px) {
+@media (max-width: 1023px) {
   .halves { grid-template-columns: minmax(0, 1fr); }
-  .halves__media { min-height: 0; aspect-ratio: 4 / 3; order: 0 !important; }
-  .halves__text, .halves--media-left .halves__text, .halves--media-right .halves__text { padding: var(--space-section) var(--gutter); }
+  .halves__media { order: 0 !important; min-height: 0; aspect-ratio: 4 / 5; max-height: 30rem; }
+  .halves--media-left .halves__text, .halves--media-right .halves__text { padding: var(--section-y) var(--page-pad); }
 }
 
 /* ---------- Sections ---------- */
@@ -50,6 +59,8 @@
   content: ''; display: block; grid-column: 1 / -1; height: 1px; background: var(--c-line);
   margin-bottom: var(--space-section);
 }
+/* Home bands: one vertical rhythm for every section below the hero. */
+.home-band { padding-block: var(--section-y); }
 
 .section__body > * + * { margin-top: 1.75rem; }
 .section__body > .section__actions { margin-top: 2.75rem; }

@@ -4,29 +4,29 @@ import Section from '../../components/ui/Section.jsx';
 import PageHero from '../../components/ui/PageHero.jsx';
 import { TextLink } from '../../components/ui/Links.jsx';
 import ConsultationCta from '../../components/sections/ConsultationCta.jsx';
-import masterBrand from '../../data/content/master-brand.json';
-import { site, lusterscan } from '../../data/content/site.js';
-import { technologies } from '../../data/content/science.js';
+import { sciencePage, technologies } from '../../data/content/science.js';
+import { about } from '../../data/content/about.js';
+import { lusterscanPage } from '../../data/content/lusterscan.js';
+import { resultsPage } from '../../data/content/results.js';
 import { catalogHref, getProduct, ingredientIndex, productsInCategory } from '../../data/catalog.js';
 
-const value = (title) => site.values.items.find((v) => v.title === title);
+const value = (title) => about.values.items.find((v) => v.title === title);
 
 export default function Science() {
   return (
     <>
-      <Seo title="The Science" description={site.science.body.text} path="/science" />
-      <PageHero title="The Science Behind Beautiful Skin" intro={masterBrand.statement} image="science" />
+      <Seo title="The Science" description={sciencePage.hero.text} path="/science" />
+      <PageHero title={sciencePage.hero.title} intro={sciencePage.hero.text} image="science" />
 
-      <Section id="formulations" title="Pharmaceutical-Grade Formulations">
-        <p className="prose-lg">{site.science.body.text}</p>
-        <p className="prose">{value('Precision & Efficacy').text}</p>
+      <Section id="formulations" title={sciencePage.formulations}>
+        <p className="prose-lg">{value('Precision & Efficacy').text}</p>
       </Section>
 
-      <Section id="biotechnology" title="Biotechnology" tone="white">
+      <Section id="biotechnology" title={sciencePage.biotechnology} tone="white">
         <p className="prose-lg">{value('Biotechnological Innovation').text}</p>
       </Section>
 
-      <Section id="ingredients" title="Active Ingredients">
+      <Section id="ingredients" title={sciencePage.ingredients}>
         <dl className="ingredient-index">
           {ingredientIndex.map((ing) => (
             <div key={ing.name} className="ingredient-index__row">
@@ -46,14 +46,14 @@ export default function Science() {
         </dl>
       </Section>
 
-      <Section id="evidence" kicker={site.results.label.text} title="Clinical Evidence" tone="white">
-        <p className="prose-lg">{site.results.body.text}</p>
+      <Section id="evidence" title={sciencePage.evidence} tone="white">
+        <p className="prose-lg">{resultsPage.hero.text}</p>
         <div className="section__actions">
           <TextLink to="/results">Explore Results</TextLink>
         </div>
       </Section>
 
-      <Section id="technology" title="Beauty Technology">
+      <Section id="technology" title={sciencePage.technology}>
         <ul className="tech-list">
           {technologies.map((t) => (
             <li key={t.id} className="tech-list__item">
@@ -77,8 +77,8 @@ export default function Science() {
         </div>
       </Section>
 
-      <Section id="ai" kicker={lusterscan.label.text} title="AI Technology" tone="white">
-        <p className="prose-lg">{lusterscan.description}</p>
+      <Section id="ai" kicker={lusterscanPage.hero.eyebrow} title={sciencePage.ai} tone="white">
+        <p className="prose-lg">{lusterscanPage.what.text}</p>
         <div className="section__actions">
           <TextLink to="/lusterscan-ai">Explore LusterScan AI</TextLink>
         </div>

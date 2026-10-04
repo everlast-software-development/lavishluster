@@ -51,3 +51,20 @@ export const technologies = [
     devices: [{ slug: 'luster-tech-body-slim-x4', phrase: 'LED, EMS, RF, and Slim', from: 'enhancedBenefits' }],
   },
 ];
+
+/**
+ * The Science page copy — content-source/website-content.md, section 8,
+ * exactly as written there. Checked by scripts/verify-website-content.mjs.
+ */
+export const sciencePage = {
+  hero: {
+    title: 'The Science Behind Beautiful Skin',
+    text: 'Our pharmaceutical-grade formulations deliver clinical results previously only available through professional aesthetic treatments.',
+  },
+  formulations: 'Pharmaceutical-Grade Formulations',
+  biotechnology: 'Biotechnology',
+  ingredients: 'Active Ingredients',
+  evidence: 'Clinical Evidence',
+  technology: 'Beauty Technology',
+  ai: 'AI Technology',
+};

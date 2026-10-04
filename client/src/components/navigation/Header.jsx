@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-import { homeItem, navItems, NAV_SPLIT } from './navItems.js';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { homeItem, navCta, navItems, NAV_SPLIT } from './navItems.js';
 import Wordmark from './Wordmark.jsx';
 
 /**
- * Desktop: three-part bar — first nav items, centred wordmark, remaining items.
+ * Desktop (1280px and up): four nav items, centred wordmark, the rest plus the
+ * primary CTA. Below 1280px the menu holds the links and the CTA.
  * On Home the bar is transparent (white logo and nav) over the cover hero until
  * the page scrolls; everywhere else it is solid pearl with a hairline.
  * Mobile: centred wordmark, "Menu" on the right, full-screen noir menu.
@@ -50,7 +51,10 @@ export default function Header() {
         <Wordmark tone={light ? 'light' : 'dark'} className="site-header__logo" />
         <nav className="site-nav" aria-label="Main">
           <ul className="site-nav__list">{navItems.slice(0, NAV_SPLIT).map(link)}</ul>
-          <ul className="site-nav__list">{navItems.slice(NAV_SPLIT).map(link)}</ul>
+          <ul className="site-nav__list">
+            {navItems.slice(NAV_SPLIT).map(link)}
+            <li className="site-nav__cta"><NavLink to={navCta.to} end>{navCta.label}</NavLink></li>
+          </ul>
         </nav>
         <button
           ref={buttonRef}
@@ -67,6 +71,7 @@ export default function Header() {
       <div id="mobile-menu" ref={panelRef} className="mobile-menu" hidden={!open}>
         <nav aria-label="Main (mobile)" className="mobile-menu__nav">
           <ul>{[homeItem, ...navItems].map(link)}</ul>
+          <Link to={navCta.to} className="btn btn--light mobile-menu__cta">{navCta.label}</Link>
         </nav>
       </div>
     </header>

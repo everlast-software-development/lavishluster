@@ -8,10 +8,12 @@
   letter-spacing: var(--tr-label); text-transform: uppercase; color: var(--c-gold-text);
 }
 .section-title {
-  font-size: var(--t-h2); font-weight: 200; line-height: 1.15;
+  font-size: var(--t-h2); font-weight: 200; line-height: 1.1;
   letter-spacing: var(--tr-title); text-transform: uppercase; text-wrap: balance;
 }
-.statement { font-size: var(--t-statement); font-weight: 200; line-height: 1.55; text-wrap: pretty; }
+.sub-title { font-size: var(--t-subtitle); font-weight: 300; line-height: 1.25; letter-spacing: var(--tr-subtitle); text-transform: uppercase; }
+.statement { font-size: var(--t-statement); font-weight: 200; line-height: 1.5; text-wrap: pretty; }
+.numeral { font-size: var(--t-numeral); font-weight: 200; line-height: 1; font-variant-numeric: lining-nums tabular-nums; }
 .lead, .prose-lg {
   font-size: var(--t-lead); font-weight: 300; line-height: 1.7; color: var(--c-ink-soft);
   max-width: 60ch; text-wrap: pretty;
@@ -21,8 +23,8 @@
 .minor-title { font-size: var(--t-label); font-weight: 500; letter-spacing: var(--tr-label); text-transform: uppercase; }
 
 /* Section header */
-.section-header > .eyebrow { margin-bottom: 1.25rem; }
-.section-header > .lead { margin-top: 1.5rem; }
+.section-header > .eyebrow { margin-bottom: 1rem; }
+.section-header > .lead { margin-top: 1.25rem; }
 .section-header--center { text-align: center; margin-inline: auto; }
 .section-header--center > .lead { margin-inline: auto; }
 .section-header--light .eyebrow, .section--noir .eyebrow { color: var(--c-gold-light); }
@@ -141,11 +143,12 @@
 }
 
 /* ---------- Consultation band (50/50, couple.webp left) ---------- */
-.consult { background: var(--c-white); }
-.consult .halves__media { min-height: clamp(26rem, 20rem + 18vw, 38rem); }
-.consult__title { font-size: var(--t-h2); font-weight: 200; line-height: 1.15; letter-spacing: var(--tr-title); text-transform: uppercase; text-wrap: balance; }
-.consult .section__actions { margin-top: 2.5rem; }
-@media (max-width: 899px) { .consult .halves__media { min-height: 0; } }
+.consult { background: var(--c-pearl); }
+.consult__title { font-size: var(--t-h2); font-weight: 200; line-height: 1.1; letter-spacing: var(--tr-title); text-transform: uppercase; text-wrap: balance; }
+/* Compact band: image clamp(360px, 30vw, 480px) tall; title, then the button and the email link in one row. */
+.consult .halves__media { min-height: clamp(22.5rem, 30vw, 30rem); }
+.consult .section__actions { margin-top: 2rem; gap: 1.25rem 2rem; }
+@media (max-width: 1023px) { .consult .halves__media { min-height: 0; } }
 
 /* ---------- Header ---------- */
 .site-header {
@@ -155,36 +158,54 @@
 }
 /* Home: the bar overlaps the cover hero instead of pushing it down. */
 .site-header--home { margin-bottom: calc(-1 * var(--header-h)); }
-.site-header.is-overlay, .site-header.is-open { background: transparent; color: var(--c-white); box-shadow: none; }
+.site-header.is-overlay, .site-header.is-open { background: transparent; color: var(--c-pearl); box-shadow: none; }
+.site-header.is-overlay .wordmark--light, .site-header.is-open .wordmark--light { color: var(--c-pearl); }
+.site-header.is-overlay :focus-visible { outline: 1px solid var(--c-gold); outline-offset: 4px; }
 .site-header__bar { position: relative; display: flex; align-items: center; height: var(--header-h); }
 .site-header__logo { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 1; }
+.site-header__bar { max-width: none; padding-inline: var(--header-pad); }
 
+/*
+ * Logo: brand/logo.png (1200×204, white artwork on transparency) used as a CSS mask
+ * filled with currentColor. The box always has the file's own ratio — never stretched,
+ * squashed or cropped. Size is set by height (--logo-h); the width follows.
+ */
 .wordmark { display: inline-flex; align-items: center; text-decoration: none; }
 .wordmark--dark { color: var(--c-ink); }
-.wordmark--light { color: var(--c-white); }
+.wordmark--light { color: var(--c-pearl); }
 .wordmark__mark {
-  display: block; width: var(--logo-w, 180px); aspect-ratio: 800 / 135; background-color: currentColor;
+  --logo-h: 2.5rem;
+  display: block; flex: none; height: var(--logo-h); width: calc(var(--logo-h) * 1200 / 204); aspect-ratio: 1200 / 204;
+  background-color: currentColor;
   -webkit-mask: var(--logo) center / contain no-repeat; mask: var(--logo) center / contain no-repeat;
   transition: background-color 0.35s var(--ease);
 }
-.wordmark--footer { --logo-w: 210px; }
-@media (max-width: 767px) { .wordmark { --logo-w: 140px; } }
+.site-header .wordmark__mark { --logo-h: 2.5rem; }                                       /* 40px, centred in the bar */
+@media (max-width: 767px) { .site-header .wordmark__mark { --logo-h: 2rem; } }            /* 32px */
+/* Mobile menu: 40px, scaled down only where the screen is too narrow for it to clear the Close button. */
+.site-header.is-open .wordmark__mark { --logo-h: min(2.5rem, calc((100vw - 8rem) * 204 / 1200)); }
+.site-footer .wordmark--light { color: var(--c-pearl); background: none; }                  /* not the 66% link colour or the link underline */
+.wordmark--footer .wordmark__mark { --logo-h: 2.25rem; }                                  /* ≈210px wide, as before */
+@media (max-width: 767px) { .wordmark--footer .wordmark__mark { --logo-h: 1.5rem; } }     /* ≈140px wide, as before */
 
 .site-nav { display: flex; justify-content: space-between; align-items: center; width: 100%; }
-.site-nav__list { display: flex; gap: clamp(1.5rem, 2.6vw, 2.75rem); list-style: none; margin: 0; padding: 0; }
+.site-nav__list { display: flex; gap: clamp(1.5rem, 2.36vw, 2.125rem); list-style: none; margin: 0; padding: 0; } /* 34px at 1440, ~30px at 1280 */
 .site-nav a {
-  display: inline-block; padding: 0.4rem 0; text-decoration: none; color: inherit;
+  display: inline-block; padding: 0.4rem 0 0.375rem; text-decoration: none; color: inherit;
   font-size: var(--t-label); font-weight: 500; letter-spacing: var(--tr-link); text-transform: uppercase;
   background: linear-gradient(var(--c-gold), var(--c-gold)) no-repeat 0 100% / 0 1px;
   transition: background-size 0.4s var(--ease);
 }
 .site-nav a:hover, .site-nav a.active { background-size: 100% 1px; }
-.is-overlay .site-nav a { background-image: linear-gradient(var(--c-gold-light), var(--c-gold-light)); }
 
 .menu-toggle {
   display: none; align-items: center; gap: 0.75rem; margin-left: auto; padding: 0.5rem 0;
   background: none; border: 0; cursor: pointer; color: inherit;
   font-size: var(--t-label); font-weight: 500; letter-spacing: var(--tr-link); text-transform: uppercase;
+}
+@media (max-width: 479px) {
+  .menu-toggle__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .menu-toggle { padding: 0.75rem 0 0.75rem 0.75rem; }
 }
 .menu-toggle__icon { position: relative; width: 18px; height: 7px; }
 .menu-toggle__icon i { position: absolute; left: 0; width: 100%; height: 1px; background: currentColor; transition: transform 0.35s var(--ease), top 0.35s var(--ease); }
@@ -210,7 +231,12 @@
 }
 .mobile-menu a.active { background-size: 2.5rem 1px; }
 
-@media (max-width: 1023px) {
+/* Primary CTA: a small tracked link after Contact, set apart by a gold rule. */
+.site-nav__cta { padding-left: clamp(1.5rem, 2.36vw, 2.125rem); border-left: 1px solid var(--c-gold-a60); }
+.mobile-menu__nav { display: flex; flex-direction: column; align-items: center; gap: 2.5rem; }
+.mobile-menu .mobile-menu__cta { padding: 1rem 1.75rem; font-size: var(--t-label); letter-spacing: var(--tr-button); background: var(--c-pearl); color: var(--c-ink); }
+/* The full desktop bar needs 1280px (centred logo plus both halves); below that the menu is used. */
+@media (max-width: 1279px) {
   .site-nav { display: none; }
   .menu-toggle { display: inline-flex; }
 }
@@ -218,41 +244,61 @@
 /* ---------- Footer ---------- */
 .site-footer {
   position: relative; overflow: hidden; background: var(--c-noir); color: var(--c-pearl);
-  padding-block: clamp(4.5rem, 8vw, 7.5rem) 2rem; font-size: 0.875rem;
+  padding-block: 4.5rem 2rem; font-size: 0.875rem;
 }
-.site-footer__grid { position: relative; z-index: 1; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem var(--gap); }
-.site-footer__brand p { margin-top: 1.75rem; max-width: 30rem; font-size: 0.875rem; line-height: 1.8; color: var(--c-on-dark); }
+.site-footer__brand-line { margin-top: 1.5rem; max-width: 40ch; font-size: 0.875rem; font-weight: 300; line-height: 1.7; color: var(--c-pearl-a62); }
+/* 12 columns in the shared container: logo 4 · Explore 2 · Visit 3 · Contact 3. */
+.site-footer__grid {
+  position: relative; z-index: 1; display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 3rem var(--grid-gap);
+}
+.site-footer__brand { grid-column: span 4; }
+.site-footer__col { grid-column: span 3; }
+.site-footer__col--explore { grid-column: span 2; }
 .site-footer__heading {
-  margin-bottom: 1.4rem; font-size: var(--t-label); font-weight: 500;
+  margin-bottom: 1.5rem; font-size: var(--t-label); font-weight: 500;
   letter-spacing: var(--tr-label); text-transform: uppercase; color: var(--c-gold-light);
 }
-.site-footer__links { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
-.site-footer address { display: grid; gap: 0.7rem; justify-items: start; max-width: 16rem; line-height: 1.7; }
+.site-footer__links { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.875rem; }
+.site-footer address { display: grid; gap: 0.875rem; justify-items: start; max-width: 16rem; line-height: 1.7; }
 .site-footer a {
-  text-decoration: none; color: var(--c-on-dark);
-  background: linear-gradient(var(--c-gold-light), var(--c-gold-light)) no-repeat 0 100% / 0 1px;
+  font-size: 0.875rem; text-decoration: none; color: var(--c-pearl-a72);
+  background: linear-gradient(var(--c-gold), var(--c-gold)) no-repeat 0 100% / 0 1px;
   transition: color 0.3s var(--ease), background-size 0.4s var(--ease);
 }
 .site-footer a:hover { color: var(--c-pearl); background-size: 100% 1px; }
-.site-footer__base { position: relative; z-index: 1; }
-.site-footer__base p {
-  margin-top: clamp(4rem, 8vw, 6.5rem); padding-top: 1.5rem; border-top: 1px solid var(--c-line-dark);
-  font-size: var(--t-label); letter-spacing: 0.08em; color: var(--c-on-dark);
+.site-footer .wordmark { background: none; }
+/* Bottom row: hairline, © left, legal links right. */
+.site-footer__base {
+  position: relative; z-index: 1;
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem 2rem;
+  margin-top: clamp(4rem, 6vw, 4.5rem); padding-top: 1.5rem; border-top: 1px solid var(--c-pearl-a12);
+  font-size: 0.75rem; color: var(--c-pearl-a50);
 }
+.site-footer__base p { letter-spacing: 0.04em; }
+.site-footer__social { margin-top: 1.5rem; }
+.site-footer__legal { display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; list-style: none; margin: 0; padding: 0; }
+.site-footer__base .site-footer__legal a { font-size: 0.75rem; color: var(--c-pearl-a50); }
+.site-footer__base .site-footer__legal a:hover { color: var(--c-pearl); }
+/* Watermark: 6%, centred along the bottom edge and clipped by the footer. Its box is 160px tall
+   (glyphs at 14–86%) and sits 40px below the edge, so the glyphs occupy only the bottom ~138px —
+   the base row area below the columns (64–72px gap + base row + 32px padding), never the columns. */
 .site-footer__watermark {
-  position: absolute; left: 50%; bottom: -3vw; width: min(96vw, 1400px); aspect-ratio: 937 / 202;
-  transform: translateX(-50%); background: var(--c-white); opacity: 0.05; pointer-events: none;
+  position: absolute; left: 0; right: 0; bottom: -2.5rem; z-index: 0;
+  height: 10rem; margin-inline: auto; aspect-ratio: 937 / 202; max-width: 100%;
+  background: var(--c-white); opacity: 0.06; pointer-events: none;
   -webkit-mask: url('../assets/brand/logo-script-watermark.png') center / contain no-repeat;
   mask: url('../assets/brand/logo-script-watermark.png') center / contain no-repeat;
 }
-@media (max-width: 899px) {
-  .site-footer__grid { grid-template-columns: 1fr 1fr; }
+@media (max-width: 1023px) {
   .site-footer__brand { grid-column: 1 / -1; }
+  .site-footer__col, .site-footer__col--explore { grid-column: span 4; }
 }
-@media (max-width: 559px) {
-  .site-footer__grid { grid-template-columns: 1fr; gap: 2.75rem; }
+@media (max-width: 639px) {
+  .site-footer__grid { gap: 2.75rem; }
+  .site-footer__col, .site-footer__col--explore { grid-column: 1 / -1; }
   .site-footer__links { gap: 0; }
-  .site-footer__links li { border-top: 1px solid var(--c-line-dark); }
-  .site-footer__links li:last-child { border-bottom: 1px solid var(--c-line-dark); }
+  .site-footer__links li { border-top: 1px solid var(--c-pearl-a12); }
+  .site-footer__links li:last-child { border-bottom: 1px solid var(--c-pearl-a12); }
   .site-footer__links a { display: block; padding: 0.95rem 0; background: none; }
 }

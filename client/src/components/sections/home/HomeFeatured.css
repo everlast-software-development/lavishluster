@@ -1,6 +1,7 @@
 /* ==========================================================================
-   Home 05 — Featured products
+   Home — Featured products (white; shown only when features.featuredProducts is on)
    ========================================================================== */
+.home-featured { background: var(--c-white); }
 .home-featured__head {
   display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1rem 2rem;
   padding-bottom: 1.75rem; margin-bottom: clamp(2.5rem, 5vw, 3.5rem); border-bottom: 1px solid var(--c-ink);

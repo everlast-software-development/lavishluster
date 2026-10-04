@@ -1,3 +1,4 @@
+import { Navigate } from 'react-router-dom';
 import { features } from '../data/config/features.js';
 import { products } from '../data/catalog.js';
 import Home from '../pages/Home/Home.jsx';
@@ -24,12 +25,14 @@ export const routes = [
   { path: '/contact', element: <Contact /> },
   features.legalPages && { path: '/privacy', element: <Legal kind="privacy" /> },
   features.legalPages && { path: '/terms', element: <Legal kind="terms" /> },
+  // Retired route: the server answers it with a 301; in-app navigation is redirected here. Not prerendered.
+  { path: '/lusterscan', element: <Navigate to="/lusterscan-ai" replace />, redirect: true },
 ].filter(Boolean);
 
-/** Every URL to prerender to static HTML. */
+/** Every URL to prerender to static HTML (redirect routes are not pages). */
 export function getPrerenderPaths() {
   return routes
-    .filter((r) => !r.path.includes(':'))
+    .filter((r) => !r.redirect && !r.path.includes(':'))
     .map((r) => r.path)
     .concat(products.map((p) => `/products/${p.slug}`));
 }

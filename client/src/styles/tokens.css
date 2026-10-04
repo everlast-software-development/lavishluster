@@ -30,6 +30,13 @@
   --c-scrim: rgba(21, 20, 18, 0.45);
   --c-scrim-strong: rgba(21, 20, 18, 0.72);
   --c-scrim-none: rgba(21, 20, 18, 0);
+  --c-pearl-a72: rgba(243, 242, 238, 0.72);  /* hero lead on noir */
+  --c-pearl-a62: rgba(243, 242, 238, 0.62);  /* hero pillars on noir */
+  --c-pearl-a18: rgba(243, 242, 238, 0.18);  /* hairlines on noir */
+  --c-pearl-a12: rgba(243, 242, 238, 0.12);  /* footer base rule */
+  --c-pearl-a50: rgba(243, 242, 238, 0.5);   /* footer base text */
+  --c-noir-raised: #1E1C19;                  /* Home hero stage panel */
+  --c-gold-a60: rgba(185, 154, 107, 0.6);    /* Home hero stage panel border */
   --c-pearl-scrim: rgba(243, 242, 238, 0.94);
   --c-pearl-scrim-none: rgba(243, 242, 238, 0);
   --c-focus: #7F6647;
@@ -43,25 +50,41 @@
   --t-body: 1rem;                                         /* 16px */
   --t-lead: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
   --t-h3: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
-  --t-h2: clamp(1.75rem, 1.2rem + 1.9vw, 2.75rem);        /* 28 → 44px */
+  --t-h2: clamp(1.75rem, 2.8vw, 2.625rem);                 /* section title: 28 → 42px */
+  --t-subtitle: clamp(1.25rem, 1.6vw, 1.625rem);           /* category / product name: 20 → 26px */
+  --t-numeral: clamp(2.75rem, 4.4vw, 4.25rem);             /* big numerals: 44 → 68px */
   --t-h1: clamp(1.5rem, 1.35rem + 0.5vw, 1.875rem);       /* 24 → 30px */
-  --t-statement: clamp(1.375rem, 0.95rem + 1.6vw, 2.125rem); /* 22 → 34px */
+  --t-statement: clamp(1.25rem, 1.8vw, 1.75rem);           /* 20 → 28px */
   --t-display: clamp(2rem, 1.2rem + 2.3vw, 3.125rem);     /* 32 → 50px */
   --t-figure: clamp(3.25rem, 2rem + 3.6vw, 5.25rem);      /* 52 → 84px */
   --tr-label: 0.26em;
   --tr-link: 0.2em;
   --tr-button: 0.22em;
-  --tr-title: 0.07em;
+  --tr-title: 0.06em;
+  --tr-subtitle: 0.08em;
   --tr-name: 0.18em;
 
   /* Space & layout */
-  --max: 1200px;                                           /* content width */
-  --gutter: clamp(1.5rem, 8.33vw, 7.5rem);                 /* 24 → 120px */
+  /* One shared container: content up to 1600px, side padding equal to the Home hero text edge. */
+  --content-max: 1600px;
+  --page-pad: clamp(1.5rem, 8.33vw, 11.25rem);             /* 24 → 120 (1440) → 180px; = --hero-pad-left */
+  --grid-gap: 2rem;                                        /* 12-column grid gutter */
+  --section-y: clamp(4rem, 7vw, 7rem);                     /* Home section padding: 64 → 112px */
+  --halves-img-h: clamp(27.5rem, 40vw, 40rem);             /* edge-to-edge .halves image height: 440 → 640px */
+  --halves-pad-in: clamp(2.5rem, 6vw, 6rem);               /* .halves text, inside edge: 40 → 96px */
+  --text-max: 32.5rem;                                     /* text columns: 520px */
+  --img-max-w: 30rem;                                      /* images inside the container: ≤ 480px wide */
+  --img-max-h: 37.5rem;                                    /* … and ≤ 600px tall */
+  --max: var(--content-max);                               /* legacy aliases */
+  --gutter: var(--page-pad);
   --gap: clamp(1rem, 0.5rem + 1.6vw, 2rem);
   --space-section: clamp(4.5rem, 2.6rem + 6.4vw, 9rem);    /* 72 → 144px */
-  --header-h: 5.25rem;
+  --header-pad: clamp(1.5rem, 4.45vw, 6rem);              /* header side padding: 24 → 64 (1440) → 96px */
+  --hero-pad-left: clamp(1.5rem, 8.33vw, 11.25rem);       /* Home hero text left edge: 24 → 120 (1440) → 180px */
+  --header-h: 6rem;                                        /* 96px desktop */
   --radius: 0;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   --t-page: 300ms;
 }
+@media (max-width: 1023px) { :root { --header-h: 5.25rem; --page-pad: clamp(1.5rem, 6.25vw, 4rem); } } /* = hero padding below 1024px */
 @media (max-width: 767px) { :root { --header-h: 4.25rem; } }

@@ -8,7 +8,7 @@ There are no prices, cart, checkout, payment or any other commerce feature anywh
 
 ```bash
 npm install
-npm run build      # checks the Master extraction, builds and prerenders the site, then runs the integrity check
+npm run build      # checks the Master extraction, builds and prerenders the site, then runs both content checks
 npm start          # serves client/dist and the API on http://localhost:3001
 ```
 
@@ -21,12 +21,15 @@ Node 20 or newer is required.
 ```
 content-source/         source of truth snapshots (never edited by hand)
   LAVISH_LUSTER___MASTER_COMPLETE_PRODUCT_CONTENT.docx
-  master.md             verbatim text extract of the Master document
+  master.md             verbatim text extract of the Master document (product copy)
+  website-content.md    final structure and page copy: sitemap, navigation, Home, About, LusterScan AI,
+                        The Science, Results, Contact, and the do-not-publish list (section 16)
   old-site-verified.md  verified brand text from the old site (demo content excluded)
   asset-manifest.json   verified old-site images (logo, brand photos, 2 product images)
 scripts/
   extract-master.mjs    Master → catalog JSON (normalisation + withholding rules live here)
   verify-content.mjs    final content-integrity check (runs on every build)
+  verify-website-content.mjs  page copy vs website-content.md, section 16, Home blocks (runs on every build)
   fetch-assets.mjs      downloads the assets in the manifest
 shared/inquiry.js       enquiry validation used by both the form and the API
 client/                 React 18 + React Router + Vite, prerendered to static HTML
@@ -34,7 +37,9 @@ client/                 React 18 + React Router + Vite, prerendered to static HT
     products/ flashTreatments/ devices/   generated from the Master; do not edit
     devices/specs.js    device technology/modes, exact Master substrings only
     taxonomy.js catalog.js
-    content/            verified brand text, contact, science index, legal
+    content/            page copy, one file per page: home.js, about.js, lusterscan.js, results.js,
+                        science.js (sciencePage + technology index); site.js re-assembles the old-site
+                        brand texts for the check; contact.js, legal.js
     config/             features.js (flags), featured.js, integrations.js
     testimonials/ results/ experts/ clinic/   empty until approved content exists
     verification/       register, withheld text, normalisation log (development data only; never imported)
@@ -47,7 +52,7 @@ server/                 Express: POST /api/inquiry, GET /api/health, static host
 
 ## Content rules (enforced by the build)
 
-`npm run build` fails if any of the following checks fails. It runs 2,700+ checks.
+`npm run build` fails if any of the following checks fails. `verify-content.mjs` runs 2,700+ checks, and `verify-website-content.mjs` runs 500+.
 
 1. The catalog JSON must equal a fresh extraction of `content-source/master.md`, with 15 facial treatments, 5 flash treatments and 7 devices.
 2. Every published field must be verbatim Master text. The only exceptions are the two logged whitespace fixes (V-11). Withheld sentences are re-attached during the check to prove that nothing else changed.
@@ -56,8 +61,15 @@ server/                 Express: POST /api/inquiry, GET /api/health, static host
 5. The prerendered HTML of all 27 product pages must contain every fragment.
 6. The build must contain no commerce terms, theme or demo content, excluded old products or categories, or withheld text (FDA, the 650 nm row).
 7. Disabled pages must be absent, and the sitemap must list all 27 product pages.
+8. Every copy string in the page data files (`home.js`, `about.js`, `lusterscan.js`, `results.js`, `sciencePage`) must appear verbatim in `content-source/website-content.md`.
+9. No prerendered page may contain anything from the document's section 16 (Pending / Do Not Publish) or a "[PENDING" marker. That includes FDA, the 650 nm row, the "Your Personal Dermatologist" headline, the "Dermatological precision analysis" bullet, "25+ specialized formulas", demo testimonials, ratings and the placeholder phone.
+10. Every block of the document's Home section (section 5) renders on the Home page, and no paragraph appears there twice.
 
 When the Master changes, update `content-source/master.md` and run `npm run extract`.
+
+**Page copy.** `content-source/website-content.md` is the single source for page copy. Like `master.md`, it is a snapshot that is never edited by hand. Components read only from the page data files in `client/src/data/content/`, one field per block, written exactly as in the document; the bold "Label:" prefixes are field names, not text. The old-site brand texts (welcome, story, mission, vision, values, section teasers, LusterScan steps and note, results paragraph) must also appear in `old-site-verified.md`; the one missing text (LusterScan step 02 with its closing period) is recorded there under "Brand texts (lavishluster.com Home and About)". Product copy stays in `master.md`.
+
+**Routes and navigation.** LusterScan AI lives at `/lusterscan-ai`. The old `/lusterscan` answers with an always-on 301 (`server/lib/redirects.js`, `routeRedirects`, query kept); in-app links to it redirect client-side, and it is not prerendered or in the sitemap. The primary CTA "Request a Consultation" → `/contact` sits after Contact in the desktop bar (from 1280px, behind a gold divider) and at the bottom of the mobile menu.
 
 ## Feature flags
 
@@ -140,16 +152,19 @@ To release a Tier B item after verification, set its rule's `status` to `'releas
 The "Maison" direction: pearl, ink and gold, one typeface, and editorial photography.
 
 - **Tokens:** every colour, size and spacing value lives in `client/src/styles/tokens.css`. No stylesheet contains a hex value.
-  - Surfaces are pearl `#F3F2EE` (page), white (alternate sections and image mats), silk `#EDECE7` under `brand/silk.webp`, noir `#151412` (Home LusterScan, footer, mobile menu) and grain grey `#8E8D8B` (the cover hero).
+  - Surfaces are pearl `#F3F2EE` (page), white (alternate sections and image mats), noir `#151412` (dark sections, footer, mobile menu), raised noir `#1E1C19` (the hero stage panel), silk `#EDECE7` (placeholders and product heroes) and grain grey `#8E8D8B` (the About hero).
   - Text is ink `#1C1B19`, ink-soft `#4E4A44` for body copy, and taupe `#6F6860` for meta text.
   - Gold is jewellery only: `#B99A6B` for lines and underlines, `#7F6647` for small labels on light surfaces, and `#C9AE84` for labels and numerals on dark ones. It is never used as a fill or for large areas.
-  - The only gradients are dark or pearl scrims over photography, there to keep text legible.
+  - The only gradients are dark or pearl scrims over photography on inner pages. The Home page has none below the hero.
 - **Type:** Montserrat Variable only, self-hosted, with the Latin subset preloaded.
-  - Section titles: 28–44px, weight 200, uppercase, tracking 0.07em.
-  - Hero H1: 24–30px, weight 300, tracking 0.14em.
-  - Statement: 22–34px, weight 200.
+  - Section titles (`--t-h2`): `clamp(28px, 2.8vw, 42px)`, weight 200, uppercase, tracking 0.06em, line-height 1.1.
+  - Sub-titles (`.sub-title`, category or product name): `clamp(20px, 1.6vw, 26px)`, weight 300, uppercase, tracking 0.08em.
+  - Home hero H1: two lines, `clamp(34px, 3.9vw, 56px)` (34px below 640px), weight 200, line-height 1.1, tracking 0.06em, uppercase, pearl.
+  - Statement: `clamp(20px, 1.8vw, 28px)`, weight 200, line-height 1.5.
+  - Big numerals (`.numeral`, `--t-numeral`): `clamp(44px, 4.4vw, 68px)`, weight 200, gold on dark and ink on light.
   - Eyebrows: 11px, weight 500, tracking 0.26em, gold.
-  - Body: 16px, line-height 1.75, at most 65ch.
+  - Body: 16px, line-height 1.8, weight 300, at most 60ch. Small text is never below 13px (11px uppercase labels and the 12px footer base row are the exceptions).
+  - `ui/SectionHeader` spacing: eyebrow to title 16px, title to lead 20px, header to content 40px.
 - **Components** (all under `client/src/components`):
   - `ui/SectionHeader` (eyebrow, title, lead)
   - `ui/Section` (split or stack; pearl, white, silk or noir)
@@ -159,12 +174,32 @@ The "Maison" direction: pearl, ink and gold, one typeface, and editorial photogr
   - `ui/PageHero`: a photo band with a pearl scrim, or the grain variant
   - `sections/ConsultationCta` (50/50 with `couple.webp`)
   - `ui/Icon`: thin line icons for the product detail sections
-- **Logo:** there is one file, `brand/logo.png` (white artwork on transparency). `navigation/Wordmark` uses it as a CSS mask filled with `currentColor`, so `tone="light|dark"` tints it. `brand/logo-script-watermark.png` is masked the same way for the cover hero and the footer watermark.
-- **Home:** there is one component per section in `components/sections/home/`, each with its stylesheet next to it: HomeHero, HomeStatement, HomeCollections, HomeSignature, HomeFeatured, HomeScience, HomeLusterScan, HomeResults and HomeConsultation. Refine a section by editing its pair of files.
+- **Logo:** there is one file, `brand/logo.png`: the official logo, white artwork on transparency, trimmed to 2px padding and resized to 1200×204. `navigation/Wordmark` uses it as a CSS mask (`contain`, centred) filled with `currentColor`, in a box that keeps the 1200:204 ratio. `tone="light"` is pearl (Home hero, noir sections, mobile menu, footer) and `tone="dark"` is ink (the solid header). Sizes are set by height: header 40px (32px below 768px), mobile menu 40px, footer 36px (24px on mobile). `brand/logo-script-watermark.png` is separate, blurred artwork, masked the same way for the footer watermark.
+- **Home:** one component per section in `components/sections/home/`, each with its stylesheet next to it; all copy comes from `src/data/content/home.js` (the Home section of `website-content.md`). The surfaces alternate in a fixed order, and the colour change is the only separator (no lines):
+  1. **Hero** (noir, final).
+  2. **Brand Philosophy** (`HomeStatement`, pearl): left (columns 1–7), the eyebrow "Welcome to Lavish Luster", the title "Medical Precision. Luxurious Ritual." and the welcome paragraph; right (columns 9–12), a gold rule, the label "Smart Clinical Unisex Beauty" and the "About Lavish Luster" link.
+  3. **Product Worlds** (`HomeCollections`, white): the "Products" eyebrow with the total (27) and the "Explore Products" link, then three equal cards (Facial Treatment, Flash Treatment, Beauty Devices). Each card has a 3:4 image (at most 480px wide and 440px tall), the name, the count, the description and "Explore". Under 1024px they become a scroll-snap row with about 1.2 cards visible.
+  4. **Signature** (`HomeSignature`, noir): `.halves` with the product's own 4:5 photograph and an inset 24px gold hairline frame, then step, name, title, description, the gold 80% numeral and the pearl "View product" button.
+  5. **The Science** (`HomeScience`, pearl): `.halves` with the device photograph, then the eyebrow, title, teaser, the eight technologies in a 4-column hairline grid, and "Discover The Science".
+  6. **LusterScan AI** (`HomeLusterScan`, noir): text, note and link on the left; the face on the right (4:5, at most 352×440) over a gold hairline frame offset 24px. Below, the four steps in one row, each with a gold numeral, title and its one-line description.
+  7. **Results** (`HomeResults`, white): `.halves` with the eyebrow, title, paragraph and "Explore Results" on the left, and `brand/intro.webp` on the right. `brand/studio.webp` shows studio equipment at every crop.
+  8. **Consultation** (`sections/ConsultationCta`, pearl): a compact `.halves` band. The `couple.webp` image is `clamp(360px, 30vw, 480px)` tall; beside it are the title and the "Request a Consultation" button → `/contact`.
+  9. **Footer** (noir): logo, the first sentence of Our Story, Explore, Visit (the document spelling of the address), Contact, and the © line.
+
+  Following the document's Home page content rule, every block appears once: the brand statement and the four pillars are only in the hero, and the footer has its own sentence. `scripts/verify-website-content.mjs` enforces this on every build. No photograph is used twice. `HomeFeatured` (white) appears only when `features.featuredProducts` is on.
+- **Home hero ("Noir Couture"):** flat noir (`100svh`, 720–1080px). There is no background photo and no gradients. A framed stage panel (`--c-noir-raised` with a 1px gold border at 60%) sits on the right. It is `clamp(340px, 30.5vw, 560px)` wide, 160px from the right edge at 1440, and bleeds past the bottom. The cut-out `brand/hero-noir-figure.webp` is 145.45% of the panel width; her head rises above the panel's top border and her shawl spills out to its left. A vertical gold label runs along the panel's right inner edge. The copy column starts at `--hero-pad-left` (120px at 1440), max 600px, vertically centred. It holds a gold eyebrow with a 36px rule, the two-line H1, the brand statement as lead (16px, pearl at 72%, max 470px), the pearl "Explore Products" button and the "Discover LusterScan AI" text link. The four pillars run from the copy edge to the header's right edge, above a pearl rule at 18% that crosses the panel. Below 1024px the hero stacks: the stage, centred and no longer bleeding, then the copy. Below 640px the actions stack, the button goes full width, the pillars become 2×2 and the label is hidden. Copy lives in `home.hero` (`src/data/content/home.js`); the vertical label is the footer logo line "Lavish Luster — Beauty & More".
 - **Layout:**
-  - Content is at most 1200px wide, with gutters from 24px (mobile) to 120px (desktop).
-  - Section padding runs from 72px to 144px.
-  - `.split` places the header in columns 1–5 and content in 7–12. `.halves` is the edge-to-edge 50/50.
+  - Every page and the footer use one shared `.container`. Content is at most 1600px wide (`--content-max`), with side padding `--page-pad`. That padding equals the Home hero's text edge at every width: `clamp(24px, 8.33vw, 180px)` from 1024px up (120px at 1440) and `clamp(24px, 6.25vw, 64px)` below 1024px. All left edges line up with the hero up to about 1960px wide. Wider than that, the 1600px content centres.
+  - The grid has 12 columns with a 32px gutter (`--grid-gap`). `.split` places the header in columns 1–5 and content in 7–12.
+  - `.halves` is the edge-to-edge 50/50. The image side has a capped height (`--halves-img-h`: `clamp(440px, 40vw, 640px)`, cover) and grows only if the text is taller. The text side is vertically centred, with `clamp(40px, 6vw, 96px)` on the inside edge.
+  - Under 1024px, `.split` and `.halves` stack, image first: 4:5, at most 480px tall.
+  - Home section padding (`--section-y`): `clamp(64px, 7vw, 112px)`, the same for every section.
+  - Height and size limits:
+    - Text columns are at most 520px wide (`--text-max`).
+    - Images inside the container are at most 480×600.
+    - At 1440×900 and 1920×1080, no Home section is taller than 860px; Collections may reach 960px.
+    - Measured at 1440×900: Brand Philosophy 479, Product Worlds 895, Signature 576, Science 576, LusterScan 823, Results 576, Consultation 432.
+  - **Footer:** in the container on a 12-column grid: logo and brand line (4 columns), Explore (2), Visit (3), Contact (3). Padding is 72px top and 32px bottom. Links are 14px, pearl at 72%, with a gold underline on hover. Below them, a pearl hairline at 12%, then the © line (left) and the legal links (right, when `legalPages` is on), 12px, pearl at 50%. The script watermark (6%) is centred on the bottom edge and clipped by the footer. Its letters stay in the band below the link columns.
   - Radius is 0 everywhere, there are no shadows, and hairlines appear only between rows.
-- **Header:** the nav is split around a centred logo. It is transparent over the Home hero until the page scrolls, and solid pearl everywhere else. On mobile, a full-screen noir menu opens.
+- **Header:** full width, 96px tall on desktop, with `--header-pad` side padding (`clamp(24px, 4.45vw, 96px)`, 64px at 1440). The nav (11px, weight 500, tracking 0.2em, 34px gaps, gold underline growing on hover) is split around the centred logo (About, Products, LusterScan AI and The Science on the left; Results, Contact and the "Request a Consultation" CTA on the right), shown at 40px tall in its natural 1200:204 ratio. The full bar starts at 1280px; below that, the menu holds the links and the CTA. It is transparent with pearl text and the light logo over the Home hero until the page scrolls, and solid pearl with dark text everywhere else. On mobile, a full-screen noir menu opens.
 - **Motion:** image hover zoom (1.035 over 1.2s), link underlines, a 300ms page fade, a crossfade on catalog filters and a fade on the mobile menu. There is no smooth scrolling and no scroll-triggered animation, and `prefers-reduced-motion` is respected.

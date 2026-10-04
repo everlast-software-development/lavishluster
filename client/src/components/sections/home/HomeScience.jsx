@@ -1,23 +1,22 @@
 import BrandImage from '../../ui/BrandImage.jsx';
+import SectionHeader from '../../ui/SectionHeader.jsx';
 import { TextLink } from '../../ui/Links.jsx';
-import { site } from '../../../data/content/site.js';
-import { technologies } from '../../../data/content/science.js';
+import { home } from '../../../data/content/home.js';
 import './HomeScience.css';
 
-/** 06 — Science, edge-to-edge 50/50. */
+/** 05 — The Science (pearl): the device photograph left, edge to edge; content right. */
 export default function HomeScience() {
+  const { eyebrow, title, text, technologies, cta } = home.science;
   return (
     <section className="home-science halves halves--media-left" aria-labelledby="science-title">
-      <div className="halves__media"><BrandImage name="science" /></div>
+      <div className="halves__media"><BrandImage name="science" className="home-science__media" /></div>
       <div className="halves__text">
-        <p className="eyebrow">{site.science.label.text}</p>
-        <h2 id="science-title" className="section-title home-science__title">{site.science.title.text}</h2>
-        <p className="lead home-science__body">{site.science.body.text}</p>
+        <SectionHeader id="science-title" eyebrow={eyebrow} title={title} lead={text} />
         <ul className="home-science__tech" aria-label="Beauty technologies">
-          {technologies.map((t) => <li key={t.id}>{t.label}</li>)}
+          {technologies.map((t) => <li key={t}>{t}</li>)}
         </ul>
-        <div className="section__actions">
-          <TextLink to="/science">Discover the science</TextLink>
+        <div className="section__actions home-science__actions">
+          <TextLink to={cta.to}>{cta.label}</TextLink>
         </div>
       </div>
     </section>

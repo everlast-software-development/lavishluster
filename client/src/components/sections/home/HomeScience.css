@@ -1,17 +1,18 @@
 /* ==========================================================================
-   Home 06 — Science
+   Home 05 — The Science (pearl)
    ========================================================================== */
 .home-science { background: var(--c-pearl); }
-.home-science .halves__media { min-height: 48.75rem; }
-.home-science__title { margin-top: 1.25rem; }
-.home-science__body { margin-top: 1.75rem; }
+/* The capped frame is wider than this portrait photo. Anchoring at 70% keeps the "SONIC-PULSE 2.0"
+   lettering (≈40–80% of the photo height, read bottom to top) and the device in frame at every width. */
+.home-science__media img { object-position: center 70%; }
+.home-science .lead { font-size: var(--t-body); line-height: 1.8; }
 .home-science__tech {
-  list-style: none; margin: 2.75rem 0 0; padding: 0 0 1.5rem; border-bottom: 1px solid var(--c-line);
-  display: flex; flex-wrap: wrap; gap: 0.9rem 1.75rem;
+  list-style: none; margin: 2rem 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.75rem var(--grid-gap);
 }
 .home-science__tech li {
-  font-size: var(--t-label); font-weight: 500; letter-spacing: var(--tr-link);
-  text-transform: uppercase; color: var(--c-gold-text);
+  padding-top: 0.875rem; border-top: 1px solid var(--c-line);
+  font-size: var(--t-label); font-weight: 500; letter-spacing: var(--tr-link); text-transform: uppercase; color: var(--c-ink-soft);
 }
-.home-science .section__actions { margin-top: 2.5rem; }
-@media (max-width: 899px) { .home-science .halves__media { min-height: 0; } }
+.home-science__actions { margin-top: 2rem; }
+@media (max-width: 479px) { .home-science__tech { column-gap: 1rem; } }

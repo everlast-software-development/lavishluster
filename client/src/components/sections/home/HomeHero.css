@@ -1,44 +1,99 @@
 /* ==========================================================================
-   Home 01 — Cover hero
+   Home 01 — "Noir Couture" hero (reference 1440×900)
+   Flat noir; a framed stage panel on the right with the cut-out figure
+   rising above its top border; copy on the left; pillars along the bottom.
+   No background photo, no gradients, no shadows, radius 0.
    ========================================================================== */
 .home-hero {
-  position: relative; height: 56.25rem; overflow: hidden; color: var(--c-white);
-  background: radial-gradient(ellipse 38% 62% at 58% 52%, var(--c-frame-light), var(--c-scrim-none) 72%), var(--c-grain);
+  --panel-w: clamp(21.25rem, 30.5vw, 35rem);      /* 340 → 440 (1440) → 560px */
+  position: relative; display: flex; overflow: hidden;
+  height: 100svh; min-height: 45rem; max-height: 67.5rem;
+  background: var(--c-noir); color: var(--c-pearl);
 }
-.home-hero::before {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  background: url('../../../assets/brand/grain.webp') repeat; opacity: 0.06;
+
+/* Stage: the panel itself; the figure and label are positioned against it so all three scale together. */
+.home-hero__stage {
+  position: absolute; z-index: 0;
+  right: 11.1vw; bottom: -2.5rem; width: var(--panel-w);
+  /* 180px at 1440; never so high that the hood (17.3% of the panel width above it) slides under the header. */
+  top: max(11.25rem, calc(var(--header-h) + var(--panel-w) * 0.173 + 0.5rem));
+  background: var(--c-noir-raised); border: 1px solid var(--c-gold-a60);
 }
-.home-hero__figure { position: absolute; left: 58%; bottom: 0; height: 98%; transform: translateX(-50%); }
-.home-hero__figure img { height: 100%; width: auto; max-width: none; }
-.home-hero__script {
-  position: absolute; left: 50%; top: 47%; width: min(73.75rem, 94vw); aspect-ratio: 937 / 202;
-  transform: translateX(-50%); background: var(--c-white); opacity: 0.9; pointer-events: none;
-  -webkit-mask: url('../../../assets/brand/logo-script-watermark.png') center / contain no-repeat;
-  mask: url('../../../assets/brand/logo-script-watermark.png') center / contain no-repeat;
+/* Figure: 145.45% of the panel width, right edge 13.6% beyond the panel, top 17.3% of the panel width above it.
+   No filters, transforms or hover zoom. */
+.home-hero__figure {
+  position: absolute; z-index: 1; max-width: none;
+  width: 145.45%; height: auto; aspect-ratio: 797 / 805;
+  right: -13.6%; top: calc(var(--panel-w) * -0.173);
 }
-/* Bottom scrim so small white text stays ≥ 4.5:1 on the grey. */
-.home-hero::after {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(0deg, var(--c-scrim) 0%, var(--c-scrim-none) 42%);
+.home-hero__label {
+  position: absolute; top: 1rem; right: 1rem;
+  writing-mode: vertical-rl; white-space: nowrap;
+  font-size: 0.625rem; font-weight: 500; line-height: 1; letter-spacing: 0.32em; text-transform: uppercase; color: var(--c-gold-light);
 }
-.home-hero__frame { position: absolute; inset: 1.75rem; z-index: 2; border: 1px solid var(--c-frame-light); pointer-events: none; }
-.home-hero__content {
-  position: absolute; left: 0; right: 0; bottom: 0; z-index: 3;
-  display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 2rem 3rem;
-  padding-bottom: clamp(3.5rem, 6vw, 5rem);
+
+/* Copy column and pillars sit in front of the stage. The header (var(--header-h)) overlaps the top. */
+.home-hero__inner {
+  position: relative; z-index: 2; flex: 1; min-width: 0;
+  display: flex; flex-direction: column;
+  padding: var(--header-h) var(--header-pad) 0 var(--hero-pad-left);
 }
-.home-hero__eyebrow { font-size: var(--t-label); font-weight: 500; letter-spacing: var(--tr-label); text-transform: uppercase; }
+.home-hero__copy {
+  flex: 1; display: flex; flex-direction: column; justify-content: center;
+  max-width: min(37.5rem, 46vw); padding-block: 2.5rem;
+}
+
+.home-hero__eyebrow {
+  display: flex; align-items: center; gap: 1rem;
+  font-size: var(--t-label); font-weight: 500; letter-spacing: var(--tr-label); text-transform: uppercase; color: var(--c-gold-light);
+}
+.home-hero__eyebrow::before { content: ''; flex: none; width: 2.25rem; height: 1px; background: var(--c-gold-light); }
 .home-hero__title {
-  margin-top: 1rem; font-size: var(--t-h1); font-weight: 300; line-height: 1.35;
-  letter-spacing: 0.14em; text-transform: uppercase;
+  margin-top: 2.125rem; font-size: clamp(2.125rem, 3.9vw, 3.5rem); font-weight: 200; line-height: 1.1;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-pearl);
 }
-.home-hero__actions { display: flex; flex-wrap: wrap; gap: 1rem 2.5rem; }
-@media (max-width: 767px) {
-  .home-hero { height: 46.25rem; }
-  .home-hero__figure { left: 50%; height: 90%; }
-  .home-hero__script { top: 44%; width: 120vw; }
-  .home-hero__frame { inset: 1rem; }
-  .home-hero::after { background: linear-gradient(0deg, var(--c-scrim-strong) 0%, var(--c-scrim) 24%, var(--c-scrim-none) 54%); }
-  .home-hero__content { flex-direction: column; align-items: flex-start; padding-bottom: 3rem; }
+.home-hero__line { display: block; }
+.home-hero__lead { margin-top: 2rem; max-width: 29.375rem; font-size: var(--t-body); font-weight: 300; line-height: 1.8; color: var(--c-pearl-a72); }
+.home-hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem 2.25rem; margin-top: 2.875rem; }
+.home-hero__btn { padding: 1.125rem 2.125rem; }
+.home-hero__link { padding-bottom: 0.375rem; }
+
+/* Pillars: from the copy's left edge to the header's right edge; the rule crosses the panel. */
+.home-hero__pillars {
+  list-style: none; margin: 0 0 2.75rem; padding: 0;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 var(--gap);
+  border-top: 1px solid var(--c-pearl-a18);
+}
+.home-hero__pillars li {
+  padding-top: 1.125rem; font-size: 0.625rem; font-weight: 500; line-height: 1.6;
+  letter-spacing: var(--tr-link); text-transform: uppercase; color: var(--c-pearl-a62);
+}
+
+.home-hero :focus-visible { outline: 1px solid var(--c-gold); outline-offset: 4px; }
+
+/* Tablet and mobile: no overlap — the stage first (centred on the figure), then the copy. */
+@media (max-width: 1023px) {
+  .home-hero {
+    --panel-w: min(72vw, 26.25rem);
+    flex-direction: column; height: auto; min-height: 0; max-height: none; padding-bottom: 2.75rem;
+  }
+  .home-hero__stage {
+    position: relative; right: auto; top: auto; bottom: auto;
+    /* The figure spans −31.85% … +113.6% of the panel, so shift the panel 9% right to centre the figure. */
+    margin: calc(max(7.5rem, var(--header-h) + 1.5rem) + var(--panel-w) * 0.173) 0 0 calc(50% - var(--panel-w) * 0.41);
+    /* Ends 48px below the figure's fade (figure bottom = panel top + 129.6% of the panel width). */
+    height: calc(var(--panel-w) * 1.296 + 3rem);
+  }
+  .home-hero__inner { padding: 3rem clamp(1.5rem, 6.25vw, 4rem) 0; }
+  .home-hero__copy { max-width: 37.5rem; padding-block: 0; }
+  .home-hero__pillars { margin: 3.5rem 0 0; }
+}
+@media (max-width: 639px) {
+  .home-hero__title { font-size: 2.125rem; }
+  .home-hero__actions { flex-direction: column; align-items: stretch; gap: 1.5rem; }
+  .home-hero__btn { width: 100%; }
+  .home-hero__link { align-self: flex-start; }
+  .home-hero__pillars { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 1.25rem; }
+  .home-hero__pillars li { overflow-wrap: anywhere; hyphens: auto; }
+  .home-hero__label { display: none; }
 }

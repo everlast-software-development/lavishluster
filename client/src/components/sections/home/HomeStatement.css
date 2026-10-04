@@ -1,20 +1,23 @@
 /* ==========================================================================
-   Home 02 — Statement
+   Home 02 — Brand Philosophy (pearl)
+   Left (columns 1–7): eyebrow, title, welcome paragraph. Right (9–12): label + CTA.
    ========================================================================== */
-.home-statement { text-align: center; }
-.home-statement__text { max-width: 61.25rem; margin: 1.75rem auto 0; }
-.home-statement__pillars {
-  list-style: none; margin: clamp(3.5rem, 7vw, 5.5rem) 0 0; padding: 0;
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-top: 1px solid var(--c-line); border-bottom: 1px solid var(--c-line);
+.home-intro { background: var(--c-pearl); }
+.home-intro__grid {
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--grid-gap); row-gap: 2.5rem;
+  align-items: end;
 }
-.home-statement__pillars li {
-  padding: 1.75rem 1rem; font-size: var(--t-label); font-weight: 500; line-height: 1.6;
-  letter-spacing: var(--tr-link); text-transform: uppercase;
+.home-intro__main { grid-column: 1 / span 7; }
+.home-intro__title { margin-top: 1rem; }
+.home-intro__statement { margin-top: 1.25rem; max-width: 60ch; }
+.home-intro__aside { grid-column: 9 / -1; display: flex; flex-direction: column; align-items: flex-start; }
+.home-intro__rule { display: block; width: 4rem; height: 1px; background: var(--c-gold); }
+.home-intro__label {
+  margin-top: 1.5rem; font-size: var(--t-label); font-weight: 500; line-height: 1.6;
+  letter-spacing: var(--tr-label); text-transform: uppercase; color: var(--c-gold-text);
 }
-.home-statement__pillars li + li { border-left: 1px solid var(--c-line); }
-@media (max-width: 767px) {
-  .home-statement__pillars { grid-template-columns: 1fr 1fr; }
-  .home-statement__pillars li:nth-child(3) { border-left: 0; }
-  .home-statement__pillars li:nth-child(n + 3) { border-top: 1px solid var(--c-line); }
+.home-intro__cta { margin-top: 1.5rem; }
+@media (max-width: 1023px) {
+  .home-intro__grid { grid-template-columns: minmax(0, 1fr); }
+  .home-intro__main, .home-intro__aside { grid-column: 1 / -1; }
 }

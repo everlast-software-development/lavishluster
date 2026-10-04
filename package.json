@@ -8,8 +8,8 @@
     "extract": "node scripts/extract-master.mjs",
     "dev": "npm run dev -w client",
     "dev:server": "npm run dev -w server",
-    "build": "node scripts/extract-master.mjs --check && npm run build -w client && node scripts/verify-content.mjs",
-    "verify": "node scripts/extract-master.mjs --check && node scripts/verify-content.mjs",
+    "build": "node scripts/extract-master.mjs --check && npm run build -w client && node scripts/verify-content.mjs && node scripts/verify-website-content.mjs",
+    "verify": "node scripts/extract-master.mjs --check && node scripts/verify-content.mjs && node scripts/verify-website-content.mjs",
     "start": "npm run start -w server"
   },
   "engines": { "node": ">=20" }

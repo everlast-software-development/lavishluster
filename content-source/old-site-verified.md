@@ -107,3 +107,9 @@ info@lavishluster.com
 https://maps.app.goo.gl/HxejzQSJBxtU2YXg6
 
 © 2026 Lavish Luster. All rights reserved.
+
+## Brand texts (lavishluster.com Home and About)
+
+As published in content-source/website-content.md (section 5, LusterScan AI step 02), with its closing period.
+
+AI analyzes your skin to detect concerns and estimate skin age.

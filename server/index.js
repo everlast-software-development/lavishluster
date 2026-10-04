@@ -13,7 +13,7 @@ import { config } from './lib/config.js';
 import { rateLimit } from './lib/rateLimit.js';
 import { mailerConfigured, sendInquiry } from './lib/mailer.js';
 import { validateInquiry } from '../shared/inquiry.js';
-import { legacyRedirects } from './lib/redirects.js';
+import { legacyRedirects, routeRedirects } from './lib/redirects.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const DIST = resolve(here, '../client/dist');
@@ -77,6 +77,7 @@ api.use((req, res) => res.status(404).json({ error: 'not_found' }));
 app.use('/api', api);
 
 // ---------- Static site ----------
+app.use(routeRedirects);
 if (config.redirects) app.use(legacyRedirects);
 if (existsSync(DIST)) {
   app.use('/assets', express.static(join(DIST, 'assets'), { immutable: true, maxAge: '1y', fallthrough: false }));

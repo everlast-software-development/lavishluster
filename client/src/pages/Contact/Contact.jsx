@@ -7,7 +7,7 @@ import InquiryForm from './InquiryForm.jsx';
 export default function Contact() {
   return (
     <>
-      <Seo title="Contact" description={`${contact.address}. ${contact.email}`} path="/contact" />
+      <Seo title="Contact" description={`${contact.addressDisplay}. ${contact.email}`} path="/contact" />
       <PageHero title="Contact" image="contact" />
 
       <Section id="details" title="Contact Information">
@@ -19,7 +19,7 @@ export default function Contact() {
           <div>
             <dt>Location</dt>
             <dd>
-              <address>{contact.address}</address>
+              <address>{contact.addressDisplay}</address>
               <a className="text-link" href={contact.mapsUrl} target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
             </dd>
           </div>
@@ -43,7 +43,7 @@ export default function Contact() {
           <div className="map__frame">
             <iframe
               src={contact.mapEmbedUrl}
-              title={`Map: ${contact.address}`}
+              title={`Map: ${contact.addressDisplay}`}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />

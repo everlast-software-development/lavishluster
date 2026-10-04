@@ -18,5 +18,11 @@ export const navItems = [
 
 export const homeItem = { to: '/', label: 'Home', end: true };
 
-/** Desktop split around the centred wordmark. */
-export const NAV_SPLIT = 3;
+/** Primary CTA (content-source/website-content.md, section 3): after Contact on desktop, at the bottom of the mobile menu. */
+export const navCta = { to: '/contact', label: 'Request a Consultation' };
+
+/**
+ * Desktop split around the centred wordmark: four items left, the rest plus the
+ * CTA right, so both halves clear the logo from 1280px (below that the menu is used).
+ */
+export const NAV_SPLIT = 4;
