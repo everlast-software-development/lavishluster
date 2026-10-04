@@ -65,6 +65,7 @@
   --g-worlds-closed-name: linear-gradient(90deg, var(--c-noir-a65) 0%, var(--c-noir-a0) 45%);
   --shadow-worlds-text: 0 1px 12px var(--c-noir-a35);
   --c-pearl-a70: rgba(243, 242, 238, 0.7);       /* Signature photo frame */
+  --c-pearl-a75: rgba(243, 242, 238, 0.75);      /* Results photo frame */
   --c-noir-raised: #1E1C19;                  /* Home hero stage panel */
   --c-gold-a60: rgba(185, 154, 107, 0.6);    /* Home hero stage panel border */
   --c-pearl-scrim: rgba(243, 242, 238, 0.94);

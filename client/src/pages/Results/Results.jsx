@@ -12,7 +12,7 @@ export default function Results() {
   return (
     <>
       <Seo title="Results" description={resultsPage.hero.text} path="/results" />
-      <PageHero title={resultsPage.hero.title} intro={resultsPage.hero.text} image="intro" position="right 12%" />
+      <PageHero title={resultsPage.hero.title} intro={resultsPage.hero.text} image="results-couple" position="center 20%" split />
 
       <BeforeAfterGallery />
 
