@@ -33,7 +33,10 @@
   --c-pearl-a72: rgba(243, 242, 238, 0.72);  /* hero lead on noir */
   --c-pearl-a62: rgba(243, 242, 238, 0.62);  /* hero pillars on noir */
   --c-pearl-a18: rgba(243, 242, 238, 0.18);  /* hairlines on noir */
-  --c-pearl-a12: rgba(243, 242, 238, 0.12);  /* footer base rule */
+  --c-pearl-a14: rgba(243, 242, 238, 0.14);  /* footer contact-row rules */
+  --c-pearl-a78: rgba(243, 242, 238, 0.78);  /* footer address and email */
+  --c-pearl-a45: rgba(243, 242, 238, 0.45);  /* footer © line and sub-tagline */
+  --c-gold-light-a60: rgba(201, 174, 132, 0.6); /* footer address/email divider */
   --c-pearl-a50: rgba(243, 242, 238, 0.5);   /* footer base text */
   --c-ink-a14: rgba(28, 27, 25, 0.14);      /* hairlines on light (Home) */
   --c-noir-a85: rgba(21, 20, 18, 0.85);          /* LusterScan left scrim */
