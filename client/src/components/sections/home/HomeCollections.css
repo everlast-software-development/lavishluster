@@ -1,43 +1,78 @@
 /* ==========================================================================
-   Home 03 — Product Worlds (white) · ≈960px at 1440
+   Home 03 — Product Worlds (white) · ≈980px at 1440
+   Three expanding image panels. --o is the open state of a panel (0 or 1);
+   width, overlays and content fades all follow it.
    ========================================================================== */
 .home-worlds { background: var(--c-white); }
-.home-worlds__head {
-  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem;
-  padding-bottom: 1.5rem; margin-bottom: 3rem; border-bottom: 1px solid var(--c-ink-a14);
+.home-worlds__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1rem 2rem; margin-bottom: 3rem; }
+.home-worlds__total { display: flex; align-items: baseline; gap: 0.75rem; margin-top: 0.75rem; }
+.home-worlds__count { font-size: 2.75rem; font-weight: 200; line-height: 1; font-variant-numeric: lining-nums tabular-nums; }
+.home-worlds__count-label { color: var(--c-taupe); }
+
+/* ---------- Panels row ---------- */
+.world-panels {
+  container-type: inline-size;
+  list-style: none; margin: 0; padding: 0;
+  display: flex; height: clamp(30rem, 41.7vw, 40rem);
+  border: 1px solid var(--c-ink-a14);
 }
-.home-worlds__heading { display: flex; align-items: center; gap: 1rem; }
-.home-worlds__total { font-size: var(--t-label); font-weight: 500; letter-spacing: var(--tr-label); color: var(--c-taupe); font-variant-numeric: lining-nums tabular-nums; }
-
-/* Image 520×650 (4:5), 96px gap, then three equal-height rows filling the image height. */
-.home-worlds__body { display: grid; grid-template-columns: min(32.5rem, 45%) minmax(0, 1fr); column-gap: clamp(3rem, 6.67vw, 6rem); }
-.home-worlds__media { aspect-ratio: 4 / 5; }
-.home-worlds__media img { object-position: 30% center; }
-.home-worlds__rows { list-style: none; margin: 0; padding: 0; display: grid; grid-template-rows: repeat(3, minmax(0, 1fr)); }
-.home-worlds__rows li { display: flex; border-bottom: 1px solid var(--c-ink-a14); }
-
-.world-row {
-  flex: 1; display: grid; grid-template-columns: 3.5rem minmax(0, 1fr) auto; column-gap: 1.5rem; align-items: center;
-  padding: 0 1rem; text-decoration: none; color: inherit;
-  transition: background-color 0.4s var(--ease);
+.world-panel {
+  --o: 0;
+  position: relative; flex: 1 1 0; min-width: 0; overflow: hidden;
+  transition: flex 0.6s var(--ease);
 }
-.world-row:hover { background: var(--c-row-hover); }
-.world-row__num { align-self: center; font-size: var(--t-label); font-weight: 500; letter-spacing: 0.08em; color: var(--c-gold-text); font-variant-numeric: lining-nums tabular-nums; }
-.world-row__main { display: flex; flex-direction: column; }
-.world-row__name { font-size: var(--t-world-name); font-weight: 200; line-height: 1.15; letter-spacing: var(--tr-home-title); text-transform: uppercase; }
-.world-row__desc { margin-top: 0.875rem; max-width: 25rem; font-size: var(--t-sm); font-weight: 300; line-height: 1.7; color: var(--c-ink-soft); }
-.world-row__meta { display: flex; align-items: center; gap: 1.25rem; }
-.world-row__count { color: var(--c-taupe); white-space: nowrap; }
-.world-row__arrow { color: var(--c-gold); font-size: 1.125rem; line-height: 1; transition: transform 0.4s var(--ease); }
-.world-row:hover .world-row__arrow { transform: translateX(6px); }
+.world-panel + .world-panel { border-left: 1px solid var(--c-pearl-a18); }
+/* Open: the first panel by default; while the row is hovered, the hovered panel;
+   while focus is in the row (and it is not hovered), the focused panel. */
+.world-panel:first-child { --o: 1; flex: 0 0 53%; }
+.world-panels:hover .world-panel,
+.world-panels:focus-within .world-panel { --o: 0; flex: 1 1 0; }
+.world-panels .world-panel:hover,
+.world-panels:not(:hover) .world-panel:focus-within { --o: 1; flex: 0 0 53%; }
 
+.world-panel__link { position: absolute; inset: 0; display: block; color: var(--c-pearl); text-decoration: none; }
+.world-panel__link:focus-visible { outline: 1px solid var(--c-gold); outline-offset: -0.5rem; }
+.world-panel__media { position: absolute; inset: 0; }
+.world-panel__media > img { object-position: center; }
+
+/* Overlays: a flat noir veil when closed, a bottom scrim when open. */
+.world-panel__shade, .world-panel__scrim { position: absolute; inset: 0; pointer-events: none; transition: opacity 0.6s var(--ease); }
+.world-panel__shade { background: var(--c-noir-a62); opacity: calc(1 - var(--o)); }
+.world-panel__scrim { background: linear-gradient(0deg, var(--c-noir-a90) 0%, var(--c-noir-a15) 55%, var(--c-noir-a0) 100%); opacity: var(--o); }
+
+/* Content fades: in over 0.3s after 0.15s when opening; out over 0.15s when closing. */
+.world-panel__open, .world-panel__closed { position: absolute; transition-property: opacity; transition-timing-function: var(--ease); }
+.world-panel__open { opacity: var(--o); transition-duration: calc(0.15s + var(--o) * 0.15s); transition-delay: calc(var(--o) * 0.15s); }
+.world-panel__closed { inset: 0; opacity: calc(1 - var(--o)); transition-duration: calc(0.3s - var(--o) * 0.15s); transition-delay: calc((1 - var(--o)) * 0.15s); }
+
+/* Closed state */
+.world-panel__num { font-size: var(--t-label); font-weight: 500; letter-spacing: 0.08em; color: var(--c-gold-light); font-variant-numeric: lining-nums tabular-nums; }
+.world-panel__num--top { position: absolute; top: 2rem; left: 2rem; }
+.world-panel__vname {
+  position: absolute; left: 2rem; bottom: 2.25rem;
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  font-size: 1.625rem; font-weight: 200; line-height: 1; letter-spacing: var(--tr-home-title); text-transform: uppercase; white-space: nowrap;
+}
+.world-panel__count { color: var(--c-pearl-a62); white-space: nowrap; }
+.world-panel__count--corner { position: absolute; right: 2rem; bottom: 2.25rem; }
+
+/* Open state: content at the bottom with 40px insets, sized to the open width so it never reflows. */
+.world-panel__open { left: 2.5rem; bottom: 2.5rem; width: calc(53cqw - 5rem); display: flex; flex-direction: column; align-items: flex-start; }
+.world-panel__meta { display: flex; justify-content: space-between; align-items: baseline; align-self: stretch; }
+.world-panel__name { margin-top: 1.125rem; font-size: 2.25rem; font-weight: 200; line-height: 1.1; letter-spacing: var(--tr-home-title); text-transform: uppercase; }
+.world-panel__desc { margin-top: 0.75rem; max-width: 26.25rem; font-size: var(--t-sm); font-weight: 300; line-height: 1.7; color: var(--c-pearl-a72); }
+.world-panel__cta { margin-top: 1.25rem; color: var(--c-pearl); }
+.world-panel__arrow { color: var(--c-gold-light); }
+
+@media (prefers-reduced-motion: reduce) {
+  .world-panel, .world-panel__shade, .world-panel__scrim, .world-panel__open, .world-panel__closed { transition: none; }
+}
+
+/* Under 1024px: no accordion — three open cards, 4:5 (max 520px tall), 16px apart. */
 @media (max-width: 1023px) {
-  .home-worlds__body { grid-template-columns: minmax(0, 1fr); row-gap: 1.5rem; }
-  .home-worlds__media { max-height: 30rem; width: 100%; }
-  .home-worlds__rows { grid-template-rows: none; }
-  .world-row { padding: 1.75rem 0.5rem; }
-}
-@media (max-width: 559px) {
-  .world-row { grid-template-columns: 2.25rem minmax(0, 1fr); row-gap: 0.75rem; }
-  .world-row__meta { grid-column: 2; }
+  .world-panels { flex-direction: column; height: auto; gap: 1rem; border: 0; }
+  .world-panel, .world-panel + .world-panel { --o: 1 !important; flex: none !important; aspect-ratio: 4 / 5; max-height: 32.5rem; border: 0; }
+  .world-panel__closed { display: none; }
+  .world-panel__open { left: 1.5rem; right: 1.5rem; bottom: 1.5rem; width: auto; }
+  .world-panel__name { font-size: var(--t-title-section); }
 }

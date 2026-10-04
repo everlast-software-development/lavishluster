@@ -31,6 +31,8 @@ export const home = {
 
   productWorlds: {
     eyebrow: 'Products',
+    // Label beside the total (27); the document's wording "27 products/devices".
+    totalLabel: 'products/devices',
     categories: [
       { slug: 'facial-treatment', label: 'Facial Treatment', count: '15 products', text: 'All facial, eye-and-lip, sun-protection, intensive rejuvenation, and body-treatment products.' },
       { slug: 'flash-treatment', label: 'Flash Treatment', count: '5 products', text: 'Instant-effect ampoules, patches, and mask products.' },
@@ -59,8 +61,8 @@ export const home = {
       { number: '03', title: 'Personalized Luxury Care', text: 'Receive a tailored product protocol designed for your skin’s needs.' },
       { number: '04', title: 'Progress Tracking', text: 'Monitor your skin’s improvement step by step with each new scan.' },
     ],
-    // Labels of the analysis motif: words from the text above (wrinkles, firmness, blemishes, imperfections).
-    motifLabels: ['wrinkles', 'firmness', 'blemishes', 'imperfections'],
+    // The four words of the text above, in its order: the portrait caption bar.
+    motifLabels: ['wrinkles', 'imperfections', 'firmness', 'blemishes'],
     note: 'Results are precise and personalized, enhancing your beauty routine, while professional dermatological consultation remains the best option when needed.',
     cta: { label: 'Explore LusterScan AI', to: '/lusterscan-ai' },
   },

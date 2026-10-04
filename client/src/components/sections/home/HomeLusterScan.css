@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Home 06 — LusterScan AI (noir) · ≈1040px at 1440
+   Home 06 — LusterScan AI (noir) · ≈1100px at 1440
    ========================================================================== */
 .home-scan { background: var(--c-noir); color: var(--c-pearl); }
 /* Below the small note the band ends sooner: 72px at 1440. */
@@ -8,44 +8,54 @@
   display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--grid-gap); row-gap: 3rem;
   align-items: center;
 }
-.home-scan__text { grid-column: 1 / span 6; }
-/* Below 1400px the portrait labels reach further into the grid, so the text keeps to columns 1–5. */
-@media (min-width: 1024px) and (max-width: 1399px) { .home-scan__text { grid-column: 1 / span 5; } }
+/* The scan label reaches ~210px left of the portrait, so the text keeps to columns 1–5 (1–4 below 1440px). */
+.home-scan__text { grid-column: 1 / span 5; }
+@media (min-width: 1024px) and (max-width: 1439px) { .home-scan__text { grid-column: 1 / span 4; } }
 .home-scan__title { margin-top: 1.75rem; font-size: var(--t-title-section); color: var(--c-pearl); }
 .home-scan__lead { margin-top: 1.75rem; max-width: 30rem; font-size: 1.0625rem; font-weight: 300; line-height: 1.8; color: var(--c-pearl-a72); }
 .home-scan__actions { margin-top: 2rem; }
 
-/* ---------- Annotated portrait: 440×550 (4:5), right-aligned in columns 8–12 ---------- */
-.home-scan__figure { grid-column: 8 / -1; justify-self: end; width: min(100%, 27.5rem); }
-.scan-portrait { position: relative; margin: 0; width: 100%; aspect-ratio: 4 / 5; }
+/* ---------- Portrait: 480×600 (4:5), right-aligned in columns 8–12 with a 24px right margin ---------- */
+.home-scan__figure {
+  grid-column: 8 / -1; justify-self: end;
+  width: min(30rem, 100% - 1.5rem); margin: 1.5rem 1.5rem 0 0;
+}
+/* From 1440px the five columns are a little narrower than 480 + 24px: the portrait may reach into column 7. */
+@media (min-width: 1440px) { .home-scan__figure { grid-column: 7 / -1; } }
+.scan-portrait { position: relative; margin: 0; width: 100%; aspect-ratio: 4 / 5; container-type: inline-size; }
+
+/* Offset frame: same size, 24px right and 24px up, behind the image. */
+.scan-portrait__frame { position: absolute; inset: 0; transform: translate(1.5rem, -1.5rem); border: 1px solid var(--c-gold-light-a60); pointer-events: none; }
 .scan-portrait__media { position: absolute; inset: 0; background: var(--c-noir-raised); }
-.scan-portrait__media img { object-position: center; }
-.scan-portrait__media > img, .scan-portrait:hover .scan-portrait__media > img { transform: none; }
+.scan-portrait__media > img { object-position: center; }
 
-/* Viewfinder corners: L-brackets inset 16px, arms 22px, 1px gold-light. */
-.scan-portrait__corner { position: absolute; width: 1.375rem; height: 1.375rem; border: 0 solid var(--c-gold-light); pointer-events: none; }
-.scan-portrait__corner--tl { top: 1rem; left: 1rem; border-top-width: 1px; border-left-width: 1px; }
-.scan-portrait__corner--tr { top: 1rem; right: 1rem; border-top-width: 1px; border-right-width: 1px; }
-.scan-portrait__corner--bl { bottom: 1rem; left: 1rem; border-bottom-width: 1px; border-left-width: 1px; }
-.scan-portrait__corner--br { bottom: 1rem; right: 1rem; border-bottom-width: 1px; border-right-width: 1px; }
-
-/* Annotations: --x / --y are the point as a share of the frame (440×550 design). */
-.scan-note { position: absolute; inset: 0; pointer-events: none; }
-.scan-note__line {
-  position: absolute; top: var(--y); left: -1.25rem; width: calc(var(--x) + 1.25rem); height: 1px;
-  background: var(--c-gold-light-a55);
+/* Scan line at 25.3% of the height, 40px past both sides, with a 7px dot at its left end. */
+.scan-portrait__scan {
+  position: absolute; top: 25.3%; left: -2.5rem; right: -2.5rem; height: 1px;
+  background: linear-gradient(90deg, var(--c-gold-light-a0) 0%, var(--c-gold-light-a90) 18%, var(--c-gold-light-a90) 82%, var(--c-gold-light-a0) 100%);
+  pointer-events: none;
 }
-.scan-note__ring, .scan-note__dot {
-  position: absolute; top: var(--y); left: var(--x); border-radius: 50%; transform: translate(-50%, -50%);
+.scan-portrait__scan::before {
+  content: ''; position: absolute; left: 0; top: 50%; width: 0.4375rem; height: 0.4375rem;
+  border-radius: 50%; background: var(--c-gold-light); transform: translate(-50%, -50%);
 }
-.scan-note__ring { width: 1.1875rem; height: 1.1875rem; border: 1px solid var(--c-gold-light-a50); }
-.scan-note__dot { width: 0.4375rem; height: 0.4375rem; background: var(--c-gold-light); }
-.scan-note__word {
-  position: absolute; top: var(--y); right: calc(100% + 1.75rem); transform: translateY(-50%);
+/* Label: right-aligned, ending 16px before the dot. */
+.scan-portrait__label {
+  position: absolute; right: calc(100% + 0.21875rem + 1rem); top: 50%; transform: translateY(-50%);
   white-space: nowrap; text-align: right;
-  font-size: 0.625rem; font-weight: 500; line-height: 1; letter-spacing: var(--tr-link); text-transform: uppercase;
+  font-size: 0.625rem; font-weight: 500; line-height: 1; letter-spacing: 0.22em; text-transform: uppercase;
   color: var(--c-pearl-a72);
 }
+
+/* Caption bar: the four words spread evenly, gold-light dots between them. */
+.scan-portrait__caption {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  display: flex; justify-content: space-between; align-items: center; gap: 0.75rem;
+  padding: 1.125rem 1.5rem; background: var(--c-noir-a78);
+  font-size: 0.625rem; font-weight: 500; line-height: 1.6; letter-spacing: var(--tr-link); text-transform: uppercase;
+  color: var(--c-pearl-a72);
+}
+.scan-portrait__sep { color: var(--c-gold-light); }
 
 .home-scan__steps {
   list-style: none; margin: 4rem 0 0; padding: 0;
@@ -57,11 +67,21 @@
 .home-scan__step-text { margin-top: 0.625rem; max-width: 15.625rem; font-size: 0.875rem; font-weight: 300; line-height: 1.7; color: var(--c-pearl-a62); }
 .home-scan__note { margin-top: 2.5rem; max-width: 40rem; font-size: var(--t-xs); font-weight: 300; line-height: 1.7; color: var(--c-pearl-a50); }
 
-/* Mobile: text, then the portrait centred (max 360px); leader lines and words hidden, dots and rings kept. */
+/* Mobile: text, then the portrait centred at min(100%, 380px); frame offset 16px; the scan line
+   stays inside the image, no label; caption words in two rows of two. */
 @media (max-width: 1023px) {
   .home-scan__top { grid-template-columns: minmax(0, 1fr); }
   .home-scan__text, .home-scan__figure { grid-column: 1 / -1; }
-  .home-scan__figure { justify-self: center; width: min(100%, 22.5rem); }
-  .scan-note__line, .scan-note__word { display: none; }
+  .home-scan__figure { justify-self: center; width: min(100% - 1rem, 23.75rem); margin: 1rem 1rem 0 0; }
+  .scan-portrait__frame { transform: translate(1rem, -1rem); }
+  .scan-portrait__scan { left: 0; right: 0; }
+  .scan-portrait__scan::before { left: 0.21875rem; }
+  .scan-portrait__label { display: none; }
   .home-scan__steps { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 3.5rem; }
+}
+
+/* Caption words in two rows of two: on mobile, and wherever the portrait is too narrow for one row. */
+@container (max-width: 26rem) {
+  .scan-portrait__caption { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0.25rem 0.75rem; justify-items: center; }
+  .scan-portrait__sep:nth-child(4) { display: none; }
 }

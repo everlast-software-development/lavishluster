@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { TextLink } from '../../ui/Links.jsx';
 import BrandImage from '../../ui/BrandImage.jsx';
 import TitleLines from './TitleLines.jsx';
@@ -5,45 +6,33 @@ import { home } from '../../../data/content/home.js';
 import './HomeLusterScan.css';
 
 /**
- * Annotation points on the portrait, in px of the 440×550 design frame
- * (stored as percentages so they scale with the image). Keyed by the words
- * in home.lusterscan.motifLabels.
+ * Portrait 480×600 (4:5) on an offset gold-light frame, crossed by a scan
+ * line at 25.3% of its height. The scan label is the title of step 02; the
+ * caption bar carries the four words of the text above.
  */
-const POINTS = {
-  blemishes: [210, 79],
-  wrinkles: [153, 136],
-  imperfections: [175, 193],
-  firmness: [182, 247],
-};
-const pct = (v, total) => `${((v / total) * 100).toFixed(3)}%`;
-
-/** Portrait framed as a skin capture: viewfinder corners and four annotated points. */
-function ScanPortrait({ labels }) {
-  const notes = labels
-    .filter((word) => POINTS[word])
-    .sort((a, b) => POINTS[a][1] - POINTS[b][1]);
+function ScanPortrait({ label, words }) {
   return (
     <figure className="scan-portrait">
-      <BrandImage name="lusterscan-portrait" alt="A model in a black shayla, framed as a LusterScan AI skin capture" className="scan-portrait__media" />
-      <span className="scan-portrait__corner scan-portrait__corner--tl" aria-hidden="true" />
-      <span className="scan-portrait__corner scan-portrait__corner--tr" aria-hidden="true" />
-      <span className="scan-portrait__corner scan-portrait__corner--bl" aria-hidden="true" />
-      <span className="scan-portrait__corner scan-portrait__corner--br" aria-hidden="true" />
-      {notes.map((word) => (
-        <span key={word} className="scan-note" style={{ '--x': pct(POINTS[word][0], 440), '--y': pct(POINTS[word][1], 550) }}>
-          <span className="scan-note__line" aria-hidden="true" />
-          <span className="scan-note__ring" aria-hidden="true" />
-          <span className="scan-note__dot" aria-hidden="true" />
-          <span className="scan-note__word">{word}</span>
-        </span>
-      ))}
+      <span className="scan-portrait__frame" aria-hidden="true" />
+      <BrandImage name="lusterscan-portrait" alt="A model in a black shayla, lit in warm studio light" className="scan-portrait__media" />
+      <span className="scan-portrait__scan" aria-hidden="true">
+        <span className="scan-portrait__label">{label}</span>
+      </span>
+      <figcaption className="scan-portrait__caption">
+        {words.map((word, i) => (
+          <Fragment key={word}>
+            {i > 0 && <span className="scan-portrait__sep" aria-hidden="true">·</span>}
+            <span className="scan-portrait__word">{word}</span>
+          </Fragment>
+        ))}
+      </figcaption>
     </figure>
   );
 }
 
 /**
- * 06 — LusterScan AI (noir). Top: text left, the annotated portrait right
- * (columns 8–12). Below: the four steps in four columns, then the note.
+ * 06 — LusterScan AI (noir). Top: text left, the portrait right (columns
+ * 8–12). Below: the four steps in four columns, then the note.
  */
 export default function HomeLusterScan() {
   const { eyebrow, title, titleLines, text, steps, motifLabels, note, cta } = home.lusterscan;
@@ -59,7 +48,7 @@ export default function HomeLusterScan() {
               <TextLink to={cta.to} tone="light">{cta.label}</TextLink>
             </div>
           </div>
-          <div className="home-scan__figure"><ScanPortrait labels={motifLabels} /></div>
+          <div className="home-scan__figure"><ScanPortrait label={steps[1].title} words={motifLabels} /></div>
         </div>
         <ol className="home-scan__steps" aria-label="How LusterScan AI works">
           {steps.map((s) => (
