@@ -8,6 +8,7 @@ import './HomeCollections.css';
 /**
  * Which product photograph represents each collection is a presentation
  * choice (never luster-instant-glow-shot, never the Signature photograph).
+ * Each panel's focal point is set in the stylesheet by its slug modifier.
  */
 const COVER = {
   'facial-treatment': 'luster-purify-and-glow',
@@ -17,9 +18,8 @@ const COVER = {
 
 /**
  * 03 — Product Worlds (noir): header (eyebrow, the total, Explore link), then
- * three expanding panels, one link each: the image above, a text band below,
- * so no text sits on a photograph. The first is open by default; hovering or
- * focusing a panel opens it. Under 1024px: three open cards.
+ * three expanding full-image panels, one link each. The first is open by
+ * default; hovering or focusing a panel opens it. Under 1024px: three open cards.
  */
 export default function HomeCollections() {
   const { eyebrow, totalLabel, categories, cta } = home.productWorlds;
@@ -39,25 +39,32 @@ export default function HomeCollections() {
         <ul className="world-panels">
           {categories.map((c, i) => {
             const src = getProduct(COVER[c.slug])?.images.primary;
+            const num = String(i + 1).padStart(2, '0');
             return (
-              <li key={c.slug} className="world-panel">
+              <li key={c.slug} className={`world-panel world-panel--${c.slug}`}>
                 <Link to={catalogHref(c.slug)} className="world-panel__link">
-                  <span className="world-panel__image">
-                    <span className="media world-panel__media">
-                      {src ? <img src={src} alt="" loading="lazy" decoding="async" /> : <Placeholder title={c.label} />}
-                    </span>
-                    <span className="world-panel__frame" aria-hidden="true" />
+                  <span className="media world-panel__media">
+                    {src ? <img src={src} alt="" loading="lazy" decoding="async" /> : <Placeholder title={c.label} />}
                   </span>
-                  <span className="world-panel__band">
+                  <span className="world-panel__shade" aria-hidden="true" />
+                  <span className="world-panel__scrim" aria-hidden="true" />
+
+                  {/* Closed state: number top-left, vertical name bottom-left, count bottom-right. */}
+                  <span className="world-panel__closed" aria-hidden="true">
+                    <span className="world-panel__num world-panel__num--top">{num}</span>
+                    <span className="world-panel__vname">{c.label}</span>
+                    <span className="home-label world-panel__count world-panel__count--corner">{c.count}</span>
+                  </span>
+
+                  {/* Open state: number and count, name, description, Explore. */}
+                  <span className="world-panel__open">
                     <span className="world-panel__meta">
-                      <span className="world-panel__num">{String(i + 1).padStart(2, '0')}</span>
+                      <span className="world-panel__num">{num}</span>
                       <span className="home-label world-panel__count">{c.count}</span>
                     </span>
                     <span className="world-panel__name">{c.label}</span>
-                    <span className="world-panel__more">
-                      <span className="world-panel__desc">{c.text}</span>
-                      <span className="home-label world-panel__cta" aria-hidden="true">Explore <span className="world-panel__arrow">→</span></span>
-                    </span>
+                    <span className="world-panel__desc">{c.text}</span>
+                    <span className="home-label world-panel__cta" aria-hidden="true">Explore <span className="world-panel__arrow">→</span></span>
                   </span>
                 </Link>
               </li>
