@@ -46,8 +46,10 @@ export default function HomeCollections() {
                   <span className="media world-panel__media">
                     {src ? <img src={src} alt="" loading="lazy" decoding="async" /> : <Placeholder title={c.label} />}
                   </span>
+                  {/* Layers over the image: closed-panel shade, base scrim (always), top shade (always). */}
                   <span className="world-panel__shade" aria-hidden="true" />
                   <span className="world-panel__scrim" aria-hidden="true" />
+                  <span className="world-panel__top" aria-hidden="true" />
 
                   {/* Closed state: number top-left, vertical name bottom-left, count bottom-right. */}
                   <span className="world-panel__closed" aria-hidden="true">
