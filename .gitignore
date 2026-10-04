@@ -6,3 +6,4 @@ server/.env
 content-source/brand/*.pdf
 content-source/brand/extracted/
 .screenshots/
+content-source/brand/old-site/

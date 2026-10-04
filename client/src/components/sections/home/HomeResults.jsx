@@ -5,9 +5,8 @@ import { home } from '../../../data/content/home.js';
 import './HomeResults.css';
 
 /**
- * 07 — Results (white): content left, photograph right, edge to edge.
- * brand/studio.webp shows studio lights and stands at every crop, so this
- * uses brand/intro.webp (verified brand photograph, not used elsewhere on Home).
+ * 07 — Results (white): content left, photograph right, edge to edge
+ * (brand/intro.webp, the verified brand photograph also used for the Results page hero).
  */
 export default function HomeResults() {
   const { eyebrow, title, text, cta } = home.results;

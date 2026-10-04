@@ -182,7 +182,7 @@ The "Maison" direction: pearl, ink and gold, one typeface, and editorial photogr
   4. **Signature** (`HomeSignature`, noir): `.halves` with the product's own 4:5 photograph and an inset 24px gold hairline frame, then step, name, title, description, the gold 80% numeral and the pearl "View product" button.
   5. **The Science** (`HomeScience`, pearl): `.halves` with the device photograph, then the eyebrow, title, teaser, the eight technologies in a 4-column hairline grid, and "Discover The Science".
   6. **LusterScan AI** (`HomeLusterScan`, noir): text, note and link on the left; the face on the right (4:5, at most 352×440) over a gold hairline frame offset 24px. Below, the four steps in one row, each with a gold numeral, title and its one-line description.
-  7. **Results** (`HomeResults`, white): `.halves` with the eyebrow, title, paragraph and "Explore Results" on the left, and `brand/intro.webp` on the right. `brand/studio.webp` shows studio equipment at every crop.
+  7. **Results** (`HomeResults`, white): `.halves` with the eyebrow, title, paragraph and "Explore Results" on the left, and `brand/intro.webp` on the right (the same photograph heads the Results page).
   8. **Consultation** (`sections/ConsultationCta`, pearl): a compact `.halves` band. The `couple.webp` image is `clamp(360px, 30vw, 480px)` tall; beside it are the title and the "Request a Consultation" button → `/contact`.
   9. **Footer** (noir): logo, the first sentence of Our Story, Explore, Visit (the document spelling of the address), Contact, and the © line.
 
