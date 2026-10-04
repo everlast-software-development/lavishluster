@@ -1,65 +1,58 @@
-import { Fragment } from 'react';
 import { TextLink } from '../../ui/Links.jsx';
-import BrandImage from '../../ui/BrandImage.jsx';
 import TitleLines from './TitleLines.jsx';
+import { getBrandImage } from '../../../utils/assets.js';
 import { home } from '../../../data/content/home.js';
 import './HomeLusterScan.css';
 
 /**
- * Portrait 480×600 (4:5) on an offset gold-light frame, crossed by a scan
- * line at 25.3% of its height. The scan label is the title of step 02; the
- * caption bar carries the four words of the text above.
- */
-function ScanPortrait({ label, words }) {
-  return (
-    <figure className="scan-portrait">
-      <span className="scan-portrait__frame" aria-hidden="true" />
-      <BrandImage name="lusterscan-portrait" alt="A model in a black shayla, lit in warm studio light" className="scan-portrait__media" />
-      <span className="scan-portrait__scan" aria-hidden="true">
-        <span className="scan-portrait__label">{label}</span>
-      </span>
-      <figcaption className="scan-portrait__caption">
-        {words.map((word, i) => (
-          <Fragment key={word}>
-            {i > 0 && <span className="scan-portrait__sep" aria-hidden="true">·</span>}
-            <span className="scan-portrait__word">{word}</span>
-          </Fragment>
-        ))}
-      </figcaption>
-    </figure>
-  );
-}
-
-/**
- * 06 — LusterScan AI (noir). Top: text left, the portrait right (columns
- * 8–12). Below: the four steps in four columns, then the note.
+ * 06 — LusterScan AI (noir), cinematic. brand/lusterscan-cinematic.webp sits
+ * behind everything on the right (its background is already noir), under a
+ * left scrim and a bottom scrim. Above them: the text block (eyebrow, title,
+ * text, link, note) on the left, and the four steps in a borderless row at
+ * the bottom. Under 768px: image, text, steps, stacked.
  */
 export default function HomeLusterScan() {
-  const { eyebrow, title, titleLines, text, steps, motifLabels, note, cta } = home.lusterscan;
+  const { eyebrow, title, titleLines, text, steps, note, cta } = home.lusterscan;
+  const src = getBrandImage('lusterscan-cinematic');
   return (
-    <section className="home-band home-scan on-dark" aria-labelledby="scan-title">
-      <div className="container">
-        <div className="home-scan__top">
-          <div className="home-scan__text">
-            <p className="home-eyebrow">{eyebrow}</p>
-            <TitleLines id="scan-title" lines={titleLines} title={title} className="home-scan__title" />
-            <p className="home-scan__lead">{text}</p>
-            <div className="home-scan__actions">
-              <TextLink to={cta.to} tone="light">{cta.label}</TextLink>
-            </div>
+    <section className="home-scan on-dark" aria-labelledby="scan-title">
+      {src && (
+        <div className="home-scan__media">
+          <img
+            className="home-scan__image"
+            src={src}
+            alt="A model holding a Lavish Luster cream jar against her cheek"
+            width="1323"
+            height="1073"
+            loading="lazy"
+            decoding="async"
+          />
+          {/* Mobile only: the image fades into noir above the text. */}
+          <span className="home-scan__fade" aria-hidden="true" />
+        </div>
+      )}
+      <span className="home-scan__scrim home-scan__scrim--left" aria-hidden="true" />
+      <span className="home-scan__scrim home-scan__scrim--bottom" aria-hidden="true" />
+
+      <div className="container home-scan__inner">
+        <div className="home-scan__text">
+          <p className="home-eyebrow">{eyebrow}</p>
+          <TitleLines id="scan-title" lines={titleLines} title={title} className="home-scan__title" />
+          <p className="home-scan__lead">{text}</p>
+          <div className="home-scan__actions">
+            <TextLink to={cta.to} tone="light">{cta.label}</TextLink>
           </div>
-          <div className="home-scan__figure"><ScanPortrait label={steps[1].title} words={motifLabels} /></div>
+          <p className="home-scan__note">{note}</p>
         </div>
         <ol className="home-scan__steps" aria-label="How LusterScan AI works">
           {steps.map((s) => (
             <li key={s.title}>
               <span className="home-scan__num" aria-hidden="true">{s.number}</span>
-              <h3 className="home-label home-scan__step">{s.title}</h3>
+              <h3 className="home-scan__step">{s.title}</h3>
               <p className="home-scan__step-text">{s.text}</p>
             </li>
           ))}
         </ol>
-        <p className="home-scan__note">{note}</p>
       </div>
     </section>
   );

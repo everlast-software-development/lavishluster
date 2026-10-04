@@ -36,10 +36,13 @@
   --c-pearl-a12: rgba(243, 242, 238, 0.12);  /* footer base rule */
   --c-pearl-a50: rgba(243, 242, 238, 0.5);   /* footer base text */
   --c-ink-a14: rgba(28, 27, 25, 0.14);      /* hairlines on light (Home) */
-  --c-gold-light-a60: rgba(201, 174, 132, 0.6);  /* LusterScan portrait offset frame */
-  --c-gold-light-a90: rgba(201, 174, 132, 0.9);  /* LusterScan scan line */
-  --c-gold-light-a0: rgba(201, 174, 132, 0);     /* scan line fade ends */
-  --c-noir-a78: rgba(21, 20, 18, 0.78);          /* LusterScan caption bar */
+  --c-noir-a85: rgba(21, 20, 18, 0.85);          /* LusterScan left scrim */
+  --c-noir-a78: rgba(21, 20, 18, 0.78);          /* Product Worlds tall scrim (stacked cards) */
+  --c-pearl-a68: rgba(243, 242, 238, 0.68);      /* LusterScan step descriptions */
+  /* LusterScan cinematic layers */
+  --g-scan-left: linear-gradient(90deg, var(--c-noir) 0%, var(--c-noir-a85) 30%, var(--c-noir-a0) 58%);
+  --g-scan-bottom: linear-gradient(0deg, var(--c-noir) 0%, var(--c-noir-a92) 55%, var(--c-noir-a0) 100%);
+  --g-scan-fade: linear-gradient(0deg, var(--c-noir) 0%, var(--c-noir-a0) 40%);
   --c-noir-a92: rgba(21, 20, 18, 0.92);          /* Product Worlds base scrim */
   --c-noir-a60: rgba(21, 20, 18, 0.6);           /* Product Worlds base scrim mid-stop */
   --c-noir-a52: rgba(21, 20, 18, 0.52);          /* Product Worlds base scrim, number row */

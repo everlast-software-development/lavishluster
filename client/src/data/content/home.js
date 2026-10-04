@@ -61,8 +61,6 @@ export const home = {
       { number: '03', title: 'Personalized Luxury Care', text: 'Receive a tailored product protocol designed for your skin’s needs.' },
       { number: '04', title: 'Progress Tracking', text: 'Monitor your skin’s improvement step by step with each new scan.' },
     ],
-    // The four words of the text above, in its order: the portrait caption bar.
-    motifLabels: ['wrinkles', 'imperfections', 'firmness', 'blemishes'],
     note: 'Results are precise and personalized, enhancing your beauty routine, while professional dermatological consultation remains the best option when needed.',
     cta: { label: 'Explore LusterScan AI', to: '/lusterscan-ai' },
   },

@@ -1,87 +1,74 @@
 /* ==========================================================================
-   Home 06 — LusterScan AI (noir) · ≈1100px at 1440
+   Home 06 — LusterScan AI (noir), cinematic · ≈940px at 1440
+   Image layer (0) · left and bottom scrims (1) · text and steps (2).
+   No borders, boxes or lines anywhere in the section.
    ========================================================================== */
-.home-scan { background: var(--c-noir); color: var(--c-pearl); }
-/* Below the small note the band ends sooner: 72px at 1440. */
-.home-band.home-scan { padding-bottom: clamp(3.5rem, 5vw, 4.5rem); }
-.home-scan__top {
-  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--grid-gap); row-gap: 3rem;
-  align-items: center;
-}
-/* The scan label reaches ~210px left of the portrait, so the text keeps to columns 1–5 (1–4 below 1440px). */
-.home-scan__text { grid-column: 1 / span 5; }
-@media (min-width: 1024px) and (max-width: 1439px) { .home-scan__text { grid-column: 1 / span 4; } }
-.home-scan__title { margin-top: 1.75rem; font-size: var(--t-title-section); color: var(--c-pearl); }
-.home-scan__lead { margin-top: 1.75rem; max-width: 30rem; font-size: 1.0625rem; font-weight: 300; line-height: 1.8; color: var(--c-pearl-a72); }
-.home-scan__actions { margin-top: 2rem; }
-
-/* ---------- Portrait: 480×600 (4:5), right-aligned in columns 8–12 with a 24px right margin ---------- */
-.home-scan__figure {
-  grid-column: 8 / -1; justify-self: end;
-  width: min(30rem, 100% - 1.5rem); margin: 1.5rem 1.5rem 0 0;
-}
-/* From 1440px the five columns are a little narrower than 480 + 24px: the portrait may reach into column 7. */
-@media (min-width: 1440px) { .home-scan__figure { grid-column: 7 / -1; } }
-.scan-portrait { position: relative; margin: 0; width: 100%; aspect-ratio: 4 / 5; container-type: inline-size; }
-
-/* Offset frame: same size, 24px right and 24px up, behind the image. */
-.scan-portrait__frame { position: absolute; inset: 0; transform: translate(1.5rem, -1.5rem); border: 1px solid var(--c-gold-light-a60); pointer-events: none; }
-.scan-portrait__media { position: absolute; inset: 0; background: var(--c-noir-raised); }
-.scan-portrait__media > img { object-position: center; }
-
-/* Scan line at 25.3% of the height, 40px past both sides, with a 7px dot at its left end. */
-.scan-portrait__scan {
-  position: absolute; top: 25.3%; left: -2.5rem; right: -2.5rem; height: 1px;
-  background: linear-gradient(90deg, var(--c-gold-light-a0) 0%, var(--c-gold-light-a90) 18%, var(--c-gold-light-a90) 82%, var(--c-gold-light-a0) 100%);
-  pointer-events: none;
-}
-.scan-portrait__scan::before {
-  content: ''; position: absolute; left: 0; top: 50%; width: 0.4375rem; height: 0.4375rem;
-  border-radius: 50%; background: var(--c-gold-light); transform: translate(-50%, -50%);
-}
-/* Label: right-aligned, ending 16px before the dot. */
-.scan-portrait__label {
-  position: absolute; right: calc(100% + 0.21875rem + 1rem); top: 50%; transform: translateY(-50%);
-  white-space: nowrap; text-align: right;
-  font-size: 0.625rem; font-weight: 500; line-height: 1; letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--c-pearl-a72);
+.home-scan {
+  /* The image: 62.5vw wide (max 1100px), 40px from the top, running past the right edge. */
+  --img-w: min(62.5vw, 68.75rem);
+  --img-h: calc(var(--img-w) * 1073 / 1323);
+  --img-top: 2.5rem;
+  /* How far it runs past the right edge: 2.8vw (40px at 1440), more on narrower screens so the
+     face (from 13% of the image's width) always starts right of the 520px text block. */
+  --img-past: max(2.8vw, 552px - 37.3vw);
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column;
+  min-height: clamp(53.75rem, 65vw, 62.5rem);
+  background: var(--c-noir); color: var(--c-pearl);
 }
 
-/* Caption bar: the four words spread evenly, gold-light dots between them. */
-.scan-portrait__caption {
-  position: absolute; left: 0; right: 0; bottom: 0;
-  display: flex; justify-content: space-between; align-items: center; gap: 0.75rem;
-  padding: 1.125rem 1.5rem; background: var(--c-noir-a78);
-  font-size: 0.625rem; font-weight: 500; line-height: 1.6; letter-spacing: var(--tr-link); text-transform: uppercase;
-  color: var(--c-pearl-a72);
+.home-scan__media {
+  position: absolute; z-index: 0; top: var(--img-top); right: calc(var(--img-past) * -1);
+  width: var(--img-w); aspect-ratio: 1323 / 1073;
 }
-.scan-portrait__sep { color: var(--c-gold-light); }
+.home-scan__image { display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: left top; }
+.home-scan__fade { display: none; }
 
+.home-scan__scrim { position: absolute; z-index: 1; left: 0; right: 0; pointer-events: none; }
+.home-scan__scrim--left { top: 0; bottom: 0; background: var(--g-scan-left); }
+.home-scan__scrim--bottom { bottom: 0; height: 21.25rem; background: var(--g-scan-bottom); }
+
+.home-scan__inner {
+  position: relative; z-index: 2; flex: 1 0 auto;
+  display: flex; flex-direction: column;
+  padding-block: 8rem 5.25rem;   /* text from 128px; steps end 84px above the bottom */
+}
+
+/* ---------- Text block ---------- */
+/* Tall enough that the steps always start below the jar (it ends at 62% of the image height). */
+.home-scan__text { max-width: 32.5rem; min-height: calc(var(--img-top) + var(--img-h) * 0.66 - 8rem); }
+.home-scan__title { margin-top: 1.75rem; font-size: clamp(2rem, 3.33vw, 3rem); color: var(--c-pearl); }
+.home-scan__lead { margin-top: 1.75rem; font-size: 1.0625rem; font-weight: 300; line-height: 1.8; color: var(--c-pearl-a72); }
+.home-scan__actions { margin-top: 1.875rem; }
+.home-scan__note { margin-top: 2rem; font-size: 0.75rem; font-weight: 300; line-height: 1.7; color: var(--c-pearl-a50); }
+
+/* ---------- Steps: four open columns, no rules or boxes ---------- */
 .home-scan__steps {
-  list-style: none; margin: 4rem 0 0; padding: 0;
-  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2.5rem var(--grid-gap);
+  list-style: none; margin: auto 0 0; padding: 3rem 0 0;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 3rem;
 }
-.home-scan__steps li { padding-top: 1.5rem; border-top: 1px solid var(--c-pearl-a18); }
-.home-scan__num { display: block; font-size: 2.5rem; font-weight: 200; line-height: 1; color: var(--c-gold-light); font-variant-numeric: lining-nums tabular-nums; }
-.home-scan__step { margin-top: 1.125rem; color: var(--c-pearl); }
-.home-scan__step-text { margin-top: 0.625rem; max-width: 15.625rem; font-size: 0.875rem; font-weight: 300; line-height: 1.7; color: var(--c-pearl-a62); }
-.home-scan__note { margin-top: 2.5rem; max-width: 40rem; font-size: var(--t-xs); font-weight: 300; line-height: 1.7; color: var(--c-pearl-a50); }
+.home-scan__num { display: block; font-size: 3.5rem; font-weight: 200; line-height: 1; color: var(--c-gold-light); font-variant-numeric: lining-nums tabular-nums; }
+.home-scan__step { margin-top: 1.25rem; font-size: var(--t-label); font-weight: 500; line-height: 1.6; letter-spacing: 0.2em; text-transform: uppercase; color: var(--c-pearl); }
+.home-scan__step-text { margin-top: 0.75rem; max-width: 15rem; font-size: 0.875rem; font-weight: 300; line-height: 1.75; color: var(--c-pearl-a68); }
 
-/* Mobile: text, then the portrait centred at min(100%, 380px); frame offset 16px; the scan line
-   stays inside the image, no label; caption words in two rows of two. */
-@media (max-width: 1023px) {
-  .home-scan__top { grid-template-columns: minmax(0, 1fr); }
-  .home-scan__text, .home-scan__figure { grid-column: 1 / -1; }
-  .home-scan__figure { justify-self: center; width: min(100% - 1rem, 23.75rem); margin: 1rem 1rem 0 0; }
-  .scan-portrait__frame { transform: translate(1rem, -1rem); }
-  .scan-portrait__scan { left: 0; right: 0; }
-  .scan-portrait__scan::before { left: 0.21875rem; }
-  .scan-portrait__label { display: none; }
-  .home-scan__steps { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 3.5rem; }
+/* ---------- Tablet (768–1023px): wider image, 440px text, steps 2×2 ---------- */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .home-scan {
+    --img-w: 75vw;
+    --img-past: max(2.8vw, 464px - 28.5vw);   /* face right of the 440px text block */
+  }
+  .home-scan__text { max-width: 27.5rem; }
+  .home-scan__steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 2.5rem; }
 }
 
-/* Caption words in two rows of two: on mobile, and wherever the portrait is too narrow for one row. */
-@container (max-width: 26rem) {
-  .scan-portrait__caption { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0.25rem 0.75rem; justify-items: center; }
-  .scan-portrait__sep:nth-child(4) { display: none; }
+/* ---------- Mobile (< 768px): image (edge to edge, fading into noir), text, steps ---------- */
+@media (max-width: 767px) {
+  .home-scan { display: block; min-height: 0; }
+  .home-scan__media { position: relative; top: auto; right: auto; width: 100%; }
+  .home-scan__fade { display: block; position: absolute; inset: 0; background: var(--g-scan-fade); }
+  .home-scan__scrim { display: none; }
+  .home-scan__inner { padding-block: 1rem var(--section-y); }
+  .home-scan__text { max-width: none; min-height: 0; }
+  .home-scan__steps { grid-template-columns: minmax(0, 1fr); row-gap: 2rem; }
+  .home-scan__num { font-size: 2.75rem; }
 }
