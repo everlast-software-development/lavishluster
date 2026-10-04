@@ -1,28 +1,29 @@
 /* ==========================================================================
-   Home 04 — Signature (noir) · ≈760px at 1440, edge to edge 50/50
+   Home 04 — Signature (white) · ≈760px at 1440, edge to edge 50/50
    ========================================================================== */
 .home-signature {
   display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  background: var(--c-noir); color: var(--c-pearl);
+  background: var(--c-white); color: var(--c-ink);
 }
 .home-signature__media { position: relative; min-height: clamp(30rem, 52.8vw, 47.5rem); }
 .home-signature__media .media { position: absolute; inset: 0; background: var(--c-noir-raised); }
 .home-signature__media img { object-position: 55% 30%; } /* face and jar in frame at every width */
-.home-signature__frame { position: absolute; inset: 1.75rem; border: 1px solid var(--c-gold-light); pointer-events: none; }
+.home-signature__frame { position: absolute; inset: 1.75rem; border: 1px solid var(--c-pearl-a70); pointer-events: none; }
 
 .home-signature__text {
   display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
   padding: 3.5rem var(--page-pad) 3.5rem 6rem;
 }
-.home-signature__name { margin-top: 1.75rem; color: var(--c-pearl-a62); }
-.home-signature__title { margin-top: 0.875rem; font-size: var(--t-title-section); color: var(--c-pearl); }
-.home-signature__desc { margin-top: 1.5rem; max-width: 25rem; font-size: var(--t-body); font-weight: 300; line-height: 1.8; color: var(--c-pearl-a72); }
+.home-signature .home-eyebrow::before { background: var(--c-gold); }
+.home-signature__name { margin-top: 1.75rem; color: var(--c-taupe); }
+.home-signature__title { margin-top: 0.875rem; font-size: var(--t-title-section); color: var(--c-ink); }
+.home-signature__desc { margin-top: 1.5rem; max-width: 25rem; font-size: var(--t-body); font-weight: 300; line-height: 1.8; color: var(--c-ink-soft); }
 .home-signature__figure {
   display: flex; align-items: center; gap: 1.75rem; align-self: stretch; max-width: 30rem;
-  margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--c-pearl-a18);
+  margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--c-ink-a14);
 }
-.home-signature__num { font-size: var(--t-figure-home); font-weight: 200; line-height: 1; color: var(--c-gold-light); font-variant-numeric: lining-nums; }
-.home-signature__caption { max-width: 11rem; color: var(--c-pearl-a62); }
+.home-signature__num { font-size: var(--t-figure-home); font-weight: 200; line-height: 1; color: var(--c-gold-text); font-variant-numeric: lining-nums; }
+.home-signature__caption { max-width: 11rem; color: var(--c-taupe); }
 .home-signature__actions { margin-top: 2.75rem; }
 
 @media (max-width: 1023px) {

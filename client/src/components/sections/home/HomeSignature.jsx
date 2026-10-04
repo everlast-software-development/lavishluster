@@ -7,7 +7,7 @@ import './HomeSignature.css';
 const SIGNATURE_SLUG = 'luster-cell-revive-exosome';
 
 /**
- * 04 — Signature (noir), edge to edge 50/50. Left: brand/signature.webp (a
+ * 04 — Signature (white), edge to edge 50/50. Left: brand/signature.webp (a
  * brand photograph, not the product shot), focal point 55% 30% so the face
  * and the jar stay in frame, with a gold-light frame inset 28px. Right: step,
  * name, subtitle, description, the evidence figure and "View Product".
@@ -18,7 +18,7 @@ export default function HomeSignature() {
   const figure = p.display.evidence.find((e) => e.figure);
   const context = p.stepInfo ? `Step ${p.stepInfo.number}, ${p.stepInfo.label}` : p.categoryInfo.label;
   return (
-    <section className="home-signature on-dark" aria-labelledby="signature-title">
+    <section className="home-signature" aria-labelledby="signature-title">
       <div className="home-signature__media">
         <BrandImage name="signature" alt="A model holding a Lavish Luster cream jar in window light" />
         <span className="home-signature__frame" aria-hidden="true" />
@@ -35,7 +35,7 @@ export default function HomeSignature() {
           </p>
         )}
         <div className="home-signature__actions">
-          <ButtonLink to={`/products/${p.slug}`} variant="light">View Product</ButtonLink>
+          <ButtonLink to={`/products/${p.slug}`} variant="primary">View Product</ButtonLink>
         </div>
       </div>
     </section>

@@ -39,11 +39,10 @@
   --c-gold-light-a60: rgba(201, 174, 132, 0.6);  /* LusterScan portrait offset frame */
   --c-gold-light-a90: rgba(201, 174, 132, 0.9);  /* LusterScan scan line */
   --c-gold-light-a0: rgba(201, 174, 132, 0);     /* scan line fade ends */
-  --c-noir-a90: rgba(21, 20, 18, 0.9);           /* Product Worlds open-panel scrim */
   --c-noir-a78: rgba(21, 20, 18, 0.78);          /* LusterScan caption bar */
-  --c-noir-a62: rgba(21, 20, 18, 0.62);          /* Product Worlds closed-panel overlay */
-  --c-noir-a15: rgba(21, 20, 18, 0.15);          /* Product Worlds open-panel scrim mid-stop */
-  --c-noir-a0: rgba(21, 20, 18, 0);              /* Product Worlds open-panel scrim top */
+  --c-pearl-a14: rgba(243, 242, 238, 0.14);      /* Product Worlds panel borders on noir */
+  --c-pearl-a70: rgba(243, 242, 238, 0.7);       /* Signature photo frame */
+  --c-gold-light-a70: rgba(201, 174, 132, 0.7);  /* Product Worlds open-panel image frame */
   --c-noir-raised: #1E1C19;                  /* Home hero stage panel */
   --c-gold-a60: rgba(185, 154, 107, 0.6);    /* Home hero stage panel border */
   --c-pearl-scrim: rgba(243, 242, 238, 0.94);
