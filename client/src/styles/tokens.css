@@ -37,6 +37,8 @@
   --c-pearl-a50: rgba(243, 242, 238, 0.5);   /* footer base text */
   --c-ink-a14: rgba(28, 27, 25, 0.14);      /* hairlines on light (Home) */
   --c-row-hover: #F7F6F2;                    /* Product Worlds row hover */
+  --c-gold-light-a55: rgba(201, 174, 132, 0.55); /* LusterScan portrait leader lines */
+  --c-gold-light-a50: rgba(201, 174, 132, 0.5);  /* LusterScan portrait rings */
   --c-noir-raised: #1E1C19;                  /* Home hero stage panel */
   --c-gold-a60: rgba(185, 154, 107, 0.6);    /* Home hero stage panel border */
   --c-pearl-scrim: rgba(243, 242, 238, 0.94);
