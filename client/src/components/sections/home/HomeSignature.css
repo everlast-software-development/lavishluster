@@ -7,7 +7,7 @@
 }
 .home-signature__media { position: relative; min-height: clamp(30rem, 52.8vw, 47.5rem); }
 .home-signature__media .media { position: absolute; inset: 0; background: var(--c-noir-raised); }
-.home-signature__media img { object-position: center; }
+.home-signature__media img { object-position: 55% 30%; } /* face and jar in frame at every width */
 .home-signature__frame { position: absolute; inset: 1.75rem; border: 1px solid var(--c-gold-light); pointer-events: none; }
 
 .home-signature__text {
