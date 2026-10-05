@@ -36,6 +36,9 @@
   --c-pearl-a12: rgba(243, 242, 238, 0.12);  /* footer base rule */
   --c-pearl-a50: rgba(243, 242, 238, 0.5);   /* footer base text */
   --c-ink-a14: rgba(28, 27, 25, 0.14);      /* hairlines on light (Home) */
+  --c-gold-light-a60: rgba(201, 174, 132, 0.6); /* About photo frame on noir, footer address/email divider */
+  --c-glow-warm-a90: rgba(78, 63, 49, 0.9);     /* About hero: warm glow behind the model */
+  --g-about-hero: radial-gradient(ellipse at 72% 40%, var(--c-glow-warm-a90) 0%, var(--c-noir-a0) 60%);
   --c-noir-a85: rgba(21, 20, 18, 0.85);          /* LusterScan left scrim */
   --c-noir-a78: rgba(21, 20, 18, 0.78);          /* Product Worlds tall scrim (stacked cards) */
   --c-pearl-a68: rgba(243, 242, 238, 0.68);      /* LusterScan step descriptions */

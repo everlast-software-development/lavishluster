@@ -1,0 +1,125 @@
+/* ==========================================================================
+   About — on the Home system: shared container, --section-y padding,
+   .home-eyebrow / .home-title, gold hairline frames, tokens only.
+   Surfaces: hero noir → Welcome pearl → Our Story white → Mission & Vision noir
+   → Core Values pearl. Main sections ≈720–780px at 1440, content centred.
+   ========================================================================== */
+.about-title { font-size: clamp(1.75rem, 2.8vw, 2.75rem); }       /* 28 → 40 (1440) → 44px */
+.about-band { padding-block: var(--section-y); }
+@media (min-width: 1024px) {
+  .about-band { display: flex; flex-direction: column; justify-content: center; min-height: clamp(40rem, 50vw, 47.5rem); }
+}
+
+/* ---------- 1 · Hero (noir) · ≈640px at 1440; the header is transparent over it ---------- */
+.about-hero {
+  --panel-w: clamp(17.5rem, 25vw, 28rem);            /* 360px at 1440 */
+  position: relative; overflow: hidden; isolation: isolate;
+  display: flex; min-height: clamp(32rem, 44.4vw, 40rem);
+  padding-top: var(--header-h);
+  background: var(--g-about-hero), var(--c-noir); color: var(--c-pearl);
+}
+/* Framed panel behind the model (as on the Home hero), bleeding past the bottom edge. */
+.about-hero__stage {
+  position: absolute; z-index: 0; right: calc(var(--page-pad) + 2rem); width: var(--panel-w);
+  top: calc(var(--header-h) + 2.75rem); bottom: -2.5rem;
+  background: var(--c-noir-raised); border: 1px solid var(--c-gold-a60);
+}
+/* The cutout: bottom-aligned, ≈90% of the hero's height, in front of the panel. */
+.about-hero__figure {
+  position: absolute; z-index: 1; bottom: 0; right: calc(var(--page-pad) - 2rem);
+  height: 90%; width: auto; max-width: none; aspect-ratio: 734 / 896;
+}
+.about-hero__inner { position: relative; z-index: 2; display: flex; align-items: center; }
+.about-hero__copy { max-width: min(37.5rem, 46vw); padding-block: 3rem; }
+.about-hero__title {
+  margin-top: 2.125rem; font-size: clamp(2.125rem, 3.9vw, 3.5rem); letter-spacing: 0.06em; color: var(--c-pearl);
+}
+
+/* ---------- 2 · Welcome (pearl): text 1–6, 4:5 image 8–12 with an offset gold frame ---------- */
+.about-welcome { background: var(--c-pearl); color: var(--c-ink); }
+.about-welcome__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--grid-gap); align-items: center; }
+.about-welcome__text { grid-column: 1 / span 6; }
+.about-welcome__body { margin-top: 1.75rem; max-width: 32.5rem; font-size: 1.125rem; font-weight: 300; line-height: 1.8; color: var(--c-ink-soft); }
+/* 440×550 at 1440 (at most 460×575); a 1px gold rectangle of the same size, 24px right and 24px up, behind it. */
+.about-welcome__figure {
+  grid-column: 8 / -1; justify-self: end; position: relative; isolation: isolate;
+  width: min(100%, 27.5rem); margin-right: 1.5rem;
+}
+.about-welcome__frame { position: absolute; inset: -1.5rem -1.5rem 1.5rem 1.5rem; z-index: -1; border: 1px solid var(--c-gold); }
+.about-welcome__media { aspect-ratio: 4 / 5; }
+.about-welcome__media img { object-position: center; }
+
+/* ---------- 3 & 4 · Edge-to-edge 50/50 sections ---------- */
+.about-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.about-split__media { position: relative; min-height: clamp(30rem, 50vw, 47.5rem); }   /* 720px at 1440 */
+.about-split__media .media { position: absolute; inset: 0; }
+.about-split__media img, .about-split__media:hover img { transform: none; }            /* no zoom */
+.about-split__frame { position: absolute; inset: 1.75rem; pointer-events: none; }
+.about-split__text { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+
+/* 3 · Our Story (white): image left with a pearl frame; text right. */
+.about-story { background: var(--c-white); color: var(--c-ink); }
+.about-story .media { background: var(--c-white); }
+.about-story .about-split__frame { border: 1px solid var(--c-pearl-a75); }
+.about-story__text { padding: var(--section-y) var(--page-pad) var(--section-y) 6rem; }
+.about-story__rule { display: block; width: 2.25rem; height: 1px; background: var(--c-gold); }
+.about-story .about-title { margin-top: 1.75rem; }
+.about-story__body { margin-top: 1.5rem; max-width: 32.5rem; font-size: 1.125rem; font-weight: 300; line-height: 1.85; color: var(--c-ink-soft); }
+
+/* 4 · Our Mission & Our Vision (noir): text left; the seated couple right with a gold-light frame. */
+.about-duo { background: var(--c-noir); color: var(--c-pearl); }
+.about-duo .media { background: var(--c-noir); }
+.about-duo .about-split__frame { border: 1px solid var(--c-gold-light-a60); }
+.about-duo__media img { object-position: 58% center; }   /* both faces in frame (the couple sits right of centre) */
+.about-duo__text { padding: var(--section-y) 6rem var(--section-y) var(--page-pad); }
+.about-duo__block { max-width: 32.5rem; }
+.about-duo__block + .about-duo__block { margin-top: 1.75rem; padding-top: 1.75rem; border-top: 1px solid var(--c-pearl-a18); }   /* 56px apart, hairline between */
+.about-duo__num { display: block; font-size: var(--t-label); font-weight: 500; letter-spacing: 0.08em; line-height: 1.6; color: var(--c-gold-light); font-variant-numeric: lining-nums tabular-nums; }
+.about-duo__title { margin-top: 1rem; font-size: clamp(1.5rem, 2.2vw, 2rem); font-weight: 200; line-height: 1.15; letter-spacing: var(--tr-home-title); text-transform: uppercase; color: var(--c-pearl); }
+.about-duo__body { margin-top: 1.25rem; font-size: var(--t-body); font-weight: 300; line-height: 1.85; color: var(--c-pearl-a72); }
+
+/* ---------- 5 · Our Core Values (pearl): title + button, then 3 × 2 values, no boxes ---------- */
+.about-values { background: var(--c-pearl); color: var(--c-ink); }
+.about-values__layout {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--grid-gap);
+  grid-template-areas: "heading action" "grid grid";
+}
+.about-values__heading { grid-area: heading; align-self: end; }
+.about-values__action { grid-area: action; align-self: end; }
+.about-values__grid {
+  grid-area: grid; list-style: none; margin: 3rem 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3.5rem 3rem;
+}
+.about-values__item { padding-top: 1.75rem; border-top: 1px solid var(--c-ink-a14); }
+.about-values__num { display: block; font-size: 2.5rem; font-weight: 200; line-height: 1; color: var(--c-gold-text); font-variant-numeric: lining-nums tabular-nums; }
+.about-values__title { margin-top: 1.125rem; font-size: var(--t-label); font-weight: 500; line-height: 1.6; letter-spacing: 0.2em; text-transform: uppercase; color: var(--c-ink); }
+.about-values__text { margin-top: 0.75rem; font-size: var(--t-sm); font-weight: 300; line-height: 1.75; color: var(--c-ink-soft); }
+
+/* ---------- Tablet (< 1024px) ---------- */
+@media (max-width: 1023px) {
+  .about-hero { --panel-w: clamp(13rem, 34vw, 20rem); min-height: clamp(30rem, 70vw, 40rem); }
+  .about-hero__copy { max-width: 50%; }
+  .about-welcome__grid { grid-template-columns: minmax(0, 1fr); row-gap: 3.5rem; }
+  .about-welcome__text, .about-welcome__figure { grid-column: 1 / -1; }
+  .about-welcome__figure { order: -1; justify-self: start; margin: 1rem 1rem 0 0; }
+  .about-welcome__frame { inset: -1rem -1rem 1rem 1rem; }
+  .about-split { grid-template-columns: minmax(0, 1fr); }
+  .about-split__media { min-height: 0; aspect-ratio: 4 / 3; max-height: 35rem; width: 100%; }
+  .about-story__text, .about-duo__text { padding: var(--section-y) var(--page-pad); }
+  .about-duo__media { order: -1; }                                     /* image first, then the two blocks */
+  .about-values__layout { grid-template-columns: minmax(0, 1fr); grid-template-areas: "heading" "grid" "action"; }
+  .about-values__action { margin-top: 3rem; }
+  .about-values__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ---------- Mobile (< 768px): hero stacks (copy, then the model over the panel) ---------- */
+@media (max-width: 767px) {
+  .about-hero { display: block; min-height: 0; padding-bottom: 0; }
+  .about-hero__inner { display: block; }
+  .about-hero__copy { max-width: none; padding-block: 2.5rem 1rem; }
+  .about-hero__stage { top: auto; right: 50%; transform: translateX(50%); bottom: -2.5rem; height: 19rem; width: min(68vw, 16rem); }
+  .about-hero__figure { position: relative; display: block; right: auto; height: 22rem; margin: 0 auto; }
+}
+@media (max-width: 639px) {
+  .about-values__grid { grid-template-columns: minmax(0, 1fr); }
+}

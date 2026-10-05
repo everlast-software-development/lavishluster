@@ -5,7 +5,7 @@ import Wordmark from './Wordmark.jsx';
 
 /**
  * Desktop (1024px and up): three nav items, centred wordmark, the other three.
- * On Home the bar is transparent (white logo and nav) over the cover hero until
+ * On Home and About the bar is transparent (white logo and nav) over the noir hero until
  * the page scrolls; everywhere else it is solid pearl with a hairline.
  * Mobile: centred wordmark, "Menu" on the right, full-screen noir menu.
  */
@@ -15,8 +15,9 @@ export default function Header() {
   const { pathname } = useLocation();
   const panelRef = useRef(null);
   const buttonRef = useRef(null);
-  const isHome = pathname === '/';
-  const overlay = isHome && !scrolled;
+  // Pages that open on a noir hero: the bar sits over it, transparent, until the page scrolls.
+  const overHero = pathname === '/' || pathname === '/about';
+  const overlay = overHero && !scrolled;
   const light = overlay || open;
 
   useEffect(() => setOpen(false), [pathname]);
@@ -39,7 +40,7 @@ export default function Header() {
     return () => document.removeEventListener('keydown', onKey);
   }, [open]);
 
-  const cls = ['site-header', isHome && 'site-header--home', overlay && 'is-overlay', open && 'is-open'].filter(Boolean).join(' ');
+  const cls = ['site-header', overHero && 'site-header--home', overlay && 'is-overlay', open && 'is-open'].filter(Boolean).join(' ');
   const link = (item) => (
     <li key={item.to}><NavLink to={item.to} end={item.end}>{item.label}</NavLink></li>
   );
