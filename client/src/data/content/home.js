@@ -78,5 +78,15 @@ export const home = {
     titleLines: ['Not sure which treatment', 'is right for you?'],
     cta: { label: 'Request a Consultation', to: '/contact' },
   },
-  // The footer's text comes from contact.js and master-brand.json (components/footer/Footer.jsx).
+
+  footer: {
+    logo: 'Lavish Luster — Beauty & More',
+    text: 'Lavish Luster stands at the forefront of medical techno-skincare, driven by a profound commitment to innovation, scientific precision, and accessible efficacy.',
+    exploreTitle: 'Explore',
+    visitTitle: 'Visit',
+    visit: 'The Galleria, Al Maryah Island, Abu Dhabi, UAE',
+    contactTitle: 'Contact',
+    contact: 'info@lavishluster.com',
+    bottomLine: '© 2026 Lavish Luster. All rights reserved.',
+  },
 };
