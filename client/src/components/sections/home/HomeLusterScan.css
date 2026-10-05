@@ -31,12 +31,12 @@
 .home-scan__inner {
   position: relative; z-index: 2; flex: 1 0 auto;
   display: flex; flex-direction: column;
-  padding-block: var(--section-y);   /* the shared Home rhythm: 112px at 1440 */
+  padding-block: 8rem 5.25rem;   /* text from 128px; steps end 84px above the bottom */
 }
 
 /* ---------- Text block ---------- */
 /* Tall enough that the steps always start below the jar (it ends at 62% of the image height). */
-.home-scan__text { max-width: 32.5rem; min-height: calc(var(--img-top) + var(--img-h) * 0.66 - var(--section-y)); }
+.home-scan__text { max-width: 32.5rem; min-height: calc(var(--img-top) + var(--img-h) * 0.66 - 8rem); }
 .home-scan__title { margin-top: 1.75rem; font-size: clamp(2rem, 3.33vw, 3rem); color: var(--c-pearl); }
 .home-scan__lead { margin-top: 1.75rem; font-size: 1.0625rem; font-weight: 300; line-height: 1.8; color: var(--c-pearl-a72); }
 .home-scan__actions { margin-top: 1.875rem; }

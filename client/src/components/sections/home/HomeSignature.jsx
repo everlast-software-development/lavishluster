@@ -1,5 +1,5 @@
 import { ButtonLink } from '../../ui/Links.jsx';
-import Placeholder from '../../ui/Placeholder.jsx';
+import BrandImage from '../../ui/BrandImage.jsx';
 import { getProduct } from '../../../data/catalog.js';
 import './HomeSignature.css';
 
@@ -7,10 +7,10 @@ import './HomeSignature.css';
 const SIGNATURE_SLUG = 'luster-cell-revive-exosome';
 
 /**
- * 04 — Signature (white), edge to edge 50/50. Left: the product's own primary
- * photograph (Cell-Revive Exosome on marble; no model, so it doesn't repeat the
- * LusterScan image), focal point on the bottle, with a pearl frame inset 28px.
- * Right: step, name, subtitle, description, the evidence figure and "View Product".
+ * 04 — Signature (white), edge to edge 50/50. Left: brand/signature.webp (a
+ * brand photograph, not the product shot), focal point 55% 30% so the face
+ * and the jar stay in frame, with a gold-light frame inset 28px. Right: step,
+ * name, subtitle, description, the evidence figure and "View Product".
  */
 export default function HomeSignature() {
   const p = getProduct(SIGNATURE_SLUG);
@@ -20,11 +20,7 @@ export default function HomeSignature() {
   return (
     <section className="home-signature" aria-labelledby="signature-title">
       <div className="home-signature__media">
-        <div className="media">
-          {p.images.primary
-            ? <img src={p.images.primary} alt={p.name} loading="lazy" decoding="async" />
-            : <Placeholder title={p.name} />}
-        </div>
+        <BrandImage name="signature" alt="A model holding a Lavish Luster cream jar in window light" />
         <span className="home-signature__frame" aria-hidden="true" />
       </div>
       <div className="home-signature__text">

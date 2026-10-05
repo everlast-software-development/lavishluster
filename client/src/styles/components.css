@@ -276,8 +276,10 @@
 @media (max-width: 767px) { .site-footer__inner { padding-inline: 1.5rem; } }
 .site-footer .wordmark { background: none; }
 
-/* Brand sentence (section 5 → Footer → Text). */
-.site-footer__text { margin-top: 1.625rem; max-width: 32.5rem; font-size: 0.875rem; font-weight: 300; line-height: 1.75; color: var(--c-pearl-a62); }
+.site-footer__tagline {
+  margin-top: 1.625rem;
+  font-size: 0.625rem; font-weight: 500; line-height: 1.6; letter-spacing: 0.32em; text-transform: uppercase; color: var(--c-gold-light);
+}
 
 /* Nav: one row; a 1px gold underline 6px below the text on hover. */
 .site-footer__nav { margin-top: 3.5rem; }
@@ -310,9 +312,10 @@
 .site-footer__divider { width: 1px; height: 1.125rem; margin-inline: 2.5rem; background: var(--c-gold-light-a60); }
 @media (max-width: 1023px) { .site-footer__divider { margin-inline: 1rem; } }   /* tablet: the address stays on one line */
 
-/* Bottom row: the © line. */
+/* Bottom row: © left, sub-tagline right. */
 .site-footer__base { align-self: stretch; margin-top: 1.75rem; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem 2rem; }
 .site-footer__copy { font-size: var(--t-label); line-height: 1.6; color: var(--c-pearl-a45); }
+.site-footer__sub { font-size: 0.625rem; font-weight: 500; line-height: 1.6; letter-spacing: 0.24em; text-transform: uppercase; color: var(--c-pearl-a45); }
 
 @media (max-width: 767px) {
   /* Nav: two columns, each link at least 44px tall. */

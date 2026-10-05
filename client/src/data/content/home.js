@@ -78,8 +78,5 @@ export const home = {
     titleLines: ['Not sure which treatment', 'is right for you?'],
     cta: { label: 'Request a Consultation', to: '/contact' },
   },
-  // Section 5 → Footer. The links, address, email and © line come from navItems.js and contact.js.
-  footer: {
-    text: 'Lavish Luster stands at the forefront of medical techno-skincare, driven by a profound commitment to innovation, scientific precision, and accessible efficacy.',
-  },
+  // The footer's text comes from contact.js and master-brand.json (components/footer/Footer.jsx).
 };

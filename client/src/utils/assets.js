@@ -3,7 +3,7 @@
  *   src/assets/products/<slug>/primary.(webp|avif|jpg|jpeg|png)
  *   src/assets/products/<slug>/gallery-01.webp, gallery-02.webp, ...
  *   src/assets/devices/<slug>/... (same convention)
- *   src/assets/brand/<name>.(svg|webp|png|jpg)   e.g. logo, philosophy, results-couple, lusterscan-cinematic
+ *   src/assets/brand/<name>.(svg|webp|png|jpg)   e.g. logo, philosophy, signature, results-couple
  * Adding a real file and rebuilding is all that is needed — no data or layout
  * change. Missing files fall back to the generated placeholder plate.
  */
