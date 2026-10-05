@@ -5,7 +5,7 @@
   display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   background: var(--c-white); color: var(--c-ink);
 }
-.home-signature__media { position: relative; min-height: clamp(30rem, 52.8vw, 47.5rem); }
+.home-signature__media { position: relative; }
 .home-signature__media .media { position: absolute; inset: 0; background: var(--c-noir-raised); }
 .home-signature__media img { object-position: 40% 44%; } /* the Cell-Revive Exosome bottle (31–49% across, 26–62% down the photo) in frame */
 .home-signature__frame { position: absolute; inset: 1.75rem; border: 1px solid var(--c-pearl-a70); pointer-events: none; }
@@ -31,3 +31,6 @@
   .home-signature__media { min-height: 0; aspect-ratio: 4 / 5; max-height: 30rem; }
   .home-signature__text { padding: var(--section-y) var(--page-pad); }
 }
+
+/* From 1024px: the shared section height (760px at 1440); the photograph fills it (cover, same focal point). */
+@media (min-width: 1024px) { .home-signature { min-height: var(--section-min); } }
