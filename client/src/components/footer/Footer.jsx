@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { contact } from '../../data/content/contact.js';
-import masterBrand from '../../data/content/master-brand.json';
+import { home } from '../../data/content/home.js';
 import { features } from '../../data/config/features.js';
 import { homeItem, navItems } from '../navigation/navItems.js';
 import Wordmark from '../navigation/Wordmark.jsx';
@@ -12,9 +12,9 @@ const SOCIAL = [
 ];
 
 /**
- * Noir footer, one centred column: logo · tagline · the nav in one row
+ * Noir footer, one centred column: logo · brand sentence · the nav in one row
  * (legal and social links join it when their flags are on) · address and
- * email between two hairlines, split at the centre · © left, sub-tagline right.
+ * email between two hairlines, split at the centre · the © line.
  */
 export default function Footer() {
   const social = features.socialLinks ? SOCIAL.filter(([key]) => contact.social[key]) : [];
@@ -32,7 +32,7 @@ export default function Footer() {
     <footer className="site-footer">
       <div className="site-footer__inner">
         <Wordmark tone="light" className="wordmark--footer" />
-        <p className="site-footer__tagline">{masterBrand.tagline}</p>
+        <p className="site-footer__text">{home.footer.text}</p>
 
         <nav className="site-footer__nav" aria-label="Footer">
           <ul>
@@ -48,7 +48,6 @@ export default function Footer() {
 
         <div className="site-footer__base">
           <p className="site-footer__copy">© {new Date().getFullYear()} {contact.copyright}</p>
-          <p className="site-footer__sub">{masterBrand.subTagline}</p>
         </div>
       </div>
     </footer>

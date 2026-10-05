@@ -10,7 +10,7 @@
 
 .home-results__text {
   display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
-  padding: 3.5rem var(--page-pad) 3.5rem 6rem;
+  padding: var(--section-y) var(--page-pad) var(--section-y) 6rem;
 }
 .home-results .home-eyebrow::before { background: var(--c-gold); }
 .home-results__title { margin-top: 1.625rem; font-size: clamp(1.875rem, 2.8vw, 2.5rem); color: var(--c-ink); }

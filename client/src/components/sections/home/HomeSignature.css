@@ -7,12 +7,12 @@
 }
 .home-signature__media { position: relative; min-height: clamp(30rem, 52.8vw, 47.5rem); }
 .home-signature__media .media { position: absolute; inset: 0; background: var(--c-noir-raised); }
-.home-signature__media img { object-position: 55% 30%; } /* face and jar in frame at every width */
+.home-signature__media img { object-position: 40% 44%; } /* the Cell-Revive Exosome bottle (31–49% across, 26–62% down the photo) in frame */
 .home-signature__frame { position: absolute; inset: 1.75rem; border: 1px solid var(--c-pearl-a70); pointer-events: none; }
 
 .home-signature__text {
   display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
-  padding: 3.5rem var(--page-pad) 3.5rem 6rem;
+  padding: var(--section-y) var(--page-pad) var(--section-y) 6rem;
 }
 .home-signature .home-eyebrow::before { background: var(--c-gold); }
 .home-signature__name { margin-top: 1.75rem; color: var(--c-taupe); }
