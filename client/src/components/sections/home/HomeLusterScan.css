@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Home 06 — LusterScan AI (noir), cinematic · shared Home height (≈760–800px at 1440)
+   Home 06 — LusterScan AI (noir), cinematic · ≈940px at 1440
    Image layer (0) · left and bottom scrims (1) · text and steps (2).
    No borders, boxes or lines anywhere in the section.
    ========================================================================== */
@@ -13,6 +13,7 @@
   --img-past: max(2.8vw, 552px - 37.3vw);
   position: relative; overflow: hidden;
   display: flex; flex-direction: column;
+  min-height: clamp(53.75rem, 65vw, 62.5rem);
   background: var(--c-noir); color: var(--c-pearl);
 }
 
@@ -70,22 +71,4 @@
   .home-scan__text { max-width: none; min-height: 0; }
   .home-scan__steps { grid-template-columns: minmax(0, 1fr); row-gap: 2rem; }
   .home-scan__num { font-size: 2.75rem; }
-}
-
-/* ---------- Desktop (≥ 1024px): the shared Home section height ----------
-   The image tops out at 900px wide (its 1440 size) so the jar, and the steps just below it,
-   sit at the same height on wider screens; the spacing tightens (font sizes unchanged) so the
-   section fits 760–800px at 1440. */
-@media (min-width: 1024px) {
-  .home-scan { --img-w: min(62.5vw, 56.25rem); min-height: var(--section-min); }
-  .home-scan__inner { justify-content: center; }
-  /* The steps start 8px below the jar (which ends at 62% of the image height). */
-  .home-scan__text { min-height: calc(var(--img-top) + var(--img-h) * 0.62 + 0.5rem - var(--section-y)); }
-  .home-scan__title { margin-top: 1rem; }
-  .home-scan__lead { margin-top: 1rem; }
-  .home-scan__actions { margin-top: 0.75rem; }
-  .home-scan__note { margin-top: 0.5rem; }
-  .home-scan__steps { margin-top: 0; padding-top: 0; }
-  .home-scan__step { margin-top: 0.75rem; }
-  .home-scan__step-text { margin-top: 0.5rem; }
 }

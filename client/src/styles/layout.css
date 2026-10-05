@@ -61,11 +61,6 @@
 }
 /* Home bands: one vertical rhythm for every section below the hero. */
 .home-band { padding-block: var(--section-y); }
-/* From 1024px every Home section below the hero shares one height (760px at 1440), with its
-   content centred so any extra height splits evenly above and below. */
-@media (min-width: 1024px) {
-  .home-band { display: flex; flex-direction: column; justify-content: center; min-height: var(--section-min); }
-}
 
 .section__body > * + * { margin-top: 1.75rem; }
 .section__body > .section__actions { margin-top: 2.75rem; }

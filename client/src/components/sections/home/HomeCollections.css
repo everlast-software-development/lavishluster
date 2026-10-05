@@ -6,14 +6,14 @@
    build time), kept to 50–60% of the row; the image always covers the panel.
    ========================================================================== */
 .home-worlds { background: var(--c-noir); color: var(--c-pearl); }
-.home-worlds__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1rem 2rem; margin-bottom: 2rem; }
+.home-worlds__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1rem 2rem; margin-bottom: 3rem; }
 .home-worlds__total { display: flex; align-items: baseline; gap: 0.75rem; margin-top: 0.75rem; }
 .home-worlds__count { font-size: 2.75rem; font-weight: 200; line-height: 1; color: var(--c-pearl); font-variant-numeric: lining-nums tabular-nums; }
 .home-worlds__count-label { color: var(--c-pearl-a62); }
 
-/* ---------- Panels row: ≈464px at 1440, so the section keeps the shared Home height ---------- */
+/* ---------- Panels row: 640px at 1440 ---------- */
 .world-panels {
-  --row-h: clamp(26rem, 32.2vw, 30rem);
+  --row-h: clamp(31.25rem, 44.4vw, 40rem);
   container-type: inline-size;
   list-style: none; margin: 0; padding: 0;
   display: flex; height: var(--row-h);
@@ -56,9 +56,7 @@
 /* Closed only: a left gradient behind the vertical name over a flat veil; fades out as the panel opens. */
 .world-panel .world-panel__shade { background: var(--g-worlds-closed-name), var(--c-noir-a50); opacity: calc(1 - var(--o)); transition: opacity 0.6s var(--ease); }
 /* Always, on every panel: the base scrim under the text (the bottom 46% only), and a top shade for the number. */
-/* The base scrim keeps its 640px gradient anchored to the bottom whatever the panel height, so the text
-   sits on the same darkness as on a 640px panel (the gradient's faded top is simply cut off). */
-.world-panel .world-panel__scrim { top: auto; height: max(100%, 40rem); background: var(--g-worlds-base); }
+.world-panel .world-panel__scrim { background: var(--g-worlds-base); }
 .world-panel--flash-treatment .world-panel__scrim { background: var(--g-worlds-base-strong); }
 .world-panel .world-panel__top { background: var(--g-worlds-top); }
 
@@ -105,7 +103,7 @@
   .world-panels { flex-direction: column; height: auto; gap: 1rem; border: 0; }
   .world-panel, .world-panel + .world-panel { --o: 1 !important; flex: none !important; aspect-ratio: 4 / 5; border: 1px solid var(--c-pearl-a18); }
   .world-panel__closed { display: none; }
-  .world-panel .world-panel__scrim { top: 0; height: auto; background: var(--g-worlds-base-tall), var(--c-noir-a30); }
+  .world-panel .world-panel__scrim { background: var(--g-worlds-base-tall), var(--c-noir-a30); }
   .world-panel__open { left: 1.5rem; right: 1.5rem; bottom: 1.25rem; width: auto; }
   /* Compact: the name keeps to one line (20–30px) and the gaps tighten, so the content stays low on the card. */
   .world-panel__name { margin-top: 0.75rem; font-size: clamp(1.25rem, 5.3vw, 1.875rem); }

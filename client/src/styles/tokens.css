@@ -112,7 +112,6 @@
   --page-pad: clamp(1.5rem, 8.33vw, 11.25rem);             /* 24 → 120 (1440) → 180px; = --hero-pad-left */
   --grid-gap: 2rem;                                        /* 12-column grid gutter */
   --section-y: clamp(4.5rem, 7.8vw, 8rem);                 /* Home section padding: 72 → 112 (1440) → 128px */
-  --section-min: clamp(40rem, 52.8vw, 51.25rem);           /* Home section height from 1024px: 640 → 760 (1440) → 820px */
   --halves-img-h: clamp(27.5rem, 40vw, 40rem);             /* edge-to-edge .halves image height: 440 → 640px */
   --halves-pad-in: clamp(2.5rem, 6vw, 6rem);               /* .halves text, inside edge: 40 → 96px */
   --text-max: 32.5rem;                                     /* text columns: 520px */
