@@ -1,19 +1,18 @@
 import { useParams } from 'react-router-dom';
 import Seo from '../../components/ui/Seo.jsx';
-import Section from '../../components/ui/Section.jsx';
-import Feature from '../../components/ui/Feature.jsx';
-import Icon from '../../components/ui/Icon.jsx';
 import ProductImage from '../../components/ui/ProductImage.jsx';
 import ProductGrid from '../../components/product/ProductGrid.jsx';
 import Breadcrumb from '../../components/product/Breadcrumb.jsx';
+import SectionTabs from '../../components/product/SectionTabs.jsx';
 import LightFunctions from '../../components/product/LightFunctions.jsx';
-import { ApplicationSecret, Benefits, Evidence, Ingredients, Modes, Technology } from '../../components/product/DetailBlocks.jsx';
+import { ApplicationSecret, Benefits, Evidence, EvidenceStrip, Ingredients, Modes, Technology } from '../../components/product/DetailBlocks.jsx';
 import ConsultationCta from '../../components/sections/ConsultationCta.jsx';
 import { ButtonLink } from '../../components/ui/Links.jsx';
 import { getProduct, getRelated } from '../../data/catalog.js';
-import { site } from '../../data/config/features.js';
+import { features, site } from '../../data/config/features.js';
 import { absoluteUrl } from '../../utils/seo.js';
 import NotFound from '../NotFound/NotFound.jsx';
+import './Product.css';
 
 function productJsonLd(p) {
   return {
@@ -28,43 +27,52 @@ function productJsonLd(p) {
   };
 }
 
-/** In-page index, in reading order; lists only the sections this product has. */
-function sectionsFor(p) {
-  const techId = p.technology.length > 0 ? 'technology' : p.lightFunctions ? 'light-functions' : p.modes.length > 0 ? 'modes' : null;
+/**
+ * The detail rows this product has, in order: Benefits, Application, Ingredients, Evidence, then the
+ * device rows (Technology; Modes / Functions only where named; Certifications only once verified).
+ * `tab` marks the rows linked from the section tabs. Rows a product has no data for are absent. The four
+ * standard rows keep fixed numbers (03 is always Ingredients, 04 always Evidence); device rows number on from 05.
+ */
+function rowsFor(p) {
   return [
-    ['benefits', 'Benefits'],
-    ['application', 'Application'],
-    techId && [techId, 'Technology'],
-    p.display.ingredients.length > 0 && ['ingredients', 'Ingredients'],
-    ['evidence', 'Evidence'],
-  ].filter(Boolean);
+    { id: 'benefits', num: 1, title: 'Enhanced Benefits', tab: 'Benefits', body: <Benefits product={p} /> },
+    { id: 'application', num: 2, title: 'Application Secret', tab: 'Application', body: <ApplicationSecret product={p} /> },
+    p.display.ingredients.length > 0 && { id: 'ingredients', num: 3, title: 'Active Ingredients', tab: 'Ingredients', body: <Ingredients product={p} /> },
+    p.display.evidence.length > 0 && { id: 'evidence', num: 4, title: 'Scientific Evidence', tab: 'Evidence', body: <Evidence product={p} /> },
+    p.technology.length > 0 && { id: 'technology', title: 'Technology', body: <Technology product={p} /> },
+    p.lightFunctions && { id: 'light-functions', title: p.lightFunctions.heading, body: <LightFunctions data={p.lightFunctions} /> },
+    p.modes.length > 0 && { id: 'modes', title: 'Modes', body: <Modes product={p} /> },
+    features.certifications && p.certifications && { id: 'certifications', title: 'Certifications', body: <p className="pdp-text">{p.certifications}</p> },
+    // Recommended Products: only where verified — none is yet (V-01), so no product has this row.
+  ].filter(Boolean).map((r, i, rows) => ({ ...r, num: r.num ?? 5 + rows.slice(0, i).filter((x) => !x.num).length }));
 }
 
-/** One centred detail section: thin line icon (or a gold rule), title, content. */
-function Detail({ id, title, icon, children }) {
+/** One spec-sheet row: the number and title (left, 4fr), the content (right, 8fr). */
+function DetailRow({ id, number, title, children }) {
   return (
-    <section id={id} className="detail" aria-labelledby={`${id}-title`}>
-      <div className="container detail__inner">
-        {icon ? <Icon name={icon} className="detail__icon" /> : <span className="detail__rule" aria-hidden="true" />}
-        <h2 id={`${id}-title`} className="detail__title">{title}</h2>
-        <div className="detail__body">{children}</div>
+    <section id={id} className="pdp-row" aria-labelledby={`${id}-title`}>
+      <div className="pdp-row__head">
+        <p className="pdp-row__num"><span className="pdp-row__rule" aria-hidden="true" />{number}</p>
+        <h2 id={`${id}-title`} className="pdp-row__title">{title}</h2>
       </div>
+      <div className="pdp-row__body">{children}</div>
     </section>
   );
 }
 
 /**
- * Product template (all 27): 50/50 hero on silk, then one centred column —
- * Benefits → Application → device Technology/Light Functions/Modes →
- * Active Ingredients → Scientific Evidence — then related products and the
- * consultation band. Every Master field is rendered in full.
+ * Product template (all 27) — design-reference/product-single-a: hero on pearl (image on the mat; breadcrumb,
+ * step, name, subtitle as the H1, short description, evidence strip, consultation button), the section tabs,
+ * the spec-sheet rows on white, related products on pearl, the consultation band on white.
+ * Every string is Master text from the catalog, or one of the template's existing labels.
  */
 export default function Product() {
   const { slug } = useParams();
   const p = getProduct(slug);
   if (!p) return <NotFound />;
   const related = getRelated(p);
-  const context = p.stepInfo ? `Step ${p.stepInfo.number} · ${p.stepInfo.label}` : p.categoryInfo.label;
+  const rows = rowsFor(p);
+  const tabs = rows.filter((r) => r.tab).map((r) => ({ id: r.id, label: r.tab }));
 
   return (
     <>
@@ -77,89 +85,53 @@ export default function Product() {
         jsonLd={productJsonLd(p)}
       />
 
-      <article className={`product${p.isDevice ? ' product--device' : ''}`} aria-labelledby="product-name">
-        <header className="product-hero section--silk">
-          <div className="container product-hero__grid">
-            <div className="product-hero__media">
-              <ProductImage product={p} ratio={0.8} eager sizes="(min-width: 900px) 45vw, 100vw" />
+      <article className={`pdp${p.isDevice ? ' pdp--device' : ''}`} aria-labelledby="product-title">
+        <header className="pdp-hero">
+          <div className="pdp-wrap pdp-hero__grid">
+            <div className="pdp-hero__media">
+              <ProductImage product={p} ratio={0.8} eager sizes="(min-width: 900px) 45vw, 100vw" className="pdp-mat" />
               {p.images.gallery.length > 0 && (
-                <ul className="product-hero__gallery">
+                <ul className="pdp-hero__gallery">
                   {p.images.gallery.map((src, i) => (
                     <li key={src}><img src={src} alt={`${p.name} — image ${i + 2}`} loading="lazy" decoding="async" /></li>
                   ))}
                 </ul>
               )}
             </div>
-            <div className="product-hero__text">
+            <div className="pdp-hero__text">
               <Breadcrumb product={p} />
-              <p className="eyebrow">{context}</p>
-              <h1 id="product-name" className="product-hero__name">{p.name}</h1>
-              <p className="product-hero__subtitle">{p.subtitle}</p>
-              {p.shortDescription && <p className="product-hero__desc">{p.shortDescription}</p>}
-              <div className="product-hero__actions">
-                <ButtonLink to="/contact?type=consultation#inquiry">Request a consultation</ButtonLink>
+              {p.stepInfo && <p className="pdp-hero__step">{`Step ${p.stepInfo.number} · ${p.stepInfo.label}`}</p>}
+              <p className="pdp-hero__name">{p.name}</p>
+              <h1 id="product-title" className="pdp-hero__title">{p.subtitle}</h1>
+              {p.shortDescription && <p className="pdp-hero__desc">{p.shortDescription}</p>}
+              <EvidenceStrip product={p} />
+              <div className="pdp-hero__actions">
+                <ButtonLink to="/contact?type=consultation#inquiry" className="pdp-btn">Request a consultation</ButtonLink>
               </div>
-              <nav className="product-index" aria-label="On this page">
-                <ul>
-                  {sectionsFor(p).map(([id, label]) => <li key={id}><a href={`#${id}`}>{label}</a></li>)}
-                </ul>
-              </nav>
             </div>
           </div>
+          <SectionTabs items={tabs} />
         </header>
 
-        <div className="product-body">
-          <Detail id="benefits" title="Enhanced Benefits" icon="hand-heart">
-            <Benefits product={p} />
-          </Detail>
-
-          <Detail id="application" title="Application Secret" icon="magnifier">
-            <ApplicationSecret product={p} />
-          </Detail>
-
-          {p.technology.length > 0 && (
-            <Detail id="technology" title="Technology">
-              <Technology product={p} />
-            </Detail>
-          )}
-
-          {p.lightFunctions && (
-            <Detail id="light-functions" title={p.lightFunctions.heading}>
-              <LightFunctions data={p.lightFunctions} />
-            </Detail>
-          )}
-
-          {p.modes.length > 0 && (
-            <Detail id="modes" title="Modes">
-              <Modes product={p} />
-            </Detail>
-          )}
-
-          {p.display.ingredients.length > 0 && (
-            <Detail id="ingredients" title="Active Ingredients" icon="leaf">
-              <Ingredients product={p} />
-            </Detail>
-          )}
-
-          <Detail id="evidence" title="Scientific Evidence" icon="flask">
-            <Evidence product={p} />
-          </Detail>
-
-          <Feature flag="certifications" data={p.certifications || null}>
-            <Detail id="certifications" title="Certifications">
-              <p className="prose">{p.certifications}</p>
-            </Detail>
-          </Feature>
+        <div className="pdp-details">
+          <div className="pdp-wrap">
+            {rows.map((r) => (
+              <DetailRow key={r.id} id={r.id} number={String(r.num).padStart(2, '0')} title={r.title}>{r.body}</DetailRow>
+            ))}
+          </div>
         </div>
       </article>
 
       {related.length > 0 && (
-        <Section id="related" title={p.isDevice ? 'More beauty devices' : 'Related products'} layout="stack" tone="white">
-          <ProductGrid products={related} />
-        </Section>
+        <section className="pdp-related" aria-labelledby="related-title">
+          <div className="pdp-wrap">
+            <h2 id="related-title" className="pdp-related__title">{p.isDevice ? 'More beauty devices' : 'Related products'}</h2>
+            <ProductGrid products={related} />
+          </div>
+        </section>
       )}
 
-      <ConsultationCta secondary={{ to: '/products', label: 'Explore more products' }} />
+      <ConsultationCta secondary={{ to: '/products', label: 'Explore more products' }} tone="white" />
     </>
   );
 }

@@ -164,6 +164,7 @@
 
 /* ---------- Consultation band (pearl, centred, no image) · ≈440px at 1440 ---------- */
 .consult { background: var(--c-pearl); padding-block: clamp(4rem, 6.7vw, 6rem); }
+.consult--white { background: var(--c-white); }   /* product pages */
 .consult__inner { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .consult__rule { display: block; width: 1px; height: 3.5rem; background: var(--c-gold); }
 .consult__title { margin-top: 2.25rem; font-size: var(--t-title-consult); }

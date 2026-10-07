@@ -23,6 +23,15 @@
   --c-gold-text: #7F6647;   /* small labels on light (4.8:1) */
   --c-gold-light: #C9AE84;  /* labels, numerals, icons on dark */
 
+  /* Product detail (spec-sheet design, design-reference/product-single-a) */
+  --c-gold-deep: #7D6240;   /* the design's "gold-text-deep": step, numbers, figures, concentrations, the breadcrumb's last item
+                               (named apart from --c-gold-text-deep, #725C3D, which the photo heroes use) */
+  --c-line-spec: #DDD5C8;   /* row and evidence-strip hairlines */
+  --c-line-crumb: #C9C1B5;  /* the breadcrumb's 16px joining rules */
+  --c-muted: #8F877C;       /* breadcrumb, inactive section tabs, card subtitles */
+  --c-mat: #E3DDD3;         /* product image mat */
+  --c-line-warm: #E6E0D6;    /* product detail list hairlines (also the Results cards) */
+
   /* Translucent layers (scrims and frames over photography only) */
   --c-on-dark: rgba(243, 242, 238, 0.66);   /* secondary text on noir */
   --c-line-dark: rgba(243, 242, 238, 0.16); /* hairlines on noir */

@@ -7,3 +7,6 @@ content-source/brand/*.pdf
 content-source/brand/extracted/
 .screenshots/
 content-source/brand/old-site/
+
+# Design-tool mockups (reference only, never committed)
+design-reference/

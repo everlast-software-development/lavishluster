@@ -6,7 +6,7 @@
  *  2. Every published product field is verbatim Master text (after the logged
  *     whitespace normalizations; withheld sentences are re-attached to prove
  *     nothing else changed).
- *  3. Every display fragment (list items, figures, device specs, science
+ *  3. Every display fragment (list items, figures, the evidence highlight, device specs, science
  *     phrases) is an exact substring of its Master field.
  *  4. Every brand text block is verbatim verified old-site content.
  *  5. The prerendered HTML of all 27 product pages contains every fragment.
@@ -21,7 +21,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { isDeepStrictEqual } from 'node:util';
 import { extract, NORMALIZATIONS } from './extract-master.mjs';
-import { splitBenefits, splitEvidence, splitIngredients } from '../client/src/utils/text.js';
+import { evidenceHighlight, splitBenefits, splitEvidence, splitIngredients } from '../client/src/utils/text.js';
 import { deviceSpecs } from '../client/src/data/devices/specs.js';
 import { technologies } from '../client/src/data/content/science.js';
 import { site, lusterscan } from '../client/src/data/content/site.js';
@@ -94,9 +94,18 @@ for (const p of products) {
     if (ing.concentration) check(ing.raw.endsWith(`(${ing.concentration})`), `${p.slug}: concentration "${ing.concentration}"`);
     expect.push(ing.name);
   }
-  for (const e of splitEvidence(p.scientificEvidence)) {
+  const evidence = splitEvidence(p.scientificEvidence);
+  for (const e of evidence) {
     check(p.scientificEvidence.includes(e.raw), `${p.slug}: evidence "${e.raw}"`);
     expect.push(e.raw);
+  }
+  // The evidence highlight (product hero strip and row 04): figure and rest are each exact substrings of the
+  // Master field, and together they are the item itself, so nothing is added or dropped by the split.
+  const { highlight } = evidenceHighlight(evidence);
+  if (highlight) {
+    check(p.scientificEvidence.includes(highlight.figure), `${p.slug}: highlight figure "${highlight.figure}" not in the Master text`);
+    check(p.scientificEvidence.includes(highlight.text), `${p.slug}: highlight text "${highlight.text}" not in the Master text`);
+    check(`${highlight.figure} ${highlight.text}` === highlight.raw, `${p.slug}: highlight "${highlight.figure}" + "${highlight.text}" does not rebuild "${highlight.raw}"`);
   }
   const spec = deviceSpecs[p.slug];
   if (spec) {

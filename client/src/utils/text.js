@@ -25,6 +25,17 @@ export function splitIngredients(text) {
 
 const FIGURE = /^(\d[\d.,]*%|\d+ (?:years|hours|times)|\d+-hour)\s(.+)$/;
 
+/**
+ * The evidence highlight: the FIRST item that starts with a figure ("48-hour", "12 years", "90%", "3 times"),
+ * split into { figure, text } (both exact substrings of the Master field — checked in verify-content.mjs),
+ * and every other item, in source order. No figure anywhere: no highlight, every item in `rest`.
+ */
+export function evidenceHighlight(items) {
+  const i = items.findIndex((e) => e.figure);
+  if (i < 0) return { highlight: null, rest: items };
+  return { highlight: items[i], rest: items.filter((_, j) => j !== i) };
+}
+
 /** Scientific Evidence: split at "; " and separate a leading figure where present. */
 export function splitEvidence(text) {
   if (!text) return [];
