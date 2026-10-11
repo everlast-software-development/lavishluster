@@ -1,0 +1,232 @@
+/* ==========================================================================
+   The Science — Montserrat, tokens only, the shared .container and 12-column grid, --section-y.
+   Hero pearl → 01·02 white → 03 Active Ingredients noir → 04 Clinical Evidence white →
+   05 Beauty Technology noir → 06 AI Technology white → Consultation (shared).
+   Type: Home's roles. The H1 = Home's hero H1; every numbered title = --t-h2, weight 200, 0.06em;
+   eyebrows = .home-eyebrow (36px rule + number, gold-text on light, gold-light inside .on-dark).
+   ========================================================================== */
+.sci-band { padding-block: var(--section-y); }
+.home-title.sci-h2 {
+  margin-top: 1.25rem;
+  font-size: var(--t-h2); font-weight: 200; line-height: 1.1; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--c-ink);
+}
+.on-dark .home-title.sci-h2 { color: var(--c-pearl); }
+.sci-ings, .sci-tech { background: var(--c-noir); color: var(--c-pearl); }
+.sci-ings :focus-visible, .sci-tech :focus-visible { outline-color: var(--c-gold); }
+
+/* ==========================================================================
+   Hero (pearl) · 580px + the 96px header = 676px at 1440
+   ========================================================================== */
+.sci-hero {
+  position: relative; isolation: isolate; overflow: hidden;
+  display: flex; align-items: center; min-height: clamp(32rem, 40.3vw, 36.25rem);
+  background: var(--c-pearl); color: var(--c-ink);
+}
+/* Full-bleed background, as the Products hero: brand/science-hero.png (1344 × 768, the Body Slim X4 on a
+   plinth) covers the whole hero below the header, under the shared left-side pearl scrim (.hero-scrim--left,
+   the Products gradient). The hero is wider than the photo, so cover fills the width and crops vertically. */
+.sci-hero__media { position: absolute; z-index: -1; inset: 0; background: var(--c-pearl); }
+.sci-hero__media .sci-hero__device { position: absolute; inset: 0; width: 100%; height: 100%; background: transparent; }
+.sci-hero__media .sci-hero__device > img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 34%; }
+/* Vertical only, per width: 1024–1279 the whole device fits, 80% keeps the rose-gold handle off the subtitle
+   (≥4.5:1); from 1680 only ≈53% of the photo's height shows, 20% keeps the LED heads complete. */
+@media (max-width: 1279px) { .sci-hero__media .sci-hero__device > img { object-position: 50% 80%; } }
+@media (min-width: 1680px) { .sci-hero__media .sci-hero__device > img { object-position: 50% 20%; } }
+.sci-hero__inner { position: relative; z-index: 1; width: 100%; padding-block: 3rem; }
+.sci-hero__text { max-width: 31.25rem; }   /* the column: 500px (the H1 lines run on, unbroken) */
+/* The breadcrumb on a light surface: the shared component; the current page in gold-text (gold-light is for noir). */
+.sci-hero .page-crumbs [aria-current] { color: var(--c-gold-text-deep); }   /* ≥4.5:1 over the scrimmed photo (gold-text is ≈4.3 there) */
+.sci-hero .page-crumbs a:hover { color: var(--c-ink); }
+.home-title.sci-hero__title {
+  margin-top: 1.75rem;
+  font-size: clamp(2.125rem, 3.9vw, 3.5rem); font-weight: 200; line-height: 1.1; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--c-ink);
+}
+@media (min-width: 1024px) { .sci-hero__title .home-title__line { white-space: nowrap; } }
+.sci-hero__sub { margin-top: 1.5rem; max-width: 26.875rem; font-size: var(--t-body); font-weight: 300; line-height: 1.8; color: var(--c-ink-soft); }
+
+/* ==========================================================================
+   01 · 02 (white): two full-width rows, hairlines above each and below the last
+   ========================================================================== */
+.sci-rows { background: var(--c-white); color: var(--c-ink); }
+.sci-rows .home-eyebrow::before { background: var(--c-gold); }   /* Home's eyebrow rule on white */
+.sci-row {
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--grid-gap); align-items: start;
+  padding-block: 3rem; border-top: 1px solid var(--c-ink-a14);
+}
+.sci-row:last-child { border-bottom: 1px solid var(--c-ink-a14); }
+.sci-row__head { grid-column: 1 / span 5; }
+@media (min-width: 1024px) { .sci-row__title .home-title__line { white-space: nowrap; } }   /* "Grade Formulations" runs into the empty column 6 */
+/* The paragraph's first line box starts level with the title's: down by the eyebrow's line (11px × 1.5) and the title's 20px margin. */
+.sci-row__text {
+  grid-column: 7 / -1; max-width: 38.75rem; padding-top: calc(var(--t-label) * 1.5 + 1.25rem);
+  font-size: 1.0625rem; font-weight: 300; line-height: 1.85; color: var(--c-ink-soft);
+}
+
+/* ==========================================================================
+   03 · Active Ingredients (noir): concentration scale (decorative), then the list
+   ========================================================================== */
+/* The scale, 0–5% across the container: dots at the data's concentrations, a baseline, major gold-light
+   ticks every 1% (20% of the width, 14px), minor ticks every 0.2% (4%, 7px, 55%), labels under the majors. */
+.sci-scale { position: relative; margin-top: 3rem; }
+.sci-scale__marks { position: relative; height: 0.4375rem; }
+.sci-scale__mark { position: absolute; top: 0; left: calc(var(--p) * 1%); width: 0.4375rem; height: 0.4375rem; border-radius: 50%; background: var(--c-gold-light); transform: translateX(-50%); }
+.sci-scale__ruler { position: relative; height: 0.875rem; margin-top: 0.5rem; border-top: 1px solid var(--c-pearl-a14); }
+.sci-scale__tick { position: absolute; top: 0; left: calc(var(--p) * 1%); width: 1px; height: 0.4375rem; background: var(--c-pearl-a55); }
+.sci-scale__tick--major { height: 0.875rem; background: var(--c-gold-light); }
+.sci-scale__tick:last-child { transform: translateX(-100%); }   /* the closing tick at 100% stays inside */
+.sci-scale__labels { position: relative; height: 1rem; margin-top: 0.5rem; }
+.sci-scale__label {
+  position: absolute; top: 0; left: calc(var(--p) * 1%); transform: translateX(-50%);
+  font-size: 0.625rem; font-weight: 500; line-height: 1.6; letter-spacing: 0.14em; color: var(--c-pearl-a55); white-space: nowrap;
+}
+.sci-scale__label:first-child { transform: none; }
+.sci-scale__label:last-child { transform: translateX(-100%); margin-right: -0.14em; }
+
+/* By product: a 4-column grid (a real grid, so every row's cells start on one line), each product a
+   cell under a pearl 14% hairline, the grid closed by one at the bottom. */
+.sci-ings__grid {
+  list-style: none; margin: 2.5rem 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 3rem;
+  border-bottom: 1px solid var(--c-pearl-a14);
+}
+.sci-prod { min-width: 0; padding: 1.375rem 0 1.625rem; border-top: 1px solid var(--c-pearl-a14); }
+.sci-prod__name { font-size: 0.6875rem; font-weight: 600; line-height: 1.6; letter-spacing: 0.18em; text-transform: uppercase; color: var(--c-pearl); }
+.sci-prod__name a { color: inherit; text-decoration: none; transition: color 0.3s var(--ease); }
+.sci-prod__name a:hover { color: var(--c-gold-light); }
+.sci-prod__rule { display: block; width: 1.5rem; height: 1px; margin: 0.75rem 0 0.625rem; background: var(--c-gold-light); }
+.sci-prod__ings { list-style: none; margin: 0; padding: 0; }
+/* One ingredient per line; a long name wraps, its percentage stays on the first line, right-aligned. */
+.sci-prod__ings li { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding-block: 0.3125rem; }
+.sci-prod__ing { min-width: 0; font-size: 0.84375rem; font-weight: 300; line-height: 1.45; color: var(--c-pearl-a75); }
+.sci-prod__pct { flex: none; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.04em; color: var(--c-gold-light); font-variant-numeric: lining-nums tabular-nums; }
+
+/* ==========================================================================
+   04 · Clinical Evidence (white, centred)
+   ========================================================================== */
+.sci-evidence { background: var(--c-white); color: var(--c-ink); }
+.sci-evidence__inner { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.sci-eyebrow-center {
+  display: flex; align-items: center; justify-content: center; gap: 1rem;
+  font-size: var(--t-label); font-weight: 500; line-height: 1.5; letter-spacing: var(--tr-label); text-transform: uppercase; color: var(--c-gold-text);
+}
+.sci-eyebrow-center::before, .sci-eyebrow-center::after { content: ''; flex: none; width: 2.25rem; height: 1px; background: var(--c-gold-text); }
+.sci-evidence .sci-h2 { white-space: nowrap; }
+.sci-evidence__text { margin-top: 2.25rem; max-width: 51.25rem; font-size: clamp(1.125rem, 1.55vw, 1.375rem); font-weight: 200; line-height: 1.75; color: var(--c-ink); }
+.sci-evidence__action { margin-top: 2.25rem; }
+
+/* ==========================================================================
+   05 · Beauty Technology (noir): 4 × 2 grid
+   ========================================================================== */
+.sci-tech__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem 2rem; }
+/* Home's text link on noir: pearl with the gold underline. */
+.sci-tech .text-link, .sci-tech__all { color: var(--c-pearl); }
+.sci-tech__grid {
+  list-style: none; margin: 3rem 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-right: 1px solid var(--c-pearl-a14);
+}
+.sci-tech__cell { display: flex; flex-direction: column; min-width: 0; padding-bottom: 2rem; border-left: 1px solid var(--c-pearl-a14); border-bottom: 1px solid var(--c-pearl-a14); }
+.sci-tech__bar { display: block; height: 4px; background: var(--tone); }   /* pearl → gold across the eight */
+.sci-tech__body { padding-inline: 1.5rem; }
+.sci-tech__top { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-top: 1.5rem; }
+.sci-tech__name { font-size: clamp(1.375rem, 2vw, 1.875rem); font-weight: 200; line-height: 1.1; letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-pearl); }
+.sci-tech__index { flex: none; font-size: 0.65625rem; font-weight: 500; letter-spacing: 0.2em; color: var(--c-gold-light); font-variant-numeric: lining-nums tabular-nums; }
+.sci-tech__devices { list-style: none; margin: 1.375rem 0 0; padding: 0; display: grid; gap: 1rem; }
+.sci-tech__devices li { display: grid; gap: 0.25rem; }
+.sci-tech__device {
+  font-size: 0.65625rem; font-weight: 600; line-height: 1.5; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--c-pearl); text-decoration: none; transition: color 0.3s var(--ease);
+}
+.sci-tech__device:hover { color: var(--c-gold-light); }
+.sci-tech__desc { font-size: 0.84375rem; font-weight: 300; line-height: 1.6; color: var(--c-pearl-a62); }
+
+/* ==========================================================================
+   06 · AI Technology (white): overlap — a large square image on the left, a white hairline panel over its
+   right edge (DOM order = visual order: image, then panel)
+   ========================================================================== */
+.sci-ai { background: var(--c-white); color: var(--c-ink); }
+.sci-overlap {
+  --ov-img: min(560px, 52%);   /* image width */
+  --ov-overlap: 5.5rem;        /* the panel over the image: 88px */
+  --ov-pad: 3.5rem;            /* panel padding: 56px … */
+  --ov-pad-b: 3.75rem;         /* … and 60px at the bottom */
+  display: flex; align-items: center; max-width: 70rem; margin-inline: auto;   /* 1120px, centred */
+}
+/* The image: square, cover (the photo is square, so nothing is cut), no frame or shadow. */
+.sci-overlap__media { position: relative; flex: 0 0 var(--ov-img); aspect-ratio: 1; overflow: hidden; }
+.sci-overlap__media .media { position: absolute; inset: 0; }
+/* The panel: white, a 1px ink 14% hairline, over the image's right edge, vertically centred. */
+.sci-overlap__panel {
+  position: relative; z-index: 1; flex: 1 1 auto; min-width: 0; margin-left: calc(-1 * var(--ov-overlap));
+  padding: var(--ov-pad) var(--ov-pad) var(--ov-pad-b, var(--ov-pad));
+  background: var(--c-white); border: 1px solid var(--c-ink-a14);
+}
+.sci-overlap__panel .sci-h2 { margin-top: 1rem; }
+.sci-overlap__panel .sci-ai__body { margin-top: 1.375rem; max-width: 28.75rem; }
+.sci-overlap__action { margin-top: 2rem; }
+.sci-overlap__action .text-link { letter-spacing: 0.24em; padding-bottom: 6px; color: var(--c-ink); }
+/* The image zooms 1.035 while the link is hovered or focused (not under reduced motion). */
+@media (prefers-reduced-motion: no-preference) {
+  .sci-overlap:has(.text-link:hover, .text-link:focus-visible) .sci-overlap__media img { transform: scale(1.035); }
+}
+/* Eyebrow: Home's eyebrow (36px gold rule) + "06", a 20px light rule, then the LusterScan AI eyebrow. */
+.sci-ai__eyebrow {
+  display: flex; align-items: center; gap: 1rem;
+  font-size: var(--t-label); font-weight: 500; line-height: 1.5; letter-spacing: var(--tr-label); text-transform: uppercase; color: var(--c-gold-text);
+}
+.sci-ai__eyebrow::before { content: ''; flex: none; width: 2.25rem; height: 1px; background: var(--c-gold); }
+.sci-ai__rule { flex: none; width: 1.25rem; height: 1px; background: var(--c-gold-light); }
+.sci-ai__body { margin-top: 1.5rem; max-width: 32.5rem; font-size: var(--t-body); font-weight: 300; line-height: 1.85; color: var(--c-ink-soft); }
+
+/* ==========================================================================
+   Breakpoints
+   ========================================================================== */
+@media (max-width: 1279px) {
+  .sci-ings__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  /* Overlap: image min(480px, 50%), 64px over it, 44px padding. */
+  .sci-overlap { --ov-img: min(480px, 50%); --ov-overlap: 4rem; --ov-pad: 2.75rem; --ov-pad-b: 2.75rem; }
+}
+@media (max-width: 1024px) {
+  .sci-tech__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 1023px) {
+  /* Hero, the Products hero's mobile treatment: the photograph above the text (16:10, no scrim), then the
+     text (with the background kept, the wider H1 would run past the scrim on tablets). */
+  .sci-hero { display: block; min-height: 0; }
+  .sci-hero__media { position: relative; z-index: auto; inset: auto; aspect-ratio: 16 / 10; }
+  .sci-hero__media::after { display: none; }  .sci-hero__inner { padding-block: 2.5rem 3rem; }
+  .sci-hero__text { max-width: none; }
+
+
+  /* Rows: the title above the paragraph. */
+  .sci-row { grid-template-columns: minmax(0, 1fr); row-gap: 1.5rem; }
+  .sci-row__head, .sci-row__text { grid-column: 1; }
+  .sci-row__text { padding-top: 0; }
+
+  /* Active Ingredients: 2 columns. */
+  .sci-ings__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  /* Overlap stacks: the image (full width up to 560px, centred, square), then the panel over its bottom
+     by 8% of the image (≈45px at 560px, ≈27px at 390: the jar logo ends at 91% of the photo, so it stays
+     clear), inset 24px from each side of the image, 32px padding. (A % margin resolves against the group's
+     width, which is the image's width here.) */
+  .sci-overlap { --ov-img: min(100%, 560px); --ov-inset: 1.5rem; --ov-pad: 2rem; --ov-pad-b: 2rem; flex-direction: column; }
+  .sci-overlap__media { flex: none; width: var(--ov-img); }
+  .sci-overlap__panel { flex: none; width: calc(var(--ov-img) - 2 * var(--ov-inset)); margin: calc(-0.08 * var(--ov-img)) 0 0; }
+}
+@media (max-width: 639px) {
+  .sci-ings__grid { grid-template-columns: minmax(0, 1fr); }
+  .sci-overlap { --ov-inset: 1rem; --ov-pad: 1.75rem; --ov-pad-b: 1.75rem; }   /* 16px inset, 28px padding */
+}
+@media (max-width: 767px) {
+  .sci-scale__label { font-size: 0.5625rem; }
+  .sci-evidence .sci-h2 { white-space: normal; }
+}
+@media (max-width: 560px) {
+  .sci-tech__grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sci-prod__name a, .sci-tech__device { transition: none; }
+}

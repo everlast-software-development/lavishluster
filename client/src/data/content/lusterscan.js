@@ -3,12 +3,14 @@
  * exactly as written there. Checked by scripts/verify-website-content.mjs.
  * Excluded (section 16): the "Your Personal Dermatologist" headline and the
  * "Dermatological precision analysis" bullet; the welcome video and the
- * app/API integration stay off until supplied.
+ * app/API integration stay off until supplied. `titleLines` only set line breaks; each joins back
+ * to its verbatim title.
  */
 export const lusterscanPage = {
-  hero: { eyebrow: 'LusterScan AI', title: 'Your Personal Skin Advisor' },
+  hero: { eyebrow: 'LusterScan AI', title: 'Your Personal Skin Advisor', titleLines: ['Your Personal', 'Skin Advisor'] },
   what: {
     title: 'What is LusterScan AI',
+    titleLines: ['What is', 'LusterScan AI'],
     text: 'Advanced AI software analyzes your skin in detail—wrinkles, imperfections, firmness, and blemishes—to provide a 100% personalized skincare protocol.',
   },
   steps: [

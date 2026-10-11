@@ -1,14 +1,27 @@
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import Seo from '../../components/ui/Seo.jsx';
-import PageHero from '../../components/ui/PageHero.jsx';
-import ProductGrid from '../../components/product/ProductGrid.jsx';
+import BrandImage from '../../components/ui/BrandImage.jsx';
+import Breadcrumb from '../../components/ui/Breadcrumb.jsx';
+import TitleLines from '../../components/sections/home/TitleLines.jsx';
+import CatalogGrid from '../../components/product/CatalogGrid.jsx';
 import masterBrand from '../../data/content/master-brand.json';
+import { productsPage } from '../../data/content/products.js';
 import { catalogHref, categoriesWithCounts, products, productsInCategory, productsInStep, stepsWithCounts } from '../../data/catalog.js';
 import { getStepBySlug } from '../../data/taxonomy.js';
+import './Products.css';
 
 const FACIAL = 'facial-treatment';
 const cat = (slug) => categoriesWithCounts.find((c) => c.slug === slug);
+/** Title lines only when they join back to the verbatim title. */
+const linesOf = (block) => (block.titleLines && block.titleLines.join(' ') === block.title ? block.titleLines : null);
+
+/** The three worlds in page order; the number is the section eyebrow (the only addition). */
+const WORLDS = [
+  { slug: FACIAL, number: '01', tone: 'pearl' },
+  { slug: 'flash-treatment', number: '02', tone: 'white' },
+  { slug: 'beauty-devices', number: '03', tone: 'pearl' },
+];
 
 const useIsoLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
@@ -26,12 +39,12 @@ function useCatalogFilter() {
   return { category, step };
 }
 
-/** Sticky filter bar: product-world tabs, plus treatment-step filters inside Facial Treatment. */
+/** Sticky filter bar: product-world tabs, plus treatment-step filters inside Facial Treatment. Each row is a full-width band. */
 function FilterBar({ category, step }) {
   return (
     <div className="filter-bar">
-      <div className="container">
-        <nav aria-label="Filter by product world">
+      <nav className="filter-bar__row" aria-label="Filter by product world">
+        <div className="container">
           <ul className="filter-bar__tabs">
             <li>
               <Link to={catalogHref()} aria-current={!category ? 'true' : undefined}>
@@ -46,9 +59,11 @@ function FilterBar({ category, step }) {
               </li>
             ))}
           </ul>
-        </nav>
-        {category === FACIAL && (
-          <nav aria-label="Filter facial treatments">
+        </div>
+      </nav>
+      {category === FACIAL && (
+        <nav className="filter-bar__row" aria-label="Filter facial treatments">
+          <div className="container">
             <ul className="filter-bar__steps">
               <li>
                 <Link to={catalogHref(FACIAL)} aria-current={!step ? 'true' : undefined}>All steps</Link>
@@ -61,39 +76,39 @@ function FilterBar({ category, step }) {
                 </li>
               ))}
             </ul>
-          </nav>
-        )}
-      </div>
+          </div>
+        </nav>
+      )}
     </div>
   );
 }
 
-function WorldHead({ category }) {
+/** Section header: eyebrow (number — count) and title on the left, the description on the right. */
+function WorldHead({ category, number }) {
   return (
-    <header className="world-group__head">
-      <h2 id={`world-${category.slug}`} className="section-title">{category.label}</h2>
-      <p className="world-group__count">{category.countLabel}</p>
-      {category.description && <p className="world-group__desc">{category.description}</p>}
+    <header className="pr-head">
+      <div className="pr-head__main">
+        <p className="home-eyebrow pr-eyebrow">
+          <span>{number}</span>
+          <span className="pr-eyebrow__rule" aria-hidden="true" />
+          <span className="pr-head__count">{category.countLabel}</span>
+        </p>
+        <h2 id={`world-${category.slug}`} className="home-title pr-h2">{category.label}</h2>
+      </div>
+      {category.description && <p className="pr-head__desc">{category.description}</p>}
     </header>
   );
 }
 
-function StepGroup({ step }) {
-  return (
-    <section className="step-group" aria-labelledby={`step-${step.slug}`}>
-      <header className="step-group__head">
-        <p className="eyebrow">Step {step.number}</p>
-        <h3 id={`step-${step.slug}`} className="step-group__title">{step.label}</h3>
-        {step.group && <p className="step-group__sub">{step.group}</p>}
-      </header>
-      <ProductGrid products={productsInStep(step.number)} headingLevel={4} />
-    </section>
-  );
-}
-
+/**
+ * Products — hero pearl (the store, full-bleed under the shared left pearl scrim) → filter bar →
+ * Facial pearl → Flash white → Devices pearl. No dark sections. Every string is unchanged: the hero
+ * from products.js and master-brand.json, the catalog from the catalog (names, types, steps, counts).
+ */
 export default function Products() {
   const { category, step } = useCatalogFilter();
   const show = (slug) => !category || category === slug;
+  const { hero } = productsPage;
 
   return (
     <>
@@ -102,26 +117,34 @@ export default function Products() {
         description={`${cat(FACIAL).description} ${cat('flash-treatment').description}`}
         path="/products"
       />
-      <PageHero title="Discover Lavish Luster" intro={masterBrand.statement} image="catalog">
-        <p className="page-hero__meta">{masterBrand.subTagline}</p>
-      </PageHero>
+
+      {/* Hero (pearl): the store, full-bleed, under the shared left-side pearl scrim */}
+      <section className="pr-hero" aria-labelledby="pr-title">
+        <div className="pr-hero__media hero-scrim--left">
+          <BrandImage name="catalog" alt="" eager sizes="100vw" className="pr-hero__photo" />
+        </div>
+        <div className="container pr-hero__inner">
+          <div className="pr-hero__text">
+            <Breadcrumb to="/products" className="pr-hero__crumbs" />
+            <TitleLines as="h1" id="pr-title" lines={linesOf(hero)} title={hero.title} className="pr-hero__title" />
+            <p className="pr-hero__lead">{masterBrand.statement}</p>
+            <p className="pr-hero__meta">{masterBrand.subTagline}</p>
+          </div>
+        </div>
+      </section>
 
       <FilterBar category={category} step={step} />
 
       <div className="catalog" key={`${category || 'all'}-${step?.slug || 'all'}`}>
-        {show(FACIAL) && (
-          <section className="world-group" aria-labelledby={`world-${FACIAL}`}>
+        {WORLDS.filter((w) => show(w.slug)).map((w) => (
+          <section key={w.slug} className={`pr-band pr-band--${w.tone}`} aria-labelledby={`world-${w.slug}`}>
             <div className="container">
-              <WorldHead category={cat(FACIAL)} />
-              {(step ? [step] : stepsWithCounts).map((s) => <StepGroup key={s.slug} step={s} />)}
-            </div>
-          </section>
-        )}
-        {['flash-treatment', 'beauty-devices'].filter(show).map((slug) => (
-          <section key={slug} className="world-group" aria-labelledby={`world-${slug}`}>
-            <div className="container">
-              <WorldHead category={cat(slug)} />
-              <ProductGrid products={productsInCategory(slug)} />
+              <WorldHead category={cat(w.slug)} number={w.number} />
+              <CatalogGrid
+                variant={w.slug === 'beauty-devices' ? 'devices' : 'five'}
+                items={w.slug !== FACIAL ? productsInCategory(w.slug) : (step ? [step] : stepsWithCounts).flatMap((s) => productsInStep(s.number))}
+                showSteps={w.slug === FACIAL}
+              />
             </div>
           </section>
         ))}

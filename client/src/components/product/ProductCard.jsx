@@ -11,7 +11,7 @@ export function productContext(p) {
  * white mat, name, subtitle, short description (clamped) and "View product".
  * No border, box or shadow.
  */
-export default function ProductCard({ product, showContext = false, headingLevel = 3 }) {
+export default function ProductCard({ product, showContext = false, headingLevel = 3, step = null }) {
   const H = `h${headingLevel}`;
   return (
     <article className="product-card">
@@ -19,6 +19,20 @@ export default function ProductCard({ product, showContext = false, headingLevel
         <ProductImage product={product} className="product-card__media" />
         <div className="product-card__text">
           {showContext && <p className="product-card__context">{productContext(product)}</p>}
+          {/* The treatment step (catalog only): "Step 01 · Nourish & Repair · Serums" — the existing step strings. */}
+          {step && (
+            <p className="product-card__step">
+              <span className="product-card__step-num">Step {String(step.number).padStart(2, '0')}</span>
+              <span aria-hidden="true"> ·{' '}</span>
+              <span className="product-card__step-name">{step.label}</span>
+              {step.group && (
+                <>
+                  <span aria-hidden="true"> ·{' '}</span>
+                  <span className="product-card__step-sub">{step.group}</span>
+                </>
+              )}
+            </p>
+          )}
           <H className="product-card__name">{product.name}</H>
           <p className="product-card__subtitle">{product.subtitle}</p>
           {product.shortDescription && <p className="product-card__desc">{product.shortDescription}</p>}

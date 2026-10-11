@@ -33,3 +33,6 @@
   .home-philosophy__frame { inset: -1rem -1rem 1rem 1rem; }
   .home-philosophy__row { flex-direction: column; align-items: flex-start; }
 }
+
+/* Refinement: about 10% less padding than the shared rhythm (≈78px at 1440, 72px on phones). */
+.home-band.home-philosophy { padding-block: clamp(4.5rem, 5.4vw, 5.5rem); }

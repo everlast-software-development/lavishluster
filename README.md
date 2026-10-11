@@ -31,7 +31,7 @@ scripts/
   verify-content.mjs    final content-integrity check (runs on every build)
   verify-website-content.mjs  page copy vs website-content.md, section 16, Home blocks (runs on every build)
   fetch-assets.mjs      downloads the assets in the manifest
-shared/inquiry.js       enquiry validation used by both the form and the API
+shared/inquiry.js       enquiry validation (per-field codes) used by both the form and the API
 client/                 React 18 + React Router + Vite, prerendered to static HTML
   src/data/             all content and configuration (no content lives in components)
     products/ flashTreatments/ devices/   generated from the Master; do not edit
@@ -47,7 +47,7 @@ client/                 React 18 + React Router + Vite, prerendered to static HT
   src/pages/            Home, About, Products, Product, LusterScan, Science, Results, Clinic, Contact, Legal, NotFound
   src/assets/           products/<slug>/, devices/<slug>/, brand/, clinic/, results/
   scripts/prerender.mjs static HTML for every route, plus 404.html, sitemap.xml and robots.txt
-server/                 Express: POST /api/inquiry, GET /api/health, static hosting
+server/                 Express: POST /api/enquiry (SMTP + Turnstile), GET /api/health, static hosting
 ```
 
 ## Content rules (enforced by the build)
@@ -87,30 +87,30 @@ Everything is off by default. The flags live in `client/src/data/config/features
 | `legalPages` | `/privacy`, `/terms` and footer legal links | text in `data/content/legal.js` |
 | `lusterscanIntegration` | "Start LusterScan AI" button | `integrations.lusterscan.appUrl` |
 | `lusterscanVideo` | LusterScan welcome video | `integrations.lusterscan.videoUrl` |
-| `inquirySubmission` | Contact form submission | `integrations.inquiry.consentText` plus the server env below |
+| `inquirySubmission` | Contact form submission | approved form copy in `data/content/enquiry.js` (`approved: true`), `TURNSTILE_SITE_KEY` at build time, and the server env below |
 
-To go live with the contact form:
+The contact form is **live** (`inquirySubmission: true`; the form messages are approved in `website-content.md`, section 10, and `data/content/enquiry.js`). On a server, set every variable in `.env.example` (project root), including `TURNSTILE_SITE_KEY`, and rebuild: the site key is baked into the client at build time. Without the SMTP or Turnstile variables the API returns 503 and the rest of the site keeps running. If `inquirySubmission` is switched off, the form falls back to its "not open yet" note with the button disabled.
 
-1. Publish the Privacy Policy.
-2. Set `consentText` and `inquirySubmission: true` in the client.
-3. On the server, set `INQUIRY_ENABLED=true` and the SMTP variables (see `server/.env.example`).
-
-Until then, the form renders in full but disabled, with a pointer to the email address, and the API returns 503.
+**Pending: Privacy Policy and consent.** The form launched without a consent checkbox. When the Privacy Policy is published, set `integrations.inquiry.consentText`; the checkbox then renders above the button. Until then `consentText` is `null`, and nothing (neither the form nor the API) requires consent.
 
 ## Enquiry API
 
-`POST /api/inquiry` takes `{ type: "general" | "consultation", name, email, phone?, subject, message, consent, website }`.
+`POST /api/enquiry` takes `{ type: "general" | "consultation", name, email, phone?, subject?, message, website, turnstileToken }`. Configuration comes from the project-root `.env` (never committed; `.env.example` lists the names): `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_SECURE`, `EMAIL_USER`, `EMAIL_PASS`, `EMAIL_TO`, `PORT`, `TURNSTILE_SECRET_KEY`, `TURNSTILE_SITE_KEY` (public; the only value exposed to the client, as `VITE_TURNSTILE_SITE_KEY`). Optional: `TRUST_PROXY` (e.g. `1` behind a reverse proxy, so the rate limit and Turnstile see the visitor's IP), `REDIRECTS_ENABLED`.
+
+Checks run in this order: body size (20kb) → rate limit (5 per 15 minutes per IP) → honeypot → Turnstile (server-side siteverify) → validation (`shared/inquiry.js`, the same rules as the form) → send. Mail goes from `"Lavish Luster Website" <EMAIL_USER>` (the authenticated account) to `EMAIL_TO`, Reply-To the visitor, as plain text and escaped HTML. On startup the server logs `SMTP ready` or a clear SMTP error, never a credential.
 
 | Situation | Response |
 |---|---|
-| Submission disabled or SMTP not configured | 503 |
-| Honeypot field `website` filled | 202, and the enquiry is silently dropped |
-| Validation errors | 422 with per-field messages (same rules as the form) |
-| Rate limit exceeded (5 per 15 minutes per IP, configurable) | 429 |
-| Sent | 202 |
-| Mail delivery failed | 502 |
+| SMTP or Turnstile variables missing | 503 `{ok:false, code:"unavailable"}` |
+| Body over 20kb | 413 `{ok:false, code:"too_large"}` |
+| Rate limit exceeded | 429 `{ok:false, code:"rate_limited"}` |
+| Honeypot field `website` filled | 200 `{ok:true}`, nothing is sent |
+| Turnstile token missing or invalid | 403 `{ok:false, code:"verification_failed"}` |
+| Validation errors | 400 `{ok:false, code:"invalid", errors:{field: code}}` |
+| Sent | 200 `{ok:true}` |
+| Mail delivery failed | 500 `{ok:false}` (the real error is logged server-side only) |
 
-The server also sends security headers, including a CSP that allows only the Google Maps frame. Hashed assets are served with immutable caching and HTML with `no-cache`.
+The server also sends security headers, including a CSP that allows only the Google Maps frame and Cloudflare Turnstile (`challenges.cloudflare.com`). Hashed assets are served with immutable caching and HTML with `no-cache`.
 
 Optional 301 redirects from the old WordPress URLs (`/shop`, `/product/*`, `/product-category/*`, `/about-us`, `/contacts`) are ready but off: set `REDIRECTS_ENABLED=true`.
 
@@ -123,6 +123,8 @@ client/src/assets/products/<slug>/primary.webp     (+ gallery-01.webp, gallery-0
 client/src/assets/devices/<slug>/primary.webp
 client/src/assets/brand/<name>.webp                 (see "Brand images" below)
 ```
+
+**Responsive variants.** Smaller WebP copies of a brand image go in `client/src/assets/brand/variants/<name>-<width>.webp` (never wider than the original). `getBrandSrcSet(name)` in `utils/assets.js` turns them into a `srcset` (adding the original when it is wider), and `ui/BrandImage` uses it when it gets a `sizes` prop, so phones download the small files. The About page images have 320–1293px variants.
 
 Until a product file exists, its slot shows the placeholder: `brand/silk.webp` in the same 4:5 frame, with a 1px gold inset frame and the product name and subtitle set small in the lower third. Product images use a 4:5 frame, so supply WebP at least 1200×1500. `luster-sculpt-and-lift` has no image yet, and the `luster-instant-glow-shot` photo is withheld because it shows other packaging.
 
@@ -184,12 +186,13 @@ The "Maison" direction: pearl, ink and gold, one typeface, and editorial photogr
   6. **LusterScan AI** (`HomeLusterScan`, noir, cinematic, ≈936px at 1440; `min-height: clamp(860px, 65vw, 1000px)`, `overflow: hidden`): `brand/lusterscan-cinematic.webp` (1323×1073, its background already noir) is a layer behind everything, 40px from the top, `min(62.5vw, 1100px)` wide. It runs past the right edge by `max(2.8vw, 552px − 37.3vw)`: 40px at 1440, more on narrower screens so the face (from 13% of the image's width) always starts right of the text. Over it sit a left scrim `--g-scan-left` and a 340px bottom scrim `--g-scan-bottom`. Above them: the text block (max 520px, from 128px) with the eyebrow, the three-line title (`clamp(32px, 3.33vw, 48px)`), the text (17px / 1.8, pearl 72%), the Explore link and the note (12px, pearl 50%). Its minimum height keeps the steps below the jar (66% of the image height). The four steps sit 84px above the bottom with no borders or boxes: 56px gold-light numerals, an 11px title and a 14px description at pearl 68%. At 768–1023px the image is 75vw, the text 440px and the steps 2×2. Under 768px the image comes first, edge to edge with a fade into noir (`--g-scan-fade`), then the text, then the steps in one column (44px numerals). Measured contrast: note 4.9:1, step descriptions 7.7:1 or more.
   7. **Results** (`HomeResults`, white, ≈760px): edge-to-edge 50/50 with the image on the **left** (LusterScan above has its image on the right, so the page alternates). `brand/results-couple.webp` (a couple behind a table of Lavish Luster products) fills the left half at `object-position: center 30%`, both faces in frame, with a pearl 75% frame inset 28px and no zoom. On the right (padding 0 120px 0 96px, vertically centred): the light eyebrow (gold rule, gold-text), the two-line title (`clamp(30px, 2.8vw, 40px)`, ink), the paragraph (16px / 1.85, ink-soft, max 520px) and "Explore Results". Under 1024px the image comes first (full width, 4:5, max 560px), then the text. The same photograph heads the Results page in a `split` `PageHero` (right half only, `center 20%`), where a full-width crop would cut the faces or put them under the text. `brand/intro.webp` was removed because its products carry another brand's labels.
   8. **Consultation** (`sections/ConsultationCta`, pearl, ≈440px, no image): a centred column with a 1px × 56px gold line, the two-line title and the ink button (plus a page's optional secondary link). Inner pages use the same band.
-  9. **Footer** (noir, ≈460px): logo and the first sentence of Our Story in columns 1–4, Explore in 6–7, Visit in 8–10, Contact in 11–12, then a hairline and the © line. There is no watermark.
+  9. **Footer** (noir, ≈496px): one centred column (`components/footer/Footer.jsx`, all text from `contact.js`, `master-brand.json` and `navItems.js`). It holds the logo at 280px (200px on mobile), the tagline (10px gold-light, tracking 0.32em), then 56px below the nav in one row (Home … Contact, 11px, tracking 0.22em, 44px gaps, narrower below 1280px so it never wraps; a 1px gold underline 6px below on hover; legal and social links join it when their flags are on). 56px below that: the address (linked to the map) and the email, split at the centre by a 1px gold-light divider, between two pearl 14% hairlines. Then © year with `contact.copyright` on the left and the sub-tagline on the right. It sits on the shared `.container` (the same edges as the header and every section). Under 768px the nav is a 2-column grid of 44px rows, and the contact row and bottom row stack centred.
 
-  Following the document's Home page content rule, every block appears once: the brand statement and the four pillars are only in the hero, and the footer has its own sentence. `scripts/verify-website-content.mjs` enforces this on every build. No photograph is used twice. `HomeFeatured` (white) appears only when `features.featuredProducts` is on.
+  Following the document's Home page content rule, every block appears once: the brand statement and the four pillars are only in the hero; the footer carries only the logo, taglines, nav and contact details. `scripts/verify-website-content.mjs` enforces this on every build. No photograph is used twice. `HomeFeatured` (white) appears only when `features.featuredProducts` is on.
 - **Home hero ("Noir Couture"):** flat noir (`100svh`, 720–1080px). There is no background photo and no gradients. A framed stage panel (`--c-noir-raised` with a 1px gold border at 60%) sits on the right. It is `clamp(340px, 30.5vw, 560px)` wide, 160px from the right edge at 1440, and bleeds past the bottom. The cut-out `brand/hero-noir-figure.webp` is 145.45% of the panel width; her head rises above the panel's top border and her shawl spills out to its left. A vertical gold label runs along the panel's right inner edge. The copy column starts at `--hero-pad-left` (120px at 1440), max 600px, vertically centred. It holds a gold eyebrow with a 36px rule, the two-line H1, the brand statement as lead (16px, pearl at 72%, max 470px), the pearl "Explore Products" button and the "Discover LusterScan AI" text link. The four pillars run from the copy edge to the header's right edge, above a pearl rule at 18% that crosses the panel. Below 1024px the hero stacks: the stage, centred and no longer bleeding, then the copy. Below 640px the actions stack, the button goes full width, the pillars become 2×2 and the label is hidden. Copy lives in `home.hero` (`src/data/content/home.js`); the vertical label is the footer logo line "Lavish Luster — Beauty & More".
 - **Layout:**
-  - Every page and the footer use one shared `.container`. Content is at most 1600px wide (`--content-max`), with side padding `--page-pad`. That padding equals the Home hero's text edge at every width: `clamp(24px, 8.33vw, 180px)` from 1024px up (120px at 1440) and `clamp(24px, 6.25vw, 64px)` below 1024px. All left edges line up with the hero up to about 1960px wide. Wider than that, the 1600px content centres.
+  - Every page, the header and the footer use one shared set of edges. Sections and the footer use `.container`; the header bar is padded to `--edge`, the same line, so its first and last nav links sit on the content edges (from 1024 to 1199px the bar tightens to 24px gaps and a 32px logo to stay clear of it). The footer's logo and nav are centred in the container, its hairlines span it, and its bottom row sits on its left and right edges.
+  - The shared `.container`: Content is at most 1600px wide (`--content-max`), with side padding `--page-pad`. That padding equals the Home hero's text edge at every width: `clamp(24px, 8.33vw, 180px)` from 1024px up (120px at 1440) and `clamp(24px, 6.25vw, 64px)` below 1024px. All left edges line up with the hero up to about 1960px wide. Wider than that, the 1600px content centres.
   - The grid has 12 columns with a 32px gutter (`--grid-gap`). `.split` places the header in columns 1–5 and content in 7–12.
   - `.halves` is the edge-to-edge 50/50. The image side has a capped height (`--halves-img-h`: `clamp(440px, 40vw, 640px)`, cover) and grows only if the text is taller. The text side is vertically centred, with `clamp(40px, 6vw, 96px)` on the inside edge.
   - Under 1024px, `.split` and `.halves` stack, image first: 4:5, at most 480px tall.
@@ -199,7 +202,7 @@ The "Maison" direction: pearl, ink and gold, one typeface, and editorial photogr
     - Images inside the container are at most 480×600.
     - At 1440×900 and 1920×1080, no Home section is taller than 860px; Collections may reach 960px.
     - Measured at 1440×900: Brand Philosophy 775, Product Worlds 970, Signature 760, Science 680, LusterScan 1041, Results 720, Consultation 463, footer 486.
-  - **Footer:** 96px top padding; on a 12-column grid: logo and brand line (columns 1–4, sentence 14px, pearl at 62%, max 340px), Explore (6–7), Visit (8–10), Contact (11–12). Headings are gold-light labels; links are 14px, weight 300, pearl at 72%, with a gold underline on hover. Below them, a pearl hairline at 12% and the © line (12px, pearl at 50%), 36px above the bottom edge. Under 1024px everything stacks.
+  - **Footer:** 96px top and 40px bottom padding; one centred column (`components/footer/Footer.jsx`, all text from `contact.js`, `master-brand.json` and `navItems.js`). It holds the logo at 280px (200px on mobile), the tagline (10px gold-light, tracking 0.32em), then 56px below the nav in one row (Home … Contact, 11px, tracking 0.22em, 44px gaps, narrower below 1280px so it never wraps; a 1px gold underline 6px below on hover; legal and social links join it when their flags are on). 56px below that: the address (linked to the map) and the email, split at the centre by a 1px gold-light divider, between two pearl 14% hairlines. Then © year with `contact.copyright` on the left and the sub-tagline on the right. It sits on the shared `.container` (the same edges as the header and every section). Under 768px the nav is a 2-column grid of 44px rows, and the contact row and bottom row stack centred.
   - Radius is 0 everywhere, there are no shadows, and hairlines appear only between rows.
-- **Header:** full width, 96px tall on desktop, with `--header-pad` side padding (`clamp(24px, 4.45vw, 96px)`, 64px at 1440). The nav (11px, weight 500, tracking 0.2em, 34px gaps, gold underline growing on hover) is split three and three around the centred logo (About, Products, LusterScan AI on the left; The Science, Results, Contact on the right), shown at 40px tall in its natural 1200:204 ratio. The full bar starts at 1024px; below that, the menu button opens the menu with Home and the six links. It is transparent with pearl text and the light logo over the Home hero until the page scrolls, and solid pearl with dark text everywhere else. On mobile, a full-screen noir menu opens.
+- **Header:** full width, 96px tall on desktop, padded to `--edge` (the content edges: 120px at 1440). The nav (11px, weight 500, tracking 0.2em, 34px gaps, gold underline growing on hover) is split three and three around the centred logo (About, Products, LusterScan AI on the left; The Science, Results, Contact on the right), shown at 40px tall in its natural 1200:204 ratio. The full bar starts at 1024px; below that, the menu button opens the menu with Home and the six links. It is transparent with pearl text and the light logo over the Home hero until the page scrolls, and solid pearl with dark text everywhere else. On mobile, a full-screen noir menu opens.
 - **Motion:** image hover zoom (1.035 over 1.2s), link underlines, a 300ms page fade, a crossfade on catalog filters and a fade on the mobile menu. There is no smooth scrolling and no scroll-triggered animation, and `prefers-reduced-motion` is respected.

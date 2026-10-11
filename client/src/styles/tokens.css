@@ -21,16 +21,11 @@
   /* Gold */
   --c-gold: #B99A6B;        /* lines, underlines, icons — never text on light */
   --c-gold-text: #7F6647;   /* small labels on light (4.8:1) */
+  --c-gold-text-deep: #725C3D; /* small gold labels over a scrimmed photograph (The Science hero breadcrumb) */
   --c-gold-light: #C9AE84;  /* labels, numerals, icons on dark */
 
-  /* Product detail (spec-sheet design, design-reference/product-single-a) */
-  --c-gold-deep: #7D6240;   /* the design's "gold-text-deep": step, numbers, figures, concentrations, the breadcrumb's last item
-                               (named apart from --c-gold-text-deep, #725C3D, which the photo heroes use) */
-  --c-line-spec: #DDD5C8;   /* row and evidence-strip hairlines */
-  --c-line-crumb: #C9C1B5;  /* the breadcrumb's 16px joining rules */
-  --c-muted: #8F877C;       /* breadcrumb, inactive section tabs, card subtitles */
-  --c-mat: #E3DDD3;         /* product image mat */
-  --c-line-warm: #E6E0D6;    /* product detail list hairlines (also the Results cards) */
+  /* Product detail */
+  --c-mat: #E3DDD3;         /* product image mat (plain, light) */
 
   /* Translucent layers (scrims and frames over photography only) */
   --c-on-dark: rgba(243, 242, 238, 0.66);   /* secondary text on noir */
@@ -42,12 +37,26 @@
   --c-pearl-a72: rgba(243, 242, 238, 0.72);  /* hero lead on noir */
   --c-pearl-a62: rgba(243, 242, 238, 0.62);  /* hero pillars on noir */
   --c-pearl-a18: rgba(243, 242, 238, 0.18);  /* hairlines on noir */
-  --c-pearl-a12: rgba(243, 242, 238, 0.12);  /* footer base rule */
+  --c-pearl-a14: rgba(243, 242, 238, 0.14);  /* footer contact-row rules */
+  --c-pearl-a78: rgba(243, 242, 238, 0.78);  /* footer address and email */
+  --c-pearl-a45: rgba(243, 242, 238, 0.45);  /* footer © line and sub-tagline */
+  --c-gold-light-a60: rgba(201, 174, 132, 0.6); /* footer address/email divider */
+  --c-gold-a12: rgba(185, 154, 107, 0.12);      /* About: the large decorative "02" */
   --c-pearl-a50: rgba(243, 242, 238, 0.5);   /* footer base text */
   --c-ink-a14: rgba(28, 27, 25, 0.14);      /* hairlines on light (Home) */
-  --c-gold-light-a60: rgba(201, 174, 132, 0.6); /* About photo frame on noir, footer address/email divider */
-  --c-glow-warm-a90: rgba(78, 63, 49, 0.9);     /* About hero: warm glow behind the model */
-  --g-about-hero: radial-gradient(ellipse at 72% 40%, var(--c-glow-warm-a90) 0%, var(--c-noir-a0) 60%);
+  --c-ink-a12: rgba(28, 27, 25, 0.12);      /* About: the hairline under the stuck chapter index */
+  --c-ink-a40: rgba(28, 27, 25, 0.4);       /* Contact: form field underline on hover */
+  /* The Science */
+  --c-pearl-a55: rgba(243, 242, 238, 0.55); /* concentration scale: minor ticks and labels */
+  --c-tone-1: #F3F2EE;                      /* Beauty Technology tone bars, pearl → gold (LED … Slim) */
+  --c-tone-2: #E6DCCB;
+  --c-tone-3: #D9C7A3;
+  --c-tone-4: #C9AE84;
+  --c-tone-5: #B99A6B;
+  --c-tone-6: #A88A5E;
+  --c-tone-7: #9C8058;
+  --c-tone-8: #7D6240;
+  --c-pearl-a60: rgba(243, 242, 238, 0.6);  /* LusterScan AI: the note */
   --c-noir-a85: rgba(21, 20, 18, 0.85);          /* LusterScan left scrim */
   --c-noir-a78: rgba(21, 20, 18, 0.78);          /* Product Worlds tall scrim (stacked cards) */
   --c-pearl-a68: rgba(243, 242, 238, 0.68);      /* LusterScan step descriptions */
@@ -79,6 +88,20 @@
   --c-pearl-a70: rgba(243, 242, 238, 0.7);       /* Signature photo frame */
   --c-pearl-a75: rgba(243, 242, 238, 0.75);      /* Results photo frame */
   --c-noir-raised: #1E1C19;                  /* Home hero stage panel */
+  /* Results */
+  --c-line-warm: #E6E0D6;                    /* Facial Treatment card hairlines; product detail list hairlines */
+  /* Hero: the bottom gradient behind the text (gone before the faces), a light left one, and the stats
+     strip's Home-style overlay (≈90% behind the first column easing to ≈58% at the right). */
+  --g-res-bottom: linear-gradient(0deg, rgba(21, 20, 18, 0.92) 0%, rgba(21, 20, 18, 0.75) 30%, rgba(21, 20, 18, 0.3) 55%, rgba(21, 20, 18, 0) 72%);
+  /* a soft darkening behind the centred logo only (the bright studio backdrop sits there), off the faces */
+  --g-res-logo: radial-gradient(ellipse 15rem 6rem at 50% 2.75rem, rgba(21, 20, 18, 0.7) 0%, rgba(21, 20, 18, 0.45) 55%, rgba(21, 20, 18, 0) 100%);
+  /* 1024–1439px: a firmer middle, so the breadcrumb (the highest line, over the left model's white blazer) stays ≥4.5:1 */
+  --g-res-bottom-md: linear-gradient(0deg, rgba(21, 20, 18, 0.92) 0%, rgba(21, 20, 18, 0.82) 30%, rgba(21, 20, 18, 0.7) 52%, rgba(21, 20, 18, 0.35) 61%, rgba(21, 20, 18, 0) 72%);
+  --g-res-left: linear-gradient(90deg, rgba(21, 20, 18, 0.55) 0%, rgba(21, 20, 18, 0.25) 35%, rgba(21, 20, 18, 0) 55%);
+  --g-res-strip: linear-gradient(90deg, rgba(21, 20, 18, 0.93) 0%, rgba(21, 20, 18, 0.9) 34%, rgba(21, 20, 18, 0.84) 68%, rgba(21, 20, 18, 0.8) 100%);
+  /* added on top of it at the strip's top edge: exactly the darkness that makes the strip equal the hero's
+     bottom (noir 92%) there; 1 − (1 − a)(1 − strip) = 0.92 at each stop */
+  --g-res-strip-top: linear-gradient(90deg, rgba(21, 20, 18, 0) 0%, rgba(21, 20, 18, 0.2) 34%, rgba(21, 20, 18, 0.5) 68%, rgba(21, 20, 18, 0.6) 100%);
   --c-gold-a60: rgba(185, 154, 107, 0.6);    /* Home hero stage panel border */
   --c-pearl-scrim: rgba(243, 242, 238, 0.94);
   --c-pearl-scrim-none: rgba(243, 242, 238, 0);
@@ -96,6 +119,10 @@
   --t-h2: clamp(1.75rem, 2.8vw, 2.625rem);                 /* section title: 28 → 42px */
   --t-subtitle: clamp(1.25rem, 1.6vw, 1.625rem);           /* category / product name: 20 → 26px */
   --t-numeral: clamp(2.75rem, 4.4vw, 4.25rem);             /* big numerals: 44 → 68px */
+  --t-about-hero: clamp(2.5rem, 5.4vw, 5.25rem);           /* About hero H1 (full-size words): 40 → 84px */
+  --t-about-h2: clamp(1.875rem, 3vw, 2.75rem);             /* About section titles, all of them: 30 → 44px */
+  --about-frame: 1.75rem;                                  /* About offset gold frames = Home's Welcome frame: right and up, 28px (16px below 1024) */
+  --t-title-noir: clamp(2rem, 3.33vw, 3rem);               /* inner-page H2 on noir = Home's LusterScan title: 48px at 1440 */
   --t-h1: clamp(1.5rem, 1.35rem + 0.5vw, 1.875rem);       /* 24 → 30px */
   --t-statement: clamp(1.25rem, 1.8vw, 1.75rem);           /* 20 → 28px */
   --t-display: clamp(2rem, 1.2rem + 2.3vw, 3.125rem);     /* 32 → 50px */
@@ -137,5 +164,5 @@
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   --t-page: 300ms;
 }
-@media (max-width: 1023px) { :root { --header-h: 5.25rem; --page-pad: clamp(1.5rem, 6.25vw, 4rem); } } /* = hero padding below 1024px */
+@media (max-width: 1023px) { :root { --header-h: 5.25rem; --page-pad: clamp(1.5rem, 6.25vw, 4rem); --about-frame: 1rem; } } /* = hero padding below 1024px */
 @media (max-width: 767px) { :root { --header-h: 4.25rem; } }

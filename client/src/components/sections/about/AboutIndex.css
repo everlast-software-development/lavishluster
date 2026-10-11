@@ -1,0 +1,80 @@
+/* ==========================================================================
+   About chapter index: the hero's last row, sticky under the header through the four sections.
+   .about-chapters (About.jsx) wraps the strip and the sections; it is the sticky containing block,
+   so the strip lets go at the end of Core Values, before the consultation band and the footer.
+   ========================================================================== */
+.about-chapters {
+  --about-index-compact: 45;   /* px: the stuck bar, a 44px row + its 1px top rule (read by AboutIndex.jsx too) */
+}
+/* Sections land fully visible below the header + the stuck bar. */
+.about-chapters > section { scroll-margin-top: calc(var(--header-h) + var(--about-index-compact) * 1px); }
+
+.about-index__sentinel { display: block; height: 1px; margin-bottom: -1px; }   /* no layout space */
+
+.about-index {
+  --idx-pad: 1.25rem;          /* row padding in the hero: 20px top and bottom */
+  position: sticky; top: var(--header-h); z-index: 40;   /* the header (z 50) stays above */
+  background: var(--c-noir); color: var(--c-pearl);
+  transition: background-color 0.2s var(--ease), box-shadow 0.2s var(--ease), margin-bottom 0.2s var(--ease);
+}
+/* Exactly four equal columns across the container, above Home's noir hairline (pearl 18%). */
+.about-index__list {
+  position: relative; list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: var(--grid-gap);
+  border-top: 1px solid var(--c-pearl-a18);
+  transition: border-color 0.2s var(--ease);
+}
+.about-index a {
+  display: flex; align-items: baseline; gap: 0.875rem; padding-block: var(--idx-pad);
+  font-size: var(--t-label); font-weight: 500; line-height: 1.6; letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--c-pearl-a72); text-decoration: none;
+  transition: color 0.2s var(--ease), padding 0.2s var(--ease);
+}
+.about-index a:hover { color: var(--c-pearl); }
+.about-index__num { flex: none; line-height: 1.75; letter-spacing: 0.08em; text-transform: none; color: var(--c-gold-light); font-variant-numeric: lining-nums tabular-nums; transition: color 0.2s var(--ease); }   /* Home's small index number */
+.about-index__sep { color: var(--c-gold-light); }
+.about-index__label { text-decoration: underline 1px transparent; text-underline-offset: 0.5rem; transition: text-decoration-color 0.2s var(--ease); }
+
+/* Active section: number and label gold-light, a 1px gold-light underline under the label. */
+.about-index a[aria-current],
+.about-index a[aria-current] .about-index__num { color: var(--c-gold-light); }
+.about-index a[aria-current] .about-index__label { text-decoration-color: var(--c-gold-light); }
+
+/* Stuck: one bar with the header's pearl solid state. The row shrinks to 44px (padding only); the
+   bottom margin grows by exactly as much, at the same pace, so nothing below moves. The top rule
+   turns transparent (no line between the header and the strip) and one ink 12% hairline runs under it.
+   Text takes the light-surface colours (ink-soft, gold-text) of the same roles. */
+.about-index.is-stuck {
+  --idx-pad: 0.7734rem;        /* (44px − the 19.25px row) / 2 */
+  margin-bottom: 0.9531rem;    /* 2 × (20px − 12.375px) */
+  background: var(--c-pearl); box-shadow: 0 1px 0 var(--c-ink-a12);
+}
+.about-index.is-stuck .about-index__list { border-top-color: transparent; }
+.about-index.is-stuck a { color: var(--c-ink-soft); }
+.about-index.is-stuck a:hover { color: var(--c-ink); }
+.about-index.is-stuck .about-index__num,
+.about-index.is-stuck .about-index__sep { color: var(--c-gold-text); }
+.about-index.is-stuck a[aria-current],
+.about-index.is-stuck a[aria-current] .about-index__num { color: var(--c-gold-text); }
+.about-index.is-stuck a[aria-current] .about-index__label { text-decoration-color: var(--c-gold-text); }
+/* The header's own bottom line is hidden while the strip is stuck below it (About only). */
+html.about-index-stuck .site-header { box-shadow: none; }
+
+/* Below 1024px: one sideways-scrolling row (no wrap, no scrollbar, snap per item), --page-pad at the
+   sides, 44px items at all times (so nothing changes height when it sticks). */
+@media (max-width: 1023px) {
+  .about-index__inner { padding-inline: 0; }
+  .about-index__list {
+    display: flex; gap: 2rem; overflow-x: auto; overscroll-behavior-x: contain;
+    padding-inline: var(--page-pad); scroll-padding-inline: var(--page-pad); scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+  .about-index__list::-webkit-scrollbar { display: none; }
+  .about-index__list > li { flex: none; scroll-snap-align: start; }
+  .about-index a, .about-index.is-stuck a { min-height: 2.75rem; padding-block: 0; align-items: center; white-space: nowrap; }
+  .about-index.is-stuck { margin-bottom: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-index, .about-index__list, .about-index a, .about-index__num, .about-index__label { transition: none; }
+}

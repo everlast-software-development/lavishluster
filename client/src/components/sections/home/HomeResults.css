@@ -3,7 +3,7 @@
    ========================================================================== */
 .home-results { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); background: var(--c-white); color: var(--c-ink); }
 
-.home-results__media { position: relative; min-height: clamp(30rem, 52.8vw, 47.5rem); }
+.home-results__media { position: relative; min-height: clamp(28rem, 47.5vw, 42.75rem); }   /* ≈684px at 1440 */
 .home-results__media .media { position: absolute; inset: 0; background: var(--c-white); }
 .home-results__media img, .home-results__media:hover img { object-position: center 30%; transform: none; } /* both faces in frame; no zoom */
 .home-results__frame { position: absolute; inset: 1.75rem; border: 1px solid var(--c-pearl-a75); pointer-events: none; }

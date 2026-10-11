@@ -1,27 +1,28 @@
-/** Server configuration from environment variables (see .env.example). */
+/** Server configuration from environment variables (project-root .env; see .env.example). */
 const bool = (v) => String(v).toLowerCase() === 'true';
+const str = (v) => (typeof v === 'string' && v.trim() !== '' ? v.trim() : null);
+const proxy = (v) => (v ? (/^\d+$/.test(v) ? Number(v) : v) : false);
 
 export const config = {
   port: Number(process.env.PORT) || 3001,
-  trustProxy: process.env.TRUST_PROXY || false,
+  // Set when running behind a reverse proxy / load balancer (e.g. "1"), so req.ip is the visitor's IP
+  // (used by the rate limit and sent to Turnstile).
+  trustProxy: proxy(process.env.TRUST_PROXY),
   // 301s from old WordPress URLs — pending approval.
   redirects: bool(process.env.REDIRECTS_ENABLED),
-  inquiry: {
-    // Stays false until the Privacy Policy and consent wording are published.
-    enabled: bool(process.env.INQUIRY_ENABLED),
-    consentRequired: process.env.INQUIRY_CONSENT_REQUIRED === undefined ? true : bool(process.env.INQUIRY_CONSENT_REQUIRED),
-    to: process.env.INQUIRY_TO || null,
-    from: process.env.INQUIRY_FROM || null,
-    rateLimit: {
-      windowMs: Number(process.env.INQUIRY_RATE_WINDOW_MS) || 15 * 60 * 1000,
-      max: Number(process.env.INQUIRY_RATE_MAX) || 5,
-    },
+  enquiry: {
+    bodyLimit: '20kb',
+    rateLimit: { windowMs: 15 * 60 * 1000, max: 5 },
   },
-  smtp: {
-    host: process.env.SMTP_HOST || null,
-    port: Number(process.env.SMTP_PORT) || 587,
-    secure: bool(process.env.SMTP_SECURE),
-    user: process.env.SMTP_USER || null,
-    pass: process.env.SMTP_PASS || null,
+  // SMTP delivery (port 587 = STARTTLS: secure false + requireTLS).
+  email: {
+    host: str(process.env.EMAIL_HOST),
+    port: Number(process.env.EMAIL_PORT) || 587,
+    secure: process.env.EMAIL_SECURE === 'true',
+    user: str(process.env.EMAIL_USER),
+    pass: str(process.env.EMAIL_PASS),
+    to: str(process.env.EMAIL_TO),
   },
+  // Cloudflare Turnstile (server-side verification). The public site key is a build-time client value.
+  turnstile: { secret: str(process.env.TURNSTILE_SECRET_KEY) },
 };

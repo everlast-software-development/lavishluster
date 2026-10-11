@@ -1,6 +1,7 @@
 /**
- * Centurion LED & NIR light functions (Master): the intro, then the functions as a 2-column hairline list.
- * Wavelength strings are shown exactly as written. The NIR row is withheld pending verification (V-03).
+ * Centurion LED & NIR light functions (Master): the intro, then the functions as a hairline list
+ * (wavelength · name, the description below). Wavelength strings are shown exactly as written.
+ * The NIR row is withheld pending verification (V-03).
  */
 export default function LightFunctions({ data }) {
   return (

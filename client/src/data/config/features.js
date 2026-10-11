@@ -14,7 +14,8 @@ export const features = {
   legalPages: false,            // /privacy, /terms and footer legal links
   lusterscanIntegration: false, // LusterScan "start analysis" CTA / app link
   lusterscanVideo: false,       // LusterScan welcome video
-  inquirySubmission: false,     // Contact form submission (requires Privacy Policy + consent wording)
+  inquirySubmission: true,      // Contact form submission (copy approved in data/content/enquiry.js);
+                                // needs TURNSTILE_SITE_KEY at build time and the server env (.env.example)
 };
 
 export const site = {

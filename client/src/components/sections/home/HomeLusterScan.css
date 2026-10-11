@@ -13,7 +13,10 @@
   --img-past: max(2.8vw, 552px - 37.3vw);
   position: relative; overflow: hidden;
   display: flex; flex-direction: column;
-  min-height: clamp(53.75rem, 65vw, 62.5rem);
+  /* Refined vertical rhythm: lighter padding and a lower minimum height (≈785px at 1440). */
+  --scan-pad-top: clamp(4.5rem, 6.1vw, 6.5rem);
+  --scan-pad-bottom: clamp(3.5rem, 4.4vw, 4.5rem);
+  min-height: clamp(45rem, 54vw, 52rem);
   background: var(--c-noir); color: var(--c-pearl);
 }
 
@@ -31,20 +34,20 @@
 .home-scan__inner {
   position: relative; z-index: 2; flex: 1 0 auto;
   display: flex; flex-direction: column;
-  padding-block: 8rem 5.25rem;   /* text from 128px; steps end 84px above the bottom */
+  padding-block: var(--scan-pad-top) var(--scan-pad-bottom);   /* 88px / 64px at 1440 */
 }
 
 /* ---------- Text block ---------- */
 /* Tall enough that the steps always start below the jar (it ends at 62% of the image height). */
-.home-scan__text { max-width: 32.5rem; min-height: calc(var(--img-top) + var(--img-h) * 0.66 - 8rem); }
-.home-scan__title { margin-top: 1.75rem; font-size: clamp(2rem, 3.33vw, 3rem); color: var(--c-pearl); }
-.home-scan__lead { margin-top: 1.75rem; font-size: 1.0625rem; font-weight: 300; line-height: 1.8; color: var(--c-pearl-a72); }
-.home-scan__actions { margin-top: 1.875rem; }
-.home-scan__note { margin-top: 2rem; font-size: 0.75rem; font-weight: 300; line-height: 1.7; color: var(--c-pearl-a50); }
+.home-scan__text { max-width: 32.5rem; min-height: calc(var(--img-top) + var(--img-h) * 0.66 - var(--scan-pad-top)); }
+.home-scan__title { margin-top: 1.25rem; font-size: clamp(2rem, 3.33vw, 3rem); color: var(--c-pearl); }
+.home-scan__lead { margin-top: 1.25rem; font-size: 1.0625rem; font-weight: 300; line-height: 1.8; color: var(--c-pearl-a72); }
+.home-scan__actions { margin-top: 1.25rem; }
+.home-scan__note { margin-top: 1.25rem; font-size: 0.75rem; font-weight: 300; line-height: 1.7; color: var(--c-pearl-a50); }
 
 /* ---------- Steps: four open columns, no rules or boxes ---------- */
 .home-scan__steps {
-  list-style: none; margin: auto 0 0; padding: 3rem 0 0;
+  list-style: none; margin: auto 0 0; padding: 1.5rem 0 0;
   display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 3rem;
 }
 .home-scan__num { display: block; font-size: 3.5rem; font-weight: 200; line-height: 1; color: var(--c-gold-light); font-variant-numeric: lining-nums tabular-nums; }

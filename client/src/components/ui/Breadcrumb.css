@@ -1,0 +1,12 @@
+/* Page breadcrumb (About, LusterScan AI): "Home" in taupe, an em-dash rule, the current page in gold-light. */
+.page-crumbs {
+  display: flex; align-items: center; gap: 0.875rem;
+  font-size: var(--t-label); font-weight: 500; letter-spacing: 0.24em; text-transform: uppercase; color: var(--c-taupe);
+}
+.page-crumbs a { display: inline-flex; align-items: center; min-height: 2.75rem; color: inherit; text-decoration: none; transition: color 0.3s var(--ease); }
+.page-crumbs a:hover { color: var(--c-pearl); }
+.page-crumbs [aria-current] { color: var(--c-gold-light); }
+
+@media (prefers-reduced-motion: reduce) {
+  .page-crumbs a { transition: none; }
+}

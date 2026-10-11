@@ -1,0 +1,120 @@
+/* ==========================================================================
+   Products — the inner-page system (The Science / Contact): Montserrat, tokens only, the shared
+   .container, --section-y. Hero pearl → filter bar → Facial pearl → Flash white → Devices pearl.
+   No dark sections. Titles = --t-h2, weight 200, 0.06em; eyebrows = .home-eyebrow.
+   ========================================================================== */
+
+/* ==========================================================================
+   Hero (pearl) · 520px below the header at 1440
+   ========================================================================== */
+.pr-hero {
+  position: relative; isolation: isolate; overflow: hidden;
+  display: flex; align-items: center; min-height: clamp(30rem, 36.1vw, 34rem);
+  background: var(--c-pearl); color: var(--c-ink);
+}
+/* The store panorama (brand/catalog.webp, 1792 × 576) full-bleed under the shared left-side pearl scrim
+   (.hero-scrim--left, as The Science and Contact heroes); the hero is taller than the panorama's ratio,
+   so cover fills the height and crops the sides. From 1024 the photo layer starts at 28% (under the scrim's
+   solid part), so the illuminated sign sits right of the H1 (≈64% of the width) instead of beside it. */
+.pr-hero__media { position: absolute; z-index: -1; inset: 0; background: var(--c-pearl); }
+.pr-hero__media .pr-hero__photo { position: absolute; inset: 0 0 0 28%; width: auto; height: 100%; background: transparent; border-radius: 0; }
+.pr-hero__media .pr-hero__photo > img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+.pr-hero__inner { position: relative; z-index: 1; width: 100%; padding-block: 3rem; }
+.pr-hero__text { max-width: 32.5rem; }   /* 520px */
+/* The breadcrumb on a light surface: the shared component, coloured as on the Contact hero. */
+.pr-hero .page-crumbs { color: var(--c-ink-soft); }
+.pr-hero .page-crumbs [aria-current] { color: var(--c-gold-text-deep); }
+.pr-hero .page-crumbs a:hover { color: var(--c-ink); }
+/* Home's hero H1, in ink, on two lines. */
+.home-title.pr-hero__title {
+  margin-top: 1.75rem;
+  font-size: clamp(2.125rem, 3.9vw, 3.5rem); font-weight: 200; line-height: 1.1; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--c-ink);
+}
+.pr-hero__lead { margin-top: 1.5rem; font-size: 0.9375rem; font-weight: 300; line-height: 1.8; color: var(--c-ink-soft); }
+/* gold-text-deep: the small gold label over the scrimmed photo (gold-text is 4.25:1 at 1024, where the line nears the photo). */
+.pr-hero__meta { margin-top: 1.25rem; font-size: 0.65625rem; font-weight: 500; line-height: 1.5; letter-spacing: 0.26em; text-transform: uppercase; color: var(--c-gold-text-deep); }
+
+/* ==========================================================================
+   Filter bar: full-width rows under the hero, hairlines above and below; sticky under the header.
+   Each row draws its bottom hairline as an inset shadow, so the active tab's gold rule sits ON it.
+   ========================================================================== */
+.filter-bar { position: sticky; top: var(--header-h); z-index: 20; background: var(--c-pearl); border-top: 1px solid var(--c-line); }
+.filter-bar__row { box-shadow: inset 0 -1px 0 var(--c-line); }
+.filter-bar ul { display: flex; list-style: none; margin: 0; padding: 0; overflow-x: auto; scrollbar-width: none; }
+.filter-bar ul::-webkit-scrollbar { display: none; }
+.filter-bar__tabs { gap: clamp(1.75rem, 3.5vw, 3.5rem); }
+.filter-bar__steps { gap: clamp(1.25rem, 2.4vw, 2.25rem); }
+.filter-bar a {
+  display: inline-block; white-space: nowrap; text-decoration: none; color: var(--c-taupe);
+  font-size: 0.65625rem; font-weight: 600; line-height: 1.5; letter-spacing: 0.2em; text-transform: uppercase;
+  background: linear-gradient(var(--c-gold), var(--c-gold)) no-repeat 0 100% / 0 1px;
+  transition: color 0.3s var(--ease), background-size 0.4s var(--ease);
+}
+.filter-bar__tabs a { padding: 1.3125rem 0 1.25rem; }
+.filter-bar__steps a { padding: 0.9375rem 0 0.875rem; font-size: 0.625rem; }
+.filter-bar a:hover { color: var(--c-ink); }
+.filter-bar a[aria-current] { color: var(--c-ink); background-size: 100% 1px; }
+.filter-bar .count { margin-left: 0.35rem; color: var(--c-gold-text); font-variant-numeric: tabular-nums; }
+
+/* ==========================================================================
+   Worlds: one band each, one continuous grid each
+   ========================================================================== */
+@keyframes catalog-in { from { opacity: 0; } }
+.catalog { animation: catalog-in 0.45s var(--ease) both; }   /* filter crossfade */
+.pr-band { padding-block: var(--section-y); color: var(--c-ink); }
+.pr-band--pearl { background: var(--c-pearl); }
+.pr-band--white { background: var(--c-white); }
+
+/* Header: eyebrow (number · rule · count) + title left, the description right, bottom-aligned with the title. */
+.pr-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem 3rem; }
+.pr-head__main { min-width: 0; }
+.pr-eyebrow::before { background: var(--c-gold); }
+.pr-eyebrow__rule { flex: none; width: 1.25rem; height: 1px; background: var(--c-gold-light); }
+.home-title.pr-h2 {
+  margin-top: 1.25rem;
+  font-size: var(--t-h2); font-weight: 200; line-height: 1.1; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-ink);
+}
+.pr-head__desc { max-width: 26.25rem; font-size: 0.90625rem; font-weight: 300; line-height: 1.7; color: var(--c-ink-soft); }
+
+/* The grids (the shared grid and card live in components/product/CatalogGrid.css): Facial and Flash
+   5 columns; Devices 12 tracks (1–4 span 3, 5–7 span 4): every row full. */
+.pr-grid--five { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.pr-grid--devices { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+.pr-grid--devices .pr-grid__item { grid-column: span 3; }
+.pr-grid--devices .pr-grid__item:nth-child(n + 5) { grid-column: span 4; }
+
+/* ==========================================================================
+   Breakpoints
+   ========================================================================== */
+@media (max-width: 1279px) {
+  .pr-grid--five { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 1023px) {
+  /* Stacked, as The Science / Contact heroes: the photo on top (no scrim), the text below on pearl. */
+  .pr-hero { display: block; min-height: 0; }
+  .pr-hero__media { position: relative; z-index: auto; inset: auto; aspect-ratio: 16 / 10; }
+  .pr-hero__media::after { display: none; }
+  .pr-hero__media .pr-hero__photo { left: 0; }
+  .pr-hero__inner { padding-block: 2.5rem 3rem; }
+  .pr-hero__text { max-width: none; }
+  .pr-grid--five { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  /* Devices: 2 columns, the last device across both. */
+  .pr-grid--devices .pr-grid__item, .pr-grid--devices .pr-grid__item:nth-child(n + 5) { grid-column: span 6; }
+  .pr-grid--devices .pr-grid__item:last-child { grid-column: span 12; }
+}
+@media (max-width: 899px) {
+  .pr-head { display: block; }
+  .pr-head__desc { margin-top: 1.25rem; }
+}
+@media (max-width: 767px) {
+  /* The tabs scroll sideways (never wrap), edge to edge. */
+  .filter-bar ul { margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); }
+}
+@media (max-width: 639px) {
+  .pr-grid--five { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .catalog { animation: none; }
+  .filter-bar a { transition: none; }
+}

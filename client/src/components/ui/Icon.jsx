@@ -1,7 +1,7 @@
 /**
  * Thin line icons for product detail sections (1px stroke, currentColor).
  * magnifier = Application Secret, hand-heart = Enhanced Benefits,
- * leaf = Active Ingredients, flask = Scientific Evidence.
+ * leaf = Active Ingredients, flask = Scientific Evidence; arrow = a thin pointer for links.
  */
 const PATHS = {
   magnifier: (
@@ -29,6 +29,7 @@ const PATHS = {
       <path d="M9.4 19.5h13.2" />
     </>
   ),
+  arrow: <path d="M4 16h24M21 9l7 7-7 7" />,
 };
 
 export default function Icon({ name, className = '' }) {

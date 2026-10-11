@@ -1,0 +1,48 @@
+/* ==========================================================================
+   Catalog grid + product card — one system, used by the Products page (its worlds) and the product
+   page (Related Products). Layout variants: --five and --devices (Products.css), --four (here).
+   ========================================================================== */
+
+/* The grid's own row gap is 0: a subgrid inherits the parent's gap between ITS tracks too, so the 48px
+   between rows of cards is each card's bottom margin (taken back once under the last row). */
+.pr-grid {
+  list-style: none; margin: 3rem 0 -3rem; padding: 0;
+  display: grid; gap: 0 1.5rem;
+}
+/* Related Products: 4 columns, 2 below 1024px. */
+.pr-grid--four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+/* The card, the same everywhere. Every item is a 6-track subgrid (image · step · name · type ·
+   description · link), passed down through the card and its link, so within a row each part starts on
+   the same line whatever wraps; an absent part (no step, no description) leaves its track empty (0px). */
+.pr-grid__item, .pr-grid .product-card, .pr-grid .product-card__link, .pr-grid .product-card__text {
+  display: grid; grid-template-rows: subgrid; row-gap: 0; min-width: 0;
+}
+.pr-grid__item { grid-row: span 6; margin-bottom: 3rem; }
+.pr-grid .product-card, .pr-grid .product-card__link { grid-row: 1 / -1; }
+.pr-grid .product-card__media { grid-row: 1; margin-bottom: 1.125rem; }   /* 18px to the text */
+.pr-grid .product-card__text { grid-row: 2 / -1; margin-top: 0; }
+.pr-grid .product-card__step { grid-row: 1; }
+.pr-grid .product-card__name { grid-row: 2; }
+.pr-grid .product-card__subtitle { grid-row: 3; }
+.pr-grid .product-card__desc { grid-row: 4; }
+.pr-grid .product-card__cta { grid-row: 5; }
+/* 6px between the parts present. */
+.pr-grid .product-card__step { margin: 0 0 0.375rem; font-size: 0.59375rem; font-weight: 500; line-height: 1.5; letter-spacing: 0.18em; text-transform: uppercase; color: var(--c-gold-text); }
+.pr-grid .product-card__name { font-size: 0.65625rem; font-weight: 600; line-height: 1.5; letter-spacing: 0.16em; text-transform: uppercase; color: var(--c-ink); }
+.pr-grid .product-card__subtitle { margin-top: 0.375rem; font-size: 0.78125rem; font-weight: 300; line-height: 1.45; color: var(--c-taupe); }
+.pr-grid .product-card__desc { margin-top: 0.375rem; font-size: 0.8125rem; line-height: 1.6; color: var(--c-ink-soft); }
+.pr-grid .product-card__cta {
+  justify-self: start; align-self: end; margin-top: 0.375rem;
+  font-size: 0.625rem; font-weight: 500; letter-spacing: 0.22em; color: var(--c-ink);
+}
+
+@media (max-width: 1023px) {
+  .pr-grid--four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 639px) {
+  .pr-grid { column-gap: 0.875rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pr-grid .product-card__link:hover .media > img { transform: none; }
+}

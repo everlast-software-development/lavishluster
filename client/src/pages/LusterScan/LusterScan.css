@@ -1,0 +1,201 @@
+/* ==========================================================================
+   LusterScan AI — a "tech-luxury" layout on the site's own system: Montserrat,
+   tokens only, the shared .container and 12-column grid, --section-y padding.
+   Hero noir (the scan screen) → What is white (four progress steps) →
+   What it analyzes noir (the scan image beside a 2 × 4 item grid) → Consultation (shared).
+   Every type role uses Home's computed values for the same role and surface (Home is the reference):
+   section titles = Home's (44px max on light, --t-title-noir 48px on noir, weight 200, 0.05em),
+   the lead = Home's Philosophy paragraph (18px / 1.8), numerals 56px, step title/text, index numbers,
+   the note and the hairlines (ink 14% on light, pearl 18% on noir) as Home's.
+   Page-only exceptions, deliberate: the pulsing dot and the scan lines (both
+   stop under prefers-reduced-motion).
+   ========================================================================== */
+.ls-band { padding-block: var(--section-y); }
+.ls-h2,
+.home-title.ls-h2 { margin-top: 1rem; font-size: var(--t-title-section); font-weight: 200; line-height: 1.1; letter-spacing: var(--tr-home-title); text-transform: uppercase; }
+.on-dark .ls-h2 { font-size: var(--t-title-noir); color: var(--c-pearl); }
+
+/* ==========================================================================
+   1 · Hero (noir): ≈688px at 1440, level with the About hero; the header is transparent over it
+   ========================================================================== */
+.ls-hero {
+  display: flex; align-items: center;
+  min-height: clamp(36rem, 47.8vw, 43.75rem);
+  padding: calc(var(--header-h) + 3rem) 0 6rem;     /* 48px under the nav, 96px below */
+  background: var(--c-noir); color: var(--c-pearl);
+}
+.ls-hero__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--grid-gap); align-items: center; }
+.ls-hero__text { grid-column: 1 / span 5; }
+
+/* Eyebrow (the standard ruled style, gold-light on noir) followed by a slowly pulsing 6px dot. */
+.ls-hero__eyebrow { gap: 1rem; }
+.ls-pulse { flex: none; width: 6px; height: 6px; border-radius: 50%; background: var(--c-gold-light); animation: ls-pulse 2.2s ease-in-out infinite; }
+@keyframes ls-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+
+/* H1: the Home hero H1 style, two lines. */
+.ls-hero__title {
+  margin-top: 1.75rem;
+  font-size: clamp(2.125rem, 3.9vw, 3.5rem); font-weight: 200; line-height: 1.1; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--c-pearl);
+}
+.ls-hero__crumbs { margin-top: 2.5rem; }   /* the shared breadcrumb, 40px under the H1, left-aligned */
+.ls-hero__actions { margin-top: 2.5rem; }
+
+/* The scan screen: the face-mesh image at its own 2:1 ratio, viewfinder brackets 16px outside its
+   corners (inside the container: the frame is inset 16px), and a gold scan line. */
+.ls-screen { grid-column: 6 / -1; position: relative; padding: 1rem; }
+.ls-screen__frame { position: relative; aspect-ratio: 2 / 1; overflow: hidden; }
+.ls-screen__frame .media { position: absolute; inset: 0; background: var(--c-noir-raised); }
+.ls-screen__frame img { object-position: 50% 35%; }   /* the eyes in the upper part */
+/* Corner brackets: size and inset come from the host (hero: 28px at 0; grid image: 22px at 12px). */
+.ls-screen__corner {
+  position: absolute; width: var(--ls-corner, 1.75rem); height: var(--ls-corner, 1.75rem);
+  border: 0 solid var(--c-gold-light); pointer-events: none;
+}
+.ls-screen__corner--tl { top: var(--ls-corner-inset, 0); left: var(--ls-corner-inset, 0); border-top-width: 1px; border-left-width: 1px; }
+.ls-screen__corner--tr { top: var(--ls-corner-inset, 0); right: var(--ls-corner-inset, 0); border-top-width: 1px; border-right-width: 1px; }
+.ls-screen__corner--bl { bottom: var(--ls-corner-inset, 0); left: var(--ls-corner-inset, 0); border-bottom-width: 1px; border-left-width: 1px; }
+.ls-screen__corner--br { bottom: var(--ls-corner-inset, 0); right: var(--ls-corner-inset, 0); border-bottom-width: 1px; border-right-width: 1px; }
+.ls-screen__scan {
+  position: absolute; left: 0; right: 0; top: 12%; height: 1px; background: var(--c-gold);
+  animation: ls-scan 7s ease-in-out infinite; pointer-events: none;
+}
+@keyframes ls-scan { 0%, 100% { top: 12%; } 50% { top: 84%; } }
+
+/* ==========================================================================
+   2 · What is LusterScan AI (white): header row, then four progress steps 112px below
+   ========================================================================== */
+.ls-what { background: var(--c-white); color: var(--c-ink); }
+.ls-what .home-eyebrow::before { background: var(--c-gold); }   /* Home's eyebrow rule on white (Signature, Results) */
+.ls-what__head { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--grid-gap); align-items: start; }
+.ls-what__title-col { grid-column: 1 / span 5; }
+/* The statement: Home's lead paragraph (Philosophy, 18px / 1.8, ink-soft). Its first line box starts
+   level with the title's: pushed down by the eyebrow's line (11px × 1.5) and the title's 16px margin. */
+.ls-what__statement {
+  grid-column: 7 / -1; max-width: var(--text-max); margin-top: calc(var(--t-label) * 1.5 + 1rem);
+  font-size: 1.125rem; font-weight: 300; line-height: 1.8; color: var(--c-ink-soft);
+}
+.ls-steps {
+  list-style: none; margin: 7rem 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: var(--grid-gap); row-gap: 3.5rem;
+}
+.ls-step__track { position: relative; display: block; height: 2px; background: var(--c-ink-a14); }   /* Home's light hairline colour */
+.ls-step__track::before { content: ''; position: absolute; inset: 0 auto 0 0; width: var(--fill, 25%); background: var(--c-gold); }
+.ls-step__num { display: block; margin-top: 1.75rem; font-size: 3.5rem; color: var(--c-gold-text); }   /* Home's numeral: 56px */
+.ls-step__title { margin-top: 1.5rem; font-size: var(--t-label); font-weight: 500; line-height: 1.6; letter-spacing: var(--tr-link); text-transform: uppercase; color: var(--c-ink); }   /* Home's step title */
+.ls-step__text { margin-top: 1.25rem; max-width: var(--text-max); font-size: 0.875rem; font-weight: 300; line-height: 1.75; color: var(--c-ink-soft); }   /* Home's step text */
+
+/* ==========================================================================
+   3 · What it analyzes (noir): centred header, the analysis block 56px below (the scan image
+   beside a 2 × 4 item grid), the note 40px below
+   ========================================================================== */
+.ls-analyzes {
+  --ls-media-h: clamp(27.5rem, 34.72vw, 32.5rem);  /* block (image) height ≥1024: 440 → 500 (1440) → 520px */
+  --ls-row: 7.1875rem;                             /* item row min-height: 115px (110 below 760) */
+  --ls-cell-pad: 1.375rem 1.5rem;                  /* 22px top/bottom, 24px sides */
+  --ls-line: var(--c-pearl-a18);                   /* Home's noir hairline */
+  background: var(--c-noir); color: var(--c-pearl);
+}
+.ls-analyzes__head { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.ls-eyebrow-center {
+  display: flex; align-items: center; justify-content: center; gap: 1rem;
+  font-size: var(--t-label); font-weight: 500; line-height: 1.5; letter-spacing: 0.26em; text-transform: uppercase; color: var(--c-gold-light);
+}
+.ls-eyebrow-center::before,
+.ls-eyebrow-center::after { content: ''; flex: none; width: 2.25rem; height: 1px; background: var(--c-gold-light); }
+
+/* The block: the whole image, then the 2 × 4 item grid, in one bordered grid. Hairlines: top + left
+   on the block, right + bottom on the image and on every item, so every line is single.
+   The image cell has the image's own ratio (3712 × 4928 = 0.7532) on its content box, so the
+   image shows uncropped with no bars; at ≥1024 its height sets the block height and its width
+   follows (≈377px at 1440, 31% of the block). The four item rows stretch to it. */
+.ls-analysis {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); margin-top: 3.5rem;
+  border-top: 1px solid var(--ls-line); border-left: 1px solid var(--ls-line);
+}
+.ls-analysis__media {
+  --ls-corner: 1.625rem; --ls-corner-inset: 1rem;   /* 26px brackets, 16px inside the image, clear of the grid lines */
+  box-sizing: content-box;                          /* the ratio is the image area's, not the hairlines' */
+  position: relative; overflow: hidden; height: var(--ls-media-h); aspect-ratio: 3712 / 4928;
+  border-right: 1px solid var(--ls-line); border-bottom: 1px solid var(--ls-line);
+}
+.ls-analysis__media .media { position: absolute; inset: 0; background: var(--c-noir-raised); }
+/* The scan line here runs between 18% and 82% of the image height, never on an edge (50% at rest). */
+.ls-analysis__media .ls-screen__scan { top: 18%; animation-name: ls-scan-inner; }
+@keyframes ls-scan-inner { 0%, 100% { top: 18%; } 50% { top: 82%; } }
+/* Where the image would drop under 30% of the block (≥1568px), the item grid is capped at 760px and
+   the block centres. */
+@media (min-width: 98rem) {
+  .ls-analysis { max-width: calc(var(--ls-media-h) * 3712 / 4928 + 47.5rem + 2px); margin-inline: auto; }
+}
+
+.ls-analysis__list {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 1fr;
+}
+/* One item cell: the index top-left, the name bottom-left. All eight share one style. */
+.ls-analysis__item {
+  container-type: inline-size; min-width: 0;
+  display: flex; flex-direction: column; justify-content: space-between; padding: var(--ls-cell-pad);
+  border-right: 1px solid var(--ls-line); border-bottom: 1px solid var(--ls-line);
+}
+.ls-analysis__index { font-size: var(--t-label); font-weight: 500; line-height: 1.75; letter-spacing: 0.08em; color: var(--c-gold-light); font-variant-numeric: lining-nums tabular-nums; }   /* Home's small index number */
+/* The name size never lets the longest word ("RECOMMENDATIONS", ≈12.4em wide at 0.1em tracking) pass
+   the cell's padding: capped at 7.9cqi of the cell. From 760 up the cap never applies; it only takes
+   over in the narrow 2-column phone cells. */
+.ls-analysis__name {
+  font-size: min(var(--ls-name, clamp(0.8125rem, 1.1vw, 1rem)), 7.9cqi);
+  font-weight: 300; line-height: 1.4; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--c-pearl);
+}
+
+/* The note, centred, 40px under the block: Home's note on noir (12px / 1.7, pearl 50%). */
+.ls-note { display: flex; flex-direction: column; align-items: center; margin-top: 2.5rem; text-align: center; }
+.ls-note__text { max-width: 40rem; font-size: 0.75rem; font-weight: 300; line-height: 1.7; color: var(--c-pearl-a50); }
+
+/* ==========================================================================
+   Breakpoints
+   ========================================================================== */
+@media (max-width: 1023px) {
+  /* Hero: text, then the screen. */
+  .ls-hero { min-height: 0; padding-bottom: var(--section-y); }
+  .ls-hero__grid { grid-template-columns: minmax(0, 1fr); row-gap: 2.5rem; }
+  .ls-hero__text, .ls-screen { grid-column: 1; }
+
+  /* What is: the steps in 2 × 2. */
+  .ls-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 4.5rem; }
+
+  /* The analysis block stacks: the whole image full width at its own ratio, then the 2 × 4 grid. */
+  .ls-analysis { grid-template-columns: minmax(0, 1fr); }
+  .ls-analysis__media { height: auto; justify-self: stretch; }   /* explicit stretch: items with a ratio otherwise sit at start */
+  .ls-analysis__list { grid-auto-rows: minmax(var(--ls-row), auto); }
+}
+
+@media (max-width: 759px) {
+  /* Item rows min 110px; 16px cell padding so the names keep a readable size. */
+  .ls-analyzes { --ls-row: 6.875rem; --ls-cell-pad: 1.125rem 1rem; }
+}
+
+@media (max-width: 639px) {
+  /* What is: header stacked (title, then the statement), one column of steps. */
+  .ls-what__head { grid-template-columns: minmax(0, 1fr); row-gap: 1.75rem; }
+  .ls-what__title-col, .ls-what__statement { grid-column: 1; }
+  .ls-what__statement { margin-top: 0; }
+  .ls-steps { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* Home's numerals below 768px: 44px. */
+@media (max-width: 767px) {
+  .ls-step__num { font-size: 2.75rem; }
+}
+
+@media (max-width: 379px) {
+  /* 13px names (12px side padding, so the capped names stay above 10px). */
+  .ls-analyzes { --ls-name: 0.8125rem; --ls-cell-pad: 1.125rem 0.75rem; }
+}
+
+/* The two ambient animations stop completely when the user prefers reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  .ls-pulse, .ls-screen__scan { animation: none; }
+  .ls-analysis__media .ls-screen__scan { top: 50%; }   /* at rest in the middle of the image */
+}

@@ -5,7 +5,7 @@ import Wordmark from './Wordmark.jsx';
 
 /**
  * Desktop (1024px and up): three nav items, centred wordmark, the other three.
- * On Home and About the bar is transparent (white logo and nav) over the noir hero until
+ * On Home, About, LusterScan AI and Results the bar is transparent (white logo and nav) over the noir hero until
  * the page scrolls; everywhere else it is solid pearl with a hairline.
  * Mobile: centred wordmark, "Menu" on the right, full-screen noir menu.
  */
@@ -16,7 +16,7 @@ export default function Header() {
   const panelRef = useRef(null);
   const buttonRef = useRef(null);
   // Pages that open on a noir hero: the bar sits over it, transparent, until the page scrolls.
-  const overHero = pathname === '/' || pathname === '/about';
+  const overHero = pathname === '/' || pathname === '/about' || pathname === '/lusterscan-ai' || pathname === '/results';
   const overlay = overHero && !scrolled;
   const light = overlay || open;
 

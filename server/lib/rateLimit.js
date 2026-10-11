@@ -22,7 +22,7 @@ export function rateLimit({ windowMs, max }) {
     res.setHeader('RateLimit-Reset', String(Math.ceil((entry.reset - now) / 1000)));
     if (entry.count > max) {
       res.setHeader('Retry-After', String(Math.ceil((entry.reset - now) / 1000)));
-      return res.status(429).json({ error: 'rate_limited', message: 'Too many enquiries. Try again later.' });
+      return res.status(429).json({ ok: false, code: 'rate_limited' });
     }
     return next();
   };

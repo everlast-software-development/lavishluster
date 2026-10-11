@@ -59,6 +59,7 @@ export const technologies = [
 export const sciencePage = {
   hero: {
     title: 'The Science Behind Beautiful Skin',
+    titleLines: ['The Science Behind', 'Beautiful Skin'],
     text: 'Our pharmaceutical-grade formulations deliver clinical results previously only available through professional aesthetic treatments.',
   },
   formulations: 'Pharmaceutical-Grade Formulations',

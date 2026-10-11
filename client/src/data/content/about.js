@@ -1,12 +1,14 @@
 /**
  * About page copy — content-source/website-content.md, section 6, exactly as
- * written there. Checked by scripts/verify-website-content.mjs.
+ * written there. Checked by scripts/verify-website-content.mjs. `titleLines` only set
+ * line breaks; each joins back to its verbatim title (About.jsx falls back to one line otherwise).
  * Our Experts stays off until verified (features.experts).
  */
 export const about = {
-  hero: { eyebrow: 'About Us', title: 'Where Science Meets Luxury' },
+  hero: { eyebrow: 'About Us', title: 'Where Science Meets Luxury', titleLines: ['Where Science', 'Meets Luxury'] },
   welcome: {
     title: 'Welcome to Lavish Luster',
+    titleLines: ['Welcome to', 'Lavish Luster'],
     text: 'Lavish Luster was born from a vision to democratize beauty by bringing the effectiveness of medical-aesthetic treatments into the home. We recognized that sophisticated individuals shouldn’t have to choose between clinical efficacy and sensorial luxury.',
   },
   story: {
@@ -23,6 +25,7 @@ export const about = {
   },
   values: {
     title: 'Our Core Values',
+    titleLines: ['Our Core', 'Values'],
     items: [
       { title: 'Scientific Integrity', text: 'We are committed to rigorous scientific research, clinical validation, and transparent communication. Every formulation is grounded in evidence-based science, ensuring unparalleled efficacy and safety.' },
       { title: 'Biotechnological Innovation', text: 'We embrace pioneering advancements in biotechnology and dermocosmetics, constantly pushing the boundaries of what is possible in skincare to deliver next-generation solutions.' },

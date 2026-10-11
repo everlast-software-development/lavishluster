@@ -5,7 +5,7 @@
   display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   background: var(--c-white); color: var(--c-ink);
 }
-.home-signature__media { position: relative; min-height: clamp(30rem, 52.8vw, 47.5rem); }
+.home-signature__media { position: relative; min-height: clamp(28rem, 45.8vw, 41.25rem); }   /* ≈660px at 1440 */
 .home-signature__media .media { position: absolute; inset: 0; background: var(--c-noir-raised); }
 .home-signature__media img { object-position: 55% 30%; } /* face and jar in frame at every width */
 .home-signature__frame { position: absolute; inset: 1.75rem; border: 1px solid var(--c-pearl-a70); pointer-events: none; }

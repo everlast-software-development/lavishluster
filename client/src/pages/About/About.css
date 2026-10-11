@@ -1,125 +1,262 @@
 /* ==========================================================================
-   About — on the Home system: shared container, --section-y padding,
-   .home-eyebrow / .home-title, gold hairline frames, tokens only.
-   Surfaces: hero noir → Welcome pearl → Our Story white → Mission & Vision noir
-   → Core Values pearl. Main sections ≈720–780px at 1440, content centred.
+   About — Welcome pearl → Our Story noir → Mission & Vision white → Core Values pearl.
+   One grid: the shared .container (--page-pad edges), 12 columns, 32px gutter, and
+   exactly --section-y top and bottom on every section. Only the .halves image runs
+   to the viewport edge. Tokens only.
+
+   Every type role uses Home's computed values for the same role and surface (Home is the reference):
+   - eyebrow: the shared .home-eyebrow (gold-text on light, gold-light inside .on-dark; a gold rule on
+     white, as Home's Signature/Results); the centred "03" (.about-eyebrow-center) has the same type,
+     36px rules and 16px gap on both sides.
+   - title: .about-h2 = Home's section title: --t-about-h2 (= --t-title-section, 44px max), weight 200,
+     tracking 0.05em, line-height 1.1; on noir --t-title-noir (= Home's LusterScan title, 48px at 1440).
+   - paragraph: .about-body = Home's body: 16px / 1.8, weight 300, ink-soft; on noir Home's noir body,
+     17px / 1.8, pearl 72%. List items: Home's step title (11px / 500 / 0.2em) and step text (14px / 1.75).
+   - numerals: Home's (56px, 44px below 768, weight 200), gold-text on light.
+   - header spacing: eyebrow → title 24px, title → paragraph or gold rule 28px.
+   - offset gold frames = Home's Welcome frame: right and up by --about-frame (28px, 16px below 1024),
+     1px solid gold; the inset frame = Home's Signature frame (28px inside, pearl 70%).
    ========================================================================== */
-.about-title { font-size: clamp(1.75rem, 2.8vw, 2.75rem); }       /* 28 → 40 (1440) → 44px */
 .about-band { padding-block: var(--section-y); }
-@media (min-width: 1024px) {
-  .about-band { display: flex; flex-direction: column; justify-content: center; min-height: clamp(40rem, 50vw, 47.5rem); }
-}
 
-/* ---------- 1 · Hero (noir) · ≈640px at 1440; the header is transparent over it ---------- */
-.about-hero {
-  --panel-w: clamp(17.5rem, 25vw, 28rem);            /* 360px at 1440 */
-  position: relative; overflow: hidden; isolation: isolate;
-  display: flex; min-height: clamp(32rem, 44.4vw, 40rem);
-  padding-top: var(--header-h);
-  background: var(--g-about-hero), var(--c-noir); color: var(--c-pearl);
+.about-h2,
+.home-title.about-h2 {
+  margin-top: 1.5rem;
+  font-size: var(--t-about-h2); font-weight: 200; line-height: 1.1; letter-spacing: var(--tr-home-title); text-transform: uppercase;
+  color: var(--c-ink);
 }
-/* Framed panel behind the model (as on the Home hero), bleeding past the bottom edge. */
-.about-hero__stage {
-  position: absolute; z-index: 0; right: calc(var(--page-pad) + 2rem); width: var(--panel-w);
-  top: calc(var(--header-h) + 2.75rem); bottom: -2.5rem;
-  background: var(--c-noir-raised); border: 1px solid var(--c-gold-a60);
-}
-/* The cutout: bottom-aligned, ≈90% of the hero's height, in front of the panel. */
-.about-hero__figure {
-  position: absolute; z-index: 1; bottom: 0; right: calc(var(--page-pad) - 2rem);
-  height: 90%; width: auto; max-width: none; aspect-ratio: 734 / 896;
-}
-.about-hero__inner { position: relative; z-index: 2; display: flex; align-items: center; }
-.about-hero__copy { max-width: min(37.5rem, 46vw); padding-block: 3rem; }
-.about-hero__title {
-  margin-top: 2.125rem; font-size: clamp(2.125rem, 3.9vw, 3.5rem); letter-spacing: 0.06em; color: var(--c-pearl);
-}
+.on-dark .about-h2 { font-size: var(--t-title-noir); color: var(--c-pearl); }
 
-/* ---------- 2 · Welcome (pearl): text 1–6, 4:5 image 8–12 with an offset gold frame ---------- */
+.about-body {
+  margin-top: 1.75rem; max-width: var(--text-max);
+  font-size: var(--t-body); font-weight: 300; line-height: 1.8; color: var(--c-ink-soft);
+}
+.on-dark .about-body { font-size: 1.0625rem; color: var(--c-pearl-a72); }
+
+/* The centred eyebrow (Mission & Vision "03"): Home's eyebrow type, a gold rule on both sides. */
+.about-eyebrow-center {
+  display: flex; align-items: center; justify-content: center; gap: 1rem;
+  font-size: var(--t-label); font-weight: 500; line-height: 1.5; letter-spacing: var(--tr-label); text-transform: uppercase; color: var(--c-gold-text);
+}
+.about-eyebrow-center::before,
+.about-eyebrow-center::after { content: ''; flex: none; width: 2.25rem; height: 1px; background: var(--c-gold); }
+
+/* Images: the 1.035 hover zoom of the product cards. */
+.about-zoom > img { transition: transform 1.2s var(--ease); }
+.about-zoom:hover > img { transform: scale(1.035); }
+
+/* Keyboard focus on the noir sections: the lighter gold ring (the default ring is dark gold for light surfaces). */
+.about-hero :focus-visible,
+.about-story :focus-visible { outline-color: var(--c-gold); }
+
+/* ==========================================================================
+   2 · Welcome (pearl): text cols 1–5, vertically centred against the collage in cols 7–12
+   ========================================================================== */
 .about-welcome { background: var(--c-pearl); color: var(--c-ink); }
-.about-welcome__grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--grid-gap); align-items: center; }
-.about-welcome__text { grid-column: 1 / span 6; }
-.about-welcome__body { margin-top: 1.75rem; max-width: 32.5rem; font-size: 1.125rem; font-weight: 300; line-height: 1.8; color: var(--c-ink-soft); }
-/* 440×550 at 1440 (at most 460×575); a 1px gold rectangle of the same size, 24px right and 24px up, behind it. */
-.about-welcome__figure {
-  grid-column: 8 / -1; justify-self: end; position: relative; isolation: isolate;
-  width: min(100%, 27.5rem); margin-right: 1.5rem;
+.about-welcome__grid {
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--grid-gap); align-items: center;
 }
-.about-welcome__frame { position: absolute; inset: -1.5rem -1.5rem 1.5rem 1.5rem; z-index: -1; border: 1px solid var(--c-gold); }
-.about-welcome__media { aspect-ratio: 4 / 5; }
-.about-welcome__media img { object-position: center; }
+.about-welcome__text { grid-column: 1 / span 5; max-width: var(--text-max); }
 
-/* ---------- 3 & 4 · Edge-to-edge 50/50 sections ---------- */
-.about-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-.about-split__media { position: relative; min-height: clamp(30rem, 50vw, 47.5rem); }   /* 720px at 1440 */
-.about-split__media .media { position: absolute; inset: 0; }
-.about-split__media img, .about-split__media:hover img { transform: none; }            /* no zoom */
-.about-split__frame { position: absolute; inset: 1.75rem; pointer-events: none; }
-.about-split__text { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; }
+/* Collage ≈520px tall at 1440 (584:520, at most 600px tall), so it no longer drives the section height;
+   its width follows its height and it sits against the container's right edge. The main image
+   (76% × 440/520) sits at the top right, its gold frame offset right and down behind it with the
+   frame's outer edge on the container edge; the inset (40% × 260/520) overlaps the bottom-left on a
+   12px pearl mat. */
+.about-collage {
+  grid-column: 7 / -1; justify-self: end; position: relative;
+  height: clamp(25rem, 36.1vw, 37.5rem); width: auto; max-width: 100%; aspect-ratio: 584 / 520;
+}
+.about-collage__main {
+  position: absolute; top: 0; right: var(--about-frame);
+  width: 76%; height: 84.615%; isolation: isolate;
+}
+.about-collage__frame {   /* Home's Welcome frame: right and up */
+  position: absolute; z-index: -1; border: 1px solid var(--c-gold);
+  inset: calc(-1 * var(--about-frame)) calc(-1 * var(--about-frame)) var(--about-frame) var(--about-frame);
+}
+.about-collage__inset {
+  position: absolute; left: 0; bottom: 0; z-index: 1;
+  width: 40%; height: 50%; padding: 0.75rem; background: var(--c-pearl);   /* 260/520 */
+}
+.about-collage .media { height: 100%; }
+.about-collage__main img { object-position: 62% 30%; }    /* face and jar */
+.about-collage__inset img { object-position: 50% 55%; }   /* the case between the hands */
 
-/* 3 · Our Story (white): image left with a pearl frame; text right. */
-.about-story { background: var(--c-white); color: var(--c-ink); }
-.about-story .media { background: var(--c-white); }
-.about-story .about-split__frame { border: 1px solid var(--c-pearl-a75); }
-.about-story__text { padding: var(--section-y) var(--page-pad) var(--section-y) 6rem; }
-.about-story__rule { display: block; width: 2.25rem; height: 1px; background: var(--c-gold); }
-.about-story .about-title { margin-top: 1.75rem; }
-.about-story__body { margin-top: 1.5rem; max-width: 32.5rem; font-size: 1.125rem; font-weight: 300; line-height: 1.85; color: var(--c-ink-soft); }
+/* ==========================================================================
+   3 · Our Story (noir): .halves; the image runs to the left viewport edge, the text runs from the
+   50% line + --halves-pad-in to the container edge, with --section-y top and bottom
+   ========================================================================== */
+/* Home's halves sizing (Results, image left): from 1024px the image is clamp(448px, 47.5vw, 684px) tall
+   (≈684px at 1440) and the text column is padded 56px top/bottom, 96px on the inner side and
+   --page-pad on the outer side; below 1024px the image is 4:5 (max 560px tall), then the text. */
+@media (min-width: 1024px) {
+  .about-story .halves__media { min-height: clamp(28rem, 47.5vw, 42.75rem); }
+  .about-story .halves__text { padding: 3.5rem var(--page-pad) 3.5rem 6rem; }
+}
+@media (max-width: 1023px) { .about-story .halves__media { max-height: 35rem; } }
+.about-story .halves__media img { object-position: 55% 72%; }   /* the products on the vanity */
+/* The section links: Home's text links (11px / 0.2em, pearl, gold underline), above a pearl 18% hairline. */
+.about-story__links {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 0.875rem;
+  margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--c-pearl-a18);
+  font-size: var(--t-label); font-weight: 500; line-height: 1.4; letter-spacing: var(--tr-link); text-transform: uppercase;
+}
+.about-story__links span { color: var(--c-gold-light); }
+/* Home's hero link on noir: pearl with the gold underline (not the .section--noir white/gold-light variant). */
+.about-story .about-story__links .text-link { color: var(--c-pearl); background-image: linear-gradient(var(--c-gold), var(--c-gold)); }
 
-/* 4 · Our Mission & Our Vision (noir): text left; the seated couple right with a gold-light frame. */
-.about-duo { background: var(--c-noir); color: var(--c-pearl); }
-.about-duo .media { background: var(--c-noir); }
-.about-duo .about-split__frame { border: 1px solid var(--c-gold-light-a60); }
-.about-duo__media img { object-position: 58% center; }   /* both faces in frame (the couple sits right of centre) */
-.about-duo__text { padding: var(--section-y) 6rem var(--section-y) var(--page-pad); }
-.about-duo__block { max-width: 32.5rem; }
-.about-duo__block + .about-duo__block { margin-top: 1.75rem; padding-top: 1.75rem; border-top: 1px solid var(--c-pearl-a18); }   /* 56px apart, hairline between */
-.about-duo__num { display: block; font-size: var(--t-label); font-weight: 500; letter-spacing: 0.08em; line-height: 1.6; color: var(--c-gold-light); font-variant-numeric: lining-nums tabular-nums; }
-.about-duo__title { margin-top: 1rem; font-size: clamp(1.5rem, 2.2vw, 2rem); font-weight: 200; line-height: 1.15; letter-spacing: var(--tr-home-title); text-transform: uppercase; color: var(--c-pearl); }
-.about-duo__body { margin-top: 1.25rem; font-size: var(--t-body); font-weight: 300; line-height: 1.85; color: var(--c-pearl-a72); }
+/* ==========================================================================
+   4 · Mission & Vision (white): centred "03", 56px above one row Mission | portrait | Vision.
+   The portrait is a fixed 4:5, clamp(360px, 30vw, 500px) wide, on the page's centre axis. The grid
+   has three rows, 1fr · auto · 1fr: the portrait spans all three, both text columns share the middle
+   row, so they are the same height (the taller one's), titles level, and the two 1fr rows split the
+   spare height equally, which centres that row against the portrait.
+   ========================================================================== */
+.about-mv {
+  --mv-img: clamp(22.5rem, 30vw, 31.25rem);   /* 432px at 1440, 500px from 1667 */
+  --mv-gap: clamp(2.5rem, 4.5vw, 4rem);       /* 40 → 64px */
+  background: var(--c-white); color: var(--c-ink);
+}
+.about-mv__tri {
+  display: grid; grid-template-columns: minmax(0, 1fr) var(--mv-img) minmax(0, 1fr);
+  grid-template-rows: 1fr auto 1fr;
+  column-gap: var(--mv-gap); margin-top: 3.5rem;
+}
+/* The portrait: 4:5, cover, the face in the upper third, with Home's Signature inset frame
+   (1px pearl at 70%, 28px inside). */
+.about-mv__portrait { grid-column: 2; grid-row: 1 / span 3; position: relative; margin: 0; width: 100%; aspect-ratio: 4 / 5; align-self: center; }
+.about-mv__portrait .media { position: absolute; inset: 0; }
+.about-mv__portrait img { object-position: 45% 18%; }
+.about-mv__portrait::after { content: ''; position: absolute; inset: 1.75rem; border: 1px solid var(--c-pearl-a70); pointer-events: none; }
+.about-mv__col { grid-row: 2; align-self: stretch; display: flex; flex-direction: column; }
+/* Titles stay on one line beside the portrait (at 1440 "Our Mission" is ~10px wider than its 320px
+   column and runs into the gap, never under the image). */
+.about-mv__title { white-space: nowrap; }
+.about-mv__col--mission { grid-column: 1; }
+.about-mv__col--vision { grid-column: 3; }
+.about-mv__top { display: flex; align-items: center; gap: 1rem; }
+.about-mv__letter { flex: none; font-size: var(--t-label); font-weight: 500; line-height: 1.6; letter-spacing: var(--tr-link); text-transform: uppercase; color: var(--c-gold-text); }   /* Home's small label */
+.about-mv__line { flex: 1; height: 1px; background: var(--c-ink-a14); }
+.about-mv__rule { display: block; flex: none; width: 2.75rem; height: 1px; margin-top: 1.75rem; background: var(--c-gold); }
+/* The paragraph follows the gold rule directly, 28px below it (the shared .about-body spacing). */
+/* Vision's copy is about 60 characters shorter than Mission's: a narrower measure balances the line counts. */
+.about-mv__col--vision .about-mv__body { max-width: min(var(--text-max), 88%); }
 
-/* ---------- 5 · Our Core Values (pearl): title + button, then 3 × 2 values, no boxes ---------- */
+/* ==========================================================================
+   5 · Our Core Values (pearl): header, image and button in cols 1–4 (max 360px); the six values in a
+   2-column grid in cols 5–12 with three equal rows, so every hairline runs straight across both columns
+   ========================================================================== */
 .about-values { background: var(--c-pearl); color: var(--c-ink); }
-.about-values__layout {
-  display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: var(--grid-gap);
-  grid-template-areas: "heading action" "grid grid";
-}
-.about-values__heading { grid-area: heading; align-self: end; }
-.about-values__action { grid-area: action; align-self: end; }
 .about-values__grid {
-  grid-area: grid; list-style: none; margin: 3rem 0 0; padding: 0;
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3.5rem 3rem;
+  display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--grid-gap);
+  grid-template-rows: auto auto 1fr; align-items: start;
 }
-.about-values__item { padding-top: 1.75rem; border-top: 1px solid var(--c-ink-a14); }
-.about-values__num { display: block; font-size: 2.5rem; font-weight: 200; line-height: 1; color: var(--c-gold-text); font-variant-numeric: lining-nums tabular-nums; }
-.about-values__title { margin-top: 1.125rem; font-size: var(--t-label); font-weight: 500; line-height: 1.6; letter-spacing: 0.2em; text-transform: uppercase; color: var(--c-ink); }
-.about-values__text { margin-top: 0.75rem; font-size: var(--t-sm); font-weight: 300; line-height: 1.75; color: var(--c-ink-soft); }
+.about-values__head,
+.about-values__portrait,
+.about-values__action { grid-column: 1 / span 4; max-width: 22.5rem; }
+.about-values__head { grid-row: 1; }
+.about-values__portrait {
+  grid-row: 2; position: relative; isolation: isolate;
+  width: calc(100% - var(--about-frame)); height: 26.25rem; margin-top: 2.5rem;   /* 420px */
+}
+.about-values__frame {   /* Home's Welcome frame: right and up */
+  position: absolute; z-index: -1; border: 1px solid var(--c-gold);
+  inset: calc(-1 * var(--about-frame)) calc(-1 * var(--about-frame)) var(--about-frame) var(--about-frame);
+}
+.about-values__portrait .media { height: 100%; }
+/* The photo has transparent strips at its top and right edge: anchor it bottom-left and scale it 3%. */
+.about-values__portrait img { object-position: 0% 100%; transform: scale(1.03); transform-origin: 0 100%; }
+.about-values__portrait .about-zoom:hover > img { transform: scale(1.066); }
+.about-values__action { grid-row: 3; margin-top: 4rem; }   /* 64px below the image */
+.about-values__btn { gap: 0.875rem; }
+.about-values__arrow { width: 1.25rem; height: 1.25rem; color: var(--c-gold); }
 
-/* ---------- Tablet (< 1024px) ---------- */
-@media (max-width: 1023px) {
-  .about-hero { --panel-w: clamp(13rem, 34vw, 20rem); min-height: clamp(30rem, 70vw, 40rem); }
-  .about-hero__copy { max-width: 50%; }
-  .about-welcome__grid { grid-template-columns: minmax(0, 1fr); row-gap: 3.5rem; }
-  .about-welcome__text, .about-welcome__figure { grid-column: 1 / -1; }
-  .about-welcome__figure { order: -1; justify-self: start; margin: 1rem 1rem 0 0; }
-  .about-welcome__frame { inset: -1rem -1rem 1rem 1rem; }
-  .about-split { grid-template-columns: minmax(0, 1fr); }
-  .about-split__media { min-height: 0; aspect-ratio: 4 / 3; max-height: 35rem; width: 100%; }
-  .about-story__text, .about-duo__text { padding: var(--section-y) var(--page-pad); }
-  .about-duo__media { order: -1; }                                     /* image first, then the two blocks */
-  .about-values__layout { grid-template-columns: minmax(0, 1fr); grid-template-areas: "heading" "grid" "action"; }
+.about-values__list {
+  grid-column: 5 / -1; grid-row: 1 / span 3; list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 1fr; column-gap: 3.5rem;
+  border-bottom: 1px solid var(--c-ink-a14);
+}
+.about-values__item { padding: 2rem 0 2.5rem; border-top: 1px solid var(--c-ink-a14); }
+.about-values__num {   /* Home's numeral: 56px, weight 200; gold-text on light */
+  display: block; font-size: 3.5rem; font-weight: 200; line-height: 1; color: var(--c-gold-text);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.about-values__title {   /* Home's step title */
+  margin-top: 1.5rem; font-size: var(--t-label); font-weight: 500; line-height: 1.6; letter-spacing: var(--tr-link);
+  text-transform: uppercase; color: var(--c-ink);
+}
+.about-values__text { margin-top: 0.875rem; font-size: 0.875rem; font-weight: 300; line-height: 1.75; color: var(--c-ink-soft); }   /* Home's step text */
+
+/* ==========================================================================
+   Breakpoints (largest first)
+   ========================================================================== */
+/* Wide screens: on a 1600px container the Mission/Vision columns get so wide that the paragraphs shrink to
+   7–8 lines and the row (and the portrait) too short; a 440px measure keeps the row, the portrait (3:4–1:1)
+   and the section in proportion. Vision keeps its narrower measure for the line balance. */
+@media (min-width: 1680px) {
+  .about-mv__body { max-width: 27.5rem; }
+  .about-mv__col--vision .about-mv__body { max-width: 24.25rem; }
+}
+
+@media (min-width: 1280px) {
+  .about-values__title { white-space: nowrap; }   /* one line each, incl. "Sustainability & Responsibility" */
+}
+
+/* Below ~1170px the values grid would be narrower than 640px beside the left column:
+   stack header → image → grid → button. */
+@media (max-width: 1169px) {
+  .about-values__grid { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; }
+  .about-values__head,
+  .about-values__portrait,
+  .about-values__list,
+  .about-values__action { grid-column: 1; grid-row: auto; max-width: none; }
+  .about-values__portrait { height: auto; aspect-ratio: 4 / 5; width: min(100% - var(--about-frame), 30rem); }   /* max 480px wide */
+  .about-values__list { margin-top: 3rem; }   /* the frame now sits up and right, not below */
   .about-values__action { margin-top: 3rem; }
-  .about-values__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
-/* ---------- Mobile (< 768px): hero stacks (copy, then the model over the panel) ---------- */
-@media (max-width: 767px) {
-  .about-hero { display: block; min-height: 0; padding-bottom: 0; }
-  .about-hero__inner { display: block; }
-  .about-hero__copy { max-width: none; padding-block: 2.5rem 1rem; }
-  .about-hero__stage { top: auto; right: 50%; transform: translateX(50%); bottom: -2.5rem; height: 19rem; width: min(68vw, 16rem); }
-  .about-hero__figure { position: relative; display: block; right: auto; height: 22rem; margin: 0 auto; }
+@media (max-width: 1023px) {
+  /* Welcome: the collage first (proportional), then the text. */
+  .about-welcome__grid { grid-template-columns: minmax(0, 1fr); row-gap: 3rem; }
+  .about-welcome__text,
+  .about-collage { grid-column: 1 / -1; }
+  .about-collage { order: -1; justify-self: start; width: 100%; height: auto; max-width: 36.5rem; }
+
+  /* Mission & Vision: the portrait first (centred, max 400px, back to 4:5 at its natural size), then
+     Mission and Vision side by side, top-aligned, at their natural height. */
+  .about-mv__tri { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; column-gap: var(--grid-gap); row-gap: 3.5rem; }
+  .about-mv__portrait { grid-column: 1 / -1; grid-row: 1; justify-self: center; align-self: auto; width: min(100%, 25rem); }
+  .about-mv__col { grid-row: 2; align-self: start; }
+  .about-mv__title { white-space: normal; }
+  .about-mv__col--mission { grid-column: 1; }
+  .about-mv__col--vision { grid-column: 2; }
+  .about-mv__col--vision .about-mv__body { max-width: var(--text-max); }
 }
+
 @media (max-width: 639px) {
-  .about-values__grid { grid-template-columns: minmax(0, 1fr); }
+  .about-collage__main { width: 82%; height: 86%; }
+  .about-collage__inset { width: 36%; height: 38%; padding: 0.5rem; }
+
+  /* Mission → portrait (full width, 4:5, max 480px tall) → Vision, 48px apart. */
+  .about-mv__tri { grid-template-columns: minmax(0, 1fr); row-gap: 3rem; margin-top: 3rem; }
+  .about-mv__col--mission,
+  .about-mv__col--vision,
+  .about-mv__portrait { grid-column: 1; grid-row: auto; }
+  .about-mv__portrait { width: 100%; max-height: 30rem; }
+
+  .about-values__list { grid-template-columns: minmax(0, 1fr); grid-auto-rows: auto; }
+  .about-values__btn { width: 100%; }
+}
+
+/* Home's numerals below 768px: 44px. */
+@media (max-width: 767px) {
+  .about-values__num { font-size: 2.75rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-zoom > img { transition: none; }
+  .about-zoom:hover > img { transform: none; }
+  .about-values__portrait .about-zoom:hover > img { transform: scale(1.03); }
+  .about-story__links a { transition: none; }
 }

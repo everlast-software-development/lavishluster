@@ -29,10 +29,31 @@ for (const entry of Object.values(productImages)) {
 }
 
 const brandImages = {};
+const brandWidths = {};
 for (const [path, url] of Object.entries(brandFiles)) {
   const name = path.split('/').pop().replace(/\.[^.]+$/, '');
   brandImages[name] = url;
+  brandWidths[name] = imageSizes[path]?.[0] ?? null;
+}
+
+/*
+ * Responsive variants: src/assets/brand/variants/<name>-<width>.webp (smaller copies of a brand
+ * image, never upscaled). getBrandSrcSet(name) lists them, plus the original when it is wider than
+ * the largest variant, as a srcset string; null when the image has no variants.
+ */
+const variantFiles = import.meta.glob('/src/assets/brand/variants/*.{webp,avif,jpg,jpeg}', { eager: true, import: 'default' });
+const brandVariants = {};
+for (const [path, url] of Object.entries(variantFiles)) {
+  const m = path.split('/').pop().match(/^(.+)-(\d+)\.\w+$/);
+  if (m) (brandVariants[m[1]] ||= []).push({ url, w: Number(m[2]) });
 }
 
 export const getProductImages = (slug) => productImages[slug] || { primary: null, primaryAspect: null, gallery: [] };
 export const getBrandImage = (name) => brandImages[name] || null;
+export const getBrandSrcSet = (name) => {
+  const list = [...(brandVariants[name] || [])].sort((a, b) => a.w - b.w);
+  if (!list.length) return null;
+  const original = brandWidths[name];
+  if (brandImages[name] && original && original > list[list.length - 1].w) list.push({ url: brandImages[name], w: original });
+  return list.map((v) => `${v.url} ${v.w}w`).join(', ');
+};

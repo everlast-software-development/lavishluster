@@ -2,8 +2,9 @@
 export const integrations = {
   lusterscan: { appUrl: null, videoUrl: null },
   inquiry: {
-    endpoint: '/api/inquiry',
-    // Consent wording must be supplied with the Privacy Policy before submission is enabled.
+    endpoint: '/api/enquiry',
+    // Optional consent line (with the Privacy Policy). When set, it renders above the button; it is not
+    // required by the endpoint.
     consentText: null,
   },
 };

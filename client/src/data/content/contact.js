@@ -9,7 +9,6 @@ export const contact = {
   // Display spelling from content-source/website-content.md (sections 5 and 10).
   addressDisplay: 'The Galleria, Al Maryah Island, Abu Dhabi, UAE',
   mapsUrl: 'https://maps.app.goo.gl/HxejzQSJBxtU2YXg6',
-  mapEmbedUrl: 'https://maps.google.com/maps?q=The%20Galleria%2C%20Al%20Maryah%20Island%20Abu%20Dhabi%2C%20UAE&t=m&z=14&output=embed&iwloc=near',
   phone: null,
   openingHours: null,
   social: { instagram: null, facebook: null, tiktok: null },

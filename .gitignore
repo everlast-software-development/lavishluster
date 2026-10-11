@@ -10,3 +10,6 @@ content-source/brand/old-site/
 
 # Design-tool mockups (reference only, never committed)
 design-reference/
+
+# Environment (secrets): never committed; see .env.example
+.env

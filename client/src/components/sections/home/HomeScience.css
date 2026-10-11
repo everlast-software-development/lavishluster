@@ -2,9 +2,9 @@
    Home 05 — The Science (pearl) · ≈680px at 1440, no photograph
    ========================================================================== */
 .home-science { background: var(--c-pearl); }
-/* Desktop band height of the approved design (680px at 1440), content centred within it. */
+/* Desktop band height (≈730px at 1440, a little more air than the sections around it), content centred within it. */
 @media (min-width: 1024px) {
-  .home-science { display: flex; align-items: center; min-height: clamp(36rem, 47.2vw, 45rem); }
+  .home-science { display: flex; align-items: center; min-height: clamp(38rem, 50.7vw, 48rem); }   /* ≈730px at 1440 */
   .home-science > .container { flex: 1; }
 }
 .home-science__grid {

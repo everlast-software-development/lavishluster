@@ -1,0 +1,93 @@
+/* ==========================================================================
+   About hero (noir): centred eyebrow · title split around a framed portrait ·
+   breadcrumb; the chapter index (AboutIndex) follows as its last row. The header is transparent over it.
+   Everything sits inside the shared .container; the portrait (not its frame)
+   is on the page's centre axis, like the logo and the eyebrow.
+   ========================================================================== */
+.about-hero {
+  /* ≈690px tall at 1440, level with the LusterScan AI hero (type sizes unchanged): a 259px portrait. */
+  --portrait-w: clamp(13.75rem, 18vw, 16.25rem);   /* 220 → 259 (1440) → 260px */
+  --frame-off: var(--about-frame);                 /* Home's Welcome frame offset: 28px (16px below 1024) */
+  background: var(--c-noir); color: var(--c-pearl);
+  padding-top: var(--header-h);
+}
+/* The bottom padding is the space above the chapter index (AboutIndex), which follows the section. */
+.about-hero__inner { display: flex; flex-direction: column; align-items: center; padding-block: clamp(2rem, 2.8vw, 2.5rem) 1.5rem; }
+
+/* Eyebrow: Home's eyebrow on noir (11px / 0.26em, gold-light), its 36px rule on both sides. */
+.about-hero__eyebrow {
+  display: flex; align-items: center; gap: 1rem;
+  font-size: var(--t-label); font-weight: 500; line-height: 1.5; letter-spacing: var(--tr-label); text-transform: uppercase; color: var(--c-gold-light);
+}
+.about-hero__eyebrow::before, .about-hero__eyebrow::after { content: ''; flex: none; width: 2.25rem; height: 1px; background: var(--c-gold-light); }
+
+/* ≥1024px: one symmetric row, 1fr · portrait · 1fr, equal gaps; the h1 (display: contents) puts
+   WHERE/SCIENCE right-aligned against the portrait's upper area and MEETS/LUXURY left-aligned
+   against its lower area. */
+.about-hero__row {
+  display: grid; width: 100%; margin-top: clamp(2rem, 3.5vw, 3rem);
+  grid-template-columns: minmax(0, 1fr) var(--portrait-w) minmax(0, 1fr);
+  column-gap: calc(var(--frame-off) + 1.5rem);   /* the title clears the frame (28px to the right) by 24px */
+}
+.about-hero__title {
+  display: contents;
+  font-size: var(--t-about-hero); font-weight: 200; line-height: 1.08; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-pearl);
+}
+.about-hero__side { grid-row: 1; display: flex; flex-direction: column; }
+.about-hero__side--left { grid-column: 1; align-self: start; align-items: flex-end; text-align: right; margin-top: 2.5rem; }
+.about-hero__side--right { grid-column: 3; align-self: end; align-items: flex-start; text-align: left; margin-bottom: 2.5rem; }
+.about-hero__small { display: block; margin-bottom: 0.3em; font-size: 0.42em; letter-spacing: 0.4em; color: var(--c-pearl-a72); }
+.about-hero__large { display: block; white-space: nowrap; }
+.about-hero__large--gold { color: var(--c-gold-light); }
+/* Tracking adds space after the last letter; trim it on the side that faces the portrait. */
+.about-hero__side--left .about-hero__large, .about-hero__side--left .about-hero__small { margin-right: -0.1em; }
+.about-hero__side--left .about-hero__small { margin-right: -0.4em; }
+.about-hero__rule { display: block; width: 4.5rem; height: 1px; background: var(--c-gold); }
+.about-hero__side--left .about-hero__rule { margin-top: 0.35em; }
+.about-hero__side--right .about-hero__rule { margin-bottom: 0.45em; }
+.about-hero__title--single { display: block; grid-column: 1 / -1; grid-row: 2; text-align: center; margin-top: 2rem; }
+
+/* Portrait 360:470; Home's Welcome frame (1px solid gold, offset right and up) behind it. */
+.about-hero__portrait { grid-column: 2; grid-row: 1; position: relative; isolation: isolate; margin: 0; width: var(--portrait-w); aspect-ratio: 360 / 470; }
+.about-hero__frame { position: absolute; inset: calc(-1 * var(--frame-off)) calc(-1 * var(--frame-off)) var(--frame-off) var(--frame-off); z-index: -1; border: 1px solid var(--c-gold); }
+.about-hero__portrait img {
+  position: absolute; inset: 0; width: 100%; height: 100%; max-width: none;
+  object-fit: cover; object-position: 16% 30%;   /* the face (left of centre in the square photo), upper area */
+  background: var(--c-noir-raised);
+}
+
+/* Breadcrumb: Home — About (the shared ui/Breadcrumb; only its placement here). */
+.about-hero__crumbs { margin-top: 1.5rem; }
+
+/* 640–1023px: eyebrow → portrait (max 340px, frame 16px up and right) → the title on two centred lines
+   (small + large word inline on each) → breadcrumb. */
+@media (max-width: 1023px) {
+  .about-hero { --portrait-w: min(100%, 21.25rem); }
+  .about-hero__row { grid-template-columns: minmax(0, 1fr); justify-items: center; row-gap: 0; }
+  .about-hero__portrait { grid-column: 1; grid-row: 1; }   /* centred; its 16px frame offset stays inside the container */
+  .about-hero__title { line-height: 1.15; }
+  .about-hero__side, .about-hero__side--left, .about-hero__side--right {
+    grid-column: 1; display: block; align-self: auto; text-align: center; margin: 0;
+  }
+  .about-hero__side--left { grid-row: 2; margin-top: 1.75rem; }   /* the frame now sits up and right, not below */
+  .about-hero__side--right { grid-row: 3; }
+  .about-hero__small, .about-hero__large { display: inline; }
+  .about-hero__small { margin: 0; vertical-align: 0.35em; }
+  .about-hero__side--left .about-hero__large, .about-hero__side--left .about-hero__small { margin-right: 0; }
+  .about-hero__rule { display: none; }
+}
+/* Below 640px: portrait min(78vw, 300px), H1 34px; each line stays whole, or the four words stack. */
+@media (max-width: 639px) {
+  .about-hero { --portrait-w: min(78vw, 18.75rem); }
+  .about-hero__title { font-size: 2.125rem; }
+  .about-hero__side { white-space: nowrap; }
+  /* Tighter vertical spacing so the hero stays close to one screen on phones. */
+  .about-hero__inner { padding-block: 1.25rem 1rem; }
+  .about-hero__row { margin-top: 1.75rem; }   /* room for the frame's 16px rise */
+  .about-hero__side--left { margin-top: 1.25rem; }
+  .about-hero__crumbs { margin-top: 1rem; }
+}
+@media (max-width: 359px) {
+  .about-hero__side { white-space: normal; }
+  .about-hero__small, .about-hero__large { display: block; }
+}

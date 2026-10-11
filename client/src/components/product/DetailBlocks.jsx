@@ -58,32 +58,55 @@ function Highlight({ item, className }) {
   );
 }
 
-/** Hero strip: the highlight, a 1px divider, then the other evidence items as lines. */
+/**
+ * Hero key-result strip (a summary of the product's own evidence, no new strings): with a stat, its first
+ * stat, a 1px divider and the claims stacked; with no stat, the first claim alone; no evidence, no strip.
+ */
 export function EvidenceStrip({ product }) {
-  const { highlight, rest } = evidenceHighlight(product.display.evidence);
-  if (!highlight && rest.length === 0) return null;
+  const items = product.display.evidence;
+  if (items.length === 0) return null;
+  const { highlight } = evidenceHighlight(items);
+  const claims = items.filter((e) => !e.figure);
+  if (!highlight) {
+    return (
+      <div className="pdp-strip pdp-strip--claim">
+        <p className="pdp-strip__claim">{claims[0].raw}</p>
+      </div>
+    );
+  }
   return (
     <div className="pdp-strip">
-      {highlight && <Highlight item={highlight} className="pdp-strip__highlight" />}
-      {highlight && rest.length > 0 && <span className="pdp-strip__divider" aria-hidden="true" />}
-      {rest.length > 0 && (
+      <Highlight item={highlight} className="pdp-strip__highlight" />
+      {claims.length > 0 && <span className="pdp-strip__divider" aria-hidden="true" />}
+      {claims.length > 0 && (
         <ul className="pdp-strip__lines">
-          {rest.map((e) => <li key={e.raw}>{e.raw}</li>)}
+          {claims.map((e) => <li key={e.raw}>{e.raw}</li>)}
         </ul>
       )}
     </div>
   );
 }
 
-/** Row 04: the highlight (left) and the remaining items as a hairline list (right); no figure → the list alone. */
+/**
+ * Scientific Evidence row: the first stat (left), then the other stats (value in gold, then the label) and
+ * every claim as a hairline list (right); no stat → the list takes the full width.
+ */
 export function Evidence({ product }) {
   const { highlight, rest } = evidenceHighlight(product.display.evidence);
+  const stats = rest.filter((e) => e.figure);
+  const claims = rest.filter((e) => !e.figure);
   return (
     <div className={`pdp-evidence${highlight ? '' : ' pdp-evidence--list'}`}>
       {highlight && <Highlight item={highlight} className="pdp-evidence__highlight" />}
       {rest.length > 0 && (
         <ul className="pdp-list">
-          {rest.map((e) => <li key={e.raw}>{e.raw}</li>)}
+          {stats.map((e) => (
+            <li key={e.raw} className="pdp-list__stat">
+              <span className="pdp-list__value">{e.figure}</span>{' '}
+              <span className="pdp-list__label">{e.text}</span>
+            </li>
+          ))}
+          {claims.map((e) => <li key={e.raw}>{e.raw}</li>)}
         </ul>
       )}
     </div>
@@ -93,7 +116,7 @@ export function Evidence({ product }) {
 /** Device technology, as named in the Master (data/devices/specs.js). */
 export function Technology({ product }) {
   return (
-    <ul className="pdp-list pdp-list--two">
+    <ul className="pdp-list">
       {product.technology.map((t) => <li key={t.text}>{t.text}</li>)}
     </ul>
   );

@@ -30,6 +30,8 @@ const { about } = await load('about.js');
 const { lusterscanPage } = await load('lusterscan.js');
 const { resultsPage } = await load('results.js');
 const { sciencePage } = await load('science.js');
+const { enquiryCopy } = await load('enquiry.js');
+const { contact } = await load('contact.js');
 
 // Keys that hold routes, ids or presentation data rather than published copy.
 const NOT_COPY = new Set(['to', 'href', 'slug', 'number', 'width', 'height', 'alt', 'titleLines']);
@@ -45,6 +47,11 @@ section('1. Page copy is verbatim website-content.md');
 const files = { 'home.js': home, 'about.js': about, 'lusterscan.js': lusterscanPage, 'results.js': resultsPage, 'science.js (sciencePage)': sciencePage };
 for (const [name, data] of Object.entries(files)) {
   for (const s of strings(data)) check(doc.includes(squash(s)), `${name}: "${s.slice(0, 70)}" not in website-content.md`);
+}
+// The Contact form messages (approved, section 10): {email} stands for the contact address.
+for (const t of strings(enquiryCopy)) {
+  const text = t.split('{email}').join(contact.email);
+  check(doc.includes(squash(text)), `enquiry.js: "${text.slice(0, 70)}" not in website-content.md`);
 }
 // Title line breaks are presentation only: the lines must join back to the verbatim title.
 for (const [name, block] of Object.entries(home)) {

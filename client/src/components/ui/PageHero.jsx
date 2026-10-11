@@ -14,7 +14,7 @@ export default function PageHero({ title, kicker, intro, image, variant = 'photo
   return (
     <header className={`page-hero page-hero--${src ? variant : 'plain'}${src && split ? ' page-hero--split' : ''}`}>
       {src && (
-        <div className="page-hero__media">
+        <div className={`page-hero__media${variant === 'photo' ? ' hero-scrim--left' : ''}`}>
           <div className="media"><img src={src} alt="" loading="eager" fetchpriority="high" decoding="async" style={position ? { objectPosition: position } : undefined} /></div>
         </div>
       )}

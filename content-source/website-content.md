@@ -263,6 +263,33 @@ Request a Consultation
 
 Phone and opening hours are pending. Keep form launch configurable until Privacy Policy/consent wording is supplied.
 
+## Contact form messages
+
+Note above the form: Write to us below and we will reply by email. You can also reach us at info@lavishluster.com.
+
+Button while sending: Sending…
+
+Success: Thank you. Your message has been sent, and we will reply by email.
+
+Error (could not send): Your message could not be sent. Please try again, or write to us at info@lavishluster.com.
+
+Security check failed: The security check could not be completed. Please try it again and resend.
+
+Too many attempts: Too many attempts. Please wait a few minutes and try again.
+
+Field errors:
+
+- Name, empty: Please enter your name.
+- Name, too short or long: Your name should be 2 to 100 characters.
+- Email, empty: Please enter your email address.
+- Email, invalid: Please enter a valid email address.
+- Phone, invalid characters: Use digits, spaces and + - ( ) only.
+- Phone, too long: Keep the phone number under 30 characters.
+- Subject, too long: Keep the subject under 150 characters.
+- Message, empty: Please write your message.
+- Message, too short: Please write at least 10 characters.
+- Message, too long: Please keep your message under 5,000 characters.
+
 # 11. Product Detail Template
 
 Hero: image(s), name, subtitle, short description, category/step
