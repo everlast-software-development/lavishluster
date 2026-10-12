@@ -4,7 +4,9 @@ const str = (v) => (typeof v === 'string' && v.trim() !== '' ? v.trim() : null);
 const proxy = (v) => (v ? (/^\d+$/.test(v) ? Number(v) : v) : false);
 
 export const config = {
-  port: Number(process.env.PORT) || 3001,
+  port: Number(process.env.PORT) || 3001,   // the host's assigned port (Railway sets PORT)
+  // Listen on every IPv4 interface, so the host's proxy can reach the process (HOST overrides, e.g. "::").
+  host: str(process.env.HOST) || '0.0.0.0',
   // Set when running behind a reverse proxy / load balancer (e.g. "1"), so req.ip is the visitor's IP
   // (used by the rate limit and sent to Turnstile).
   trustProxy: proxy(process.env.TRUST_PROXY),

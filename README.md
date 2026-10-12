@@ -16,6 +16,12 @@ For development, run `npm run dev` for the frontend with hot reload, and `npm ru
 
 Node 20 or newer is required.
 
+## Deploy (one service)
+
+The site and the API run in one Node process: `server/index.js` serves the prerendered build (`client/dist`, clean URLs, 404 page) and `/api/*` on the same origin, so the Contact form's relative `/api/enquiry` works without a second service. It listens on `PORT` and `HOST` (default `0.0.0.0`).
+
+On Railway: one service, Root Directory = repository root, Build Command `npm run build`, Start Command `npm start`, health check `/api/health`. The same settings are in `railway.single.json` (opt-in: set it as the service's config file path; Railway only reads `railway.json` / `railway.toml` automatically). Variables: `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_SECURE`, `EMAIL_USER`, `EMAIL_PASS`, `EMAIL_TO`, `TURNSTILE_SECRET_KEY`, `TURNSTILE_SITE_KEY` (needed at build time: it is compiled into the client), `TRUST_PROXY=1`. Railway sets `PORT`.
+
 ## Structure
 
 ```

@@ -119,7 +119,7 @@ if (existsSync(DIST)) {
   console.warn('client/dist not found — run `npm run build` to serve the website.');
 }
 
-app.listen(config.port, () => {
-  console.log(`Lavish Luster server on http://localhost:${config.port}`);
+app.listen(config.port, config.host, () => {
+  console.log(`Lavish Luster server on http://${config.host}:${config.port} (site + API)`);
   verifyMailer();
 });
