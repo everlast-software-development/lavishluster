@@ -41,7 +41,8 @@
    ========================================================================== */
 .filter-bar { position: sticky; top: var(--header-h); z-index: 20; background: var(--c-pearl); border-top: 1px solid var(--c-line); }
 .filter-bar__row { box-shadow: inset 0 -1px 0 var(--c-line); }
-.filter-bar ul { display: flex; list-style: none; margin: 0; padding: 0; overflow-x: auto; scrollbar-width: none; }
+.filter-bar ul { display: flex; list-style: none; margin: 0; padding: 0; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; }
+.filter-bar li { scroll-snap-align: start; }
 .filter-bar ul::-webkit-scrollbar { display: none; }
 .filter-bar__tabs { gap: clamp(1.75rem, 3.5vw, 3.5rem); }
 .filter-bar__steps { gap: clamp(1.25rem, 2.4vw, 2.25rem); }
@@ -90,6 +91,20 @@
 @media (max-width: 1279px) {
   .pr-grid--five { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
+/* A card left alone on the last row (13 Facial, 5 Flash and 7 Devices can't fill 2, 3 or 4 columns) spans
+   the row: the image keeps one column's width, the text sits beside it (the --w-* switch, CatalogGrid.css). */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .pr-grid--five > .pr-grid__item:last-child:nth-child(4n + 1) {
+    --w-span: 1 / -1; --w-cols: subgrid; --w-media-col: 1 / span var(--w-media-tracks, 1); --w-media-row: 1 / -1; --w-media-mb: 0;
+    --w-text-col: var(--w-text-start, 2) / -1; --w-text-row: 1 / -1; --w-text-display: flex; --w-text-align: center; --w-cta-align: flex-start;
+  }
+}
+@media (min-width: 640px) and (max-width: 1023px) {
+  .pr-grid--five > .pr-grid__item:last-child:nth-child(3n + 1) {
+    --w-span: 1 / -1; --w-cols: subgrid; --w-media-col: 1 / span var(--w-media-tracks, 1); --w-media-row: 1 / -1; --w-media-mb: 0;
+    --w-text-col: var(--w-text-start, 2) / -1; --w-text-row: 1 / -1; --w-text-display: flex; --w-text-align: center; --w-cta-align: flex-start;
+  }
+}
 @media (max-width: 1023px) {
   /* Stacked, as The Science / Contact heroes: the photo on top (no scrim), the text below on pearl. */
   .pr-hero { display: block; min-height: 0; }
@@ -99,20 +114,26 @@
   .pr-hero__inner { padding-block: 2.5rem 3rem; }
   .pr-hero__text { max-width: none; }
   .pr-grid--five { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  /* Devices: 2 columns, the last device across both. */
+  /* Devices: 2 columns; a last device left alone spans the row, its image six tracks (one column) wide. */
   .pr-grid--devices .pr-grid__item, .pr-grid--devices .pr-grid__item:nth-child(n + 5) { grid-column: span 6; }
-  .pr-grid--devices .pr-grid__item:last-child { grid-column: span 12; }
-}
-@media (max-width: 899px) {
+  .pr-grid--devices .pr-grid__item:last-child:nth-child(odd) {
+    grid-column: 1 / -1; --w-media-tracks: 6; --w-text-start: 7;
+    --w-span: 1 / -1; --w-cols: subgrid; --w-media-col: 1 / span var(--w-media-tracks, 1); --w-media-row: 1 / -1; --w-media-mb: 0;
+    --w-text-col: var(--w-text-start, 2) / -1; --w-text-row: 1 / -1; --w-text-display: flex; --w-text-align: center; --w-cta-align: flex-start;
+  }
   .pr-head { display: block; }
   .pr-head__desc { margin-top: 1.25rem; }
 }
 @media (max-width: 767px) {
   /* The tabs scroll sideways (never wrap), edge to edge. */
-  .filter-bar ul { margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); }
+  .filter-bar ul { margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter); }
 }
 @media (max-width: 639px) {
   .pr-grid--five { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pr-grid--five > .pr-grid__item:last-child:nth-child(2n + 1) {
+    --w-span: 1 / -1; --w-cols: subgrid; --w-media-col: 1 / span var(--w-media-tracks, 1); --w-media-row: 1 / -1; --w-media-mb: 0;
+    --w-text-col: var(--w-text-start, 2) / -1; --w-text-row: 1 / -1; --w-text-display: flex; --w-text-align: center; --w-cta-align: flex-start;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .catalog { animation: none; }

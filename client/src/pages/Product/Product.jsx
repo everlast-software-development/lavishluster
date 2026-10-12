@@ -87,7 +87,7 @@ export default function Product() {
             </div>
             <div className="pdp-hero__text">
               <Breadcrumb product={p} />
-              {p.stepInfo && <p className="pdp-hero__step">{`Step ${String(p.stepInfo.number).padStart(2, '0')} · ${p.stepInfo.label}`}</p>}
+              {p.stepInfo && <p className="pdp-hero__step">{`${p.stepInfo.display} · ${p.stepInfo.label}`}</p>}
               <p className="pdp-hero__name">{p.name}</p>
               <h1 id="product-title" className="pdp-hero__title">{p.subtitle}</h1>
               {p.shortDescription && <p className="pdp-hero__desc">{p.shortDescription}</p>}

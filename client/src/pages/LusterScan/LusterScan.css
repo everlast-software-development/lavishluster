@@ -171,7 +171,7 @@
   .ls-analysis__list { grid-auto-rows: minmax(var(--ls-row), auto); }
 }
 
-@media (max-width: 759px) {
+@media (max-width: 767px) {
   /* Item rows min 110px; 16px cell padding so the names keep a readable size. */
   .ls-analyzes { --ls-row: 6.875rem; --ls-cell-pad: 1.125rem 1rem; }
 }
@@ -190,8 +190,10 @@
 }
 
 @media (max-width: 379px) {
-  /* 13px names (12px side padding, so the capped names stay above 10px). */
-  .ls-analyzes { --ls-name: 0.8125rem; --ls-cell-pad: 1.125rem 0.75rem; }
+  /* 13px names, 8px side padding and 0.05em tracking: "RECOMMENDATIONS" is then ≈11.65em wide, so the cap
+     becomes 8.5cqi and the names stay at 10px or more down to 320px (10.2px there). */
+  .ls-analyzes { --ls-name: 0.8125rem; --ls-cell-pad: 1.125rem 0.5rem; }
+  .ls-analysis__name { font-size: min(var(--ls-name), 8.5cqi); letter-spacing: 0.05em; }
 }
 
 /* The two ambient animations stop completely when the user prefers reduced motion. */

@@ -22,7 +22,7 @@ function loadTurnstile() {
 }
 
 /**
- * Cloudflare Turnstile widget (explicit render, light theme). Reports the token through `onToken`
+ * Cloudflare Turnstile widget (explicit render, light theme; compact when its box is under 300px). Reports the token through `onToken`
  * (null when it expires or fails); `ref.current.reset()` clears it for the next submit.
  */
 const Turnstile = forwardRef(function Turnstile({ siteKey, onToken, className = '' }, ref) {
@@ -47,6 +47,7 @@ const Turnstile = forwardRef(function Turnstile({ siteKey, onToken, className = 
         widget.current = ts.render(box.current, {
           sitekey: siteKey,
           theme: 'light',
+          size: box.current.clientWidth < 300 ? 'compact' : 'normal',   // the normal widget is 300px wide: compact (150px) on the narrowest phones
           callback: (token) => report.current(token),
           'expired-callback': () => report.current(null),
           'error-callback': () => report.current(null),

@@ -160,6 +160,15 @@
   --header-pad: clamp(1.5rem, 4.45vw, 6rem);              /* header side padding: 24 → 64 (1440) → 96px */
   --hero-pad-left: clamp(1.5rem, 8.33vw, 11.25rem);       /* Home hero text left edge: 24 → 120 (1440) → 180px */
   --header-h: 6rem;                                        /* 96px desktop */
+  --tap-min: 2.75rem;                                      /* 44px: the smallest tap target on a touch screen */
+  /* Breakpoints: the one shared set. CSS can't read custom properties inside @media, so queries write
+     these numbers literally (min-width: N, or max-width: N − 1px); JS reads them from here. */
+  --bp-sm: 480px;   /* large phones */
+  --bp-md: 640px;   /* phablets, phones in landscape */
+  --bp-tab: 768px;  /* tablets, portrait */
+  --bp-lg: 1024px;  /* tablets, landscape; the desktop header starts here */
+  --bp-xl: 1280px;  /* laptops */
+  --bp-2xl: 1536px; /* large desktops */
   --radius: 0;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   --t-page: 300ms;

@@ -224,8 +224,17 @@
   .sci-scale__label { font-size: 0.5625rem; }
   .sci-evidence .sci-h2 { white-space: normal; }
 }
-@media (max-width: 560px) {
+@media (max-width: 639px) {
   .sci-tech__grid { grid-template-columns: minmax(0, 1fr); }
+}
+/* Narrowest phones: titles scale with the screen below 389px (23px at 320) so the longest single words
+   ("Biotechnology", "Technology" in the overlap panel) fit their column. */
+@media (max-width: 479px) {
+  .home-title.sci-h2 { font-size: clamp(1.4375rem, 7.2vw, 1.75rem); }
+}
+/* Phones (portrait, and landscape on a touch screen): reading text at 14px. */
+@media (max-width: 767px), (pointer: coarse) and (max-height: 480px) {
+  .sci-prod__ing, .sci-tech__desc { font-size: 0.875rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .sci-prod__name a, .sci-tech__device { transition: none; }

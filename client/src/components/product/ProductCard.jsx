@@ -19,10 +19,10 @@ export default function ProductCard({ product, showContext = false, headingLevel
         <ProductImage product={product} className="product-card__media" />
         <div className="product-card__text">
           {showContext && <p className="product-card__context">{productContext(product)}</p>}
-          {/* The treatment step (catalog only): "Step 01 · Nourish & Repair · Serums" — the existing step strings. */}
+          {/* The treatment step (catalog only): "Step 02 · Nourish & Repair · Serums" (step.display counts from 1). */}
           {step && (
             <p className="product-card__step">
-              <span className="product-card__step-num">Step {String(step.number).padStart(2, '0')}</span>
+              <span className="product-card__step-num">{step.display}</span>
               <span aria-hidden="true"> ·{' '}</span>
               <span className="product-card__step-name">{step.label}</span>
               {step.group && (

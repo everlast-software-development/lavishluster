@@ -102,6 +102,7 @@
   margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--c-pearl-a18);
   font-size: var(--t-label); font-weight: 500; line-height: 1.4; letter-spacing: var(--tr-link); text-transform: uppercase;
 }
+@media (pointer: coarse) { .about-story__links { row-gap: 1.375rem; } }   /* touch: wrapped rows far enough apart for 44px tap areas */
 .about-story__links span { color: var(--c-gold-light); }
 /* Home's hero link on noir: pearl with the gold underline (not the .section--noir white/gold-light variant). */
 .about-story .about-story__links .text-link { color: var(--c-pearl); background-image: linear-gradient(var(--c-gold), var(--c-gold)); }

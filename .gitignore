@@ -13,3 +13,6 @@ design-reference/
 
 # Environment (secrets): never committed; see .env.example
 .env
+
+# Original source files of converted assets (kept on disk, never deleted, never committed)
+content-source/originals/

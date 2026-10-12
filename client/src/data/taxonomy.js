@@ -13,7 +13,9 @@ const STEP_SLUGS = ['cleanse', 'nourish-repair', 'correct', 'moisturize-prevent'
 export const steps = Object.entries(masterBrand.steps).map(([num, sourceLabel]) => {
   const [label, group] = sourceLabel.split(' — ');
   return {
-    number: Number(num),
+    number: Number(num),   // the Master's own key, 0–6 (data, filters and checks use this)
+    // What the site shows: counted from 1 (Cleanse = Step 01, Nourish & Repair = Step 02 … Corporal Treatment = Step 07).
+    display: `Step ${String(Number(num) + 1).padStart(2, '0')}`,
     slug: STEP_SLUGS[Number(num)],
     label: titleCase(label),
     group: group ? titleCase(group) : null,

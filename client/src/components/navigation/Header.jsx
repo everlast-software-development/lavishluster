@@ -34,7 +34,15 @@ export default function Header() {
     if (!open) return undefined;
     panelRef.current?.querySelector('a')?.focus();
     const onKey = (e) => {
-      if (e.key === 'Escape') { setOpen(false); buttonRef.current?.focus(); }
+      if (e.key === 'Escape') { setOpen(false); buttonRef.current?.focus(); return; }
+      if (e.key !== 'Tab') return;
+      // Focus trap: Tab cycles through the menu links, then the Close button, then back to the first link
+      // (explicitly: in the DOM the button comes before the panel, so the browser's own order would leave).
+      const items = [...(panelRef.current?.querySelectorAll('a') ?? []), buttonRef.current].filter(Boolean);
+      const i = items.indexOf(document.activeElement);
+      e.preventDefault();
+      const next = i === -1 ? (e.shiftKey ? items.length - 1 : 0) : (i + (e.shiftKey ? -1 : 1) + items.length) % items.length;
+      items[next]?.focus();
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);

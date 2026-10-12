@@ -110,6 +110,11 @@
   transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
 }
 .field textarea { height: 6.875rem; padding-top: 0.25rem; resize: none; line-height: 1.6; }
+/* Touch screens: 16px text (iOS Safari zooms into any field set smaller) and 44px-tall single-line fields. */
+@media (pointer: coarse) {
+  .field input, .field textarea { font-size: 1rem; }
+  .field input { height: var(--tap-min); padding-top: 0.5rem; }
+}
 .field input:hover, .field textarea:hover { border-bottom-color: var(--c-ink-a40); }
 /* Focus (mouse, touch or keyboard): the underline turns gold and doubles to 2px — the second pixel is an inset
    shadow on top of the 1px border, so nothing moves. The browser outline is replaced by this underline. */

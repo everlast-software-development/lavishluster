@@ -126,7 +126,9 @@ client/src/assets/brand/<name>.webp                 (see "Brand images" below)
 
 **Responsive variants.** Smaller WebP copies of a brand image go in `client/src/assets/brand/variants/<name>-<width>.webp` (never wider than the original). `getBrandSrcSet(name)` in `utils/assets.js` turns them into a `srcset` (adding the original when it is wider), and `ui/BrandImage` uses it when it gets a `sizes` prop, so phones download the small files. The About page images have 320–1293px variants.
 
-Until a product file exists, its slot shows the placeholder: `brand/silk.webp` in the same 4:5 frame, with a 1px gold inset frame and the product name and subtitle set small in the lower third. Product images use a 4:5 frame, so supply WebP at least 1200×1500. `luster-sculpt-and-lift` has no image yet, and the `luster-instant-glow-shot` photo is withheld because it shows other packaging.
+Until a product file exists, its slot shows the placeholder: `brand/silk.webp` in the same 4:5 frame, with a 1px gold inset frame and the product name and subtitle set small in the lower third. Product images use a 4:5 frame, so supply WebP at least 1200×1500. `luster-sculpt-and-lift` has no image yet. The `luster-instant-glow-shot` photo (its packaging reads "THE U-PLAN") is used with the client's confirmation that it is the correct product image.
+
+Source files: after converting an image, keep the original in `content-source/originals/` (git-ignored, outside the build). Never delete it. Step numbers: the Master keys steps 0–6. The site shows them counted from 1 (`step.display` in `data/taxonomy.js`: Cleanse = Step 01, Nourish & Repair = Step 02 … Corporal Treatment = Step 07). Home's Signature line still uses the raw key ("Step 1,"), because Home is frozen.
 
 `node scripts/fetch-assets.mjs` copies the verified old-site images into place. Confirm the usage rights and logo variant before publishing.
 
