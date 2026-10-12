@@ -27,7 +27,7 @@ const orgJsonLd = {
 export default function Home() {
   return (
     <>
-      <Seo title="Where Science Meets Luxury" description={masterBrand.statement} path="/" jsonLd={orgJsonLd} />
+      <Seo title="Where Science Meets Luxury" brandFirst description={masterBrand.statement} path="/" jsonLd={orgJsonLd} />
       <HomeHero />
       <HomeStatement />
       <HomeCollections />

@@ -4,8 +4,9 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 
 export const absoluteUrl = (path = '/') => (/^(https?:|data:)/.test(path) ? path : site.url + (path === '/' ? '/' : path));
 
-export function buildMeta({ title, description, path = '/', image = null, type = 'website', jsonLd = null, noindex = false }) {
-  const fullTitle = title ? `${title} | ${site.name}` : site.name;
+export function buildMeta({ title, description, path = '/', image = null, type = 'website', jsonLd = null, noindex = false, brandFirst = false }) {
+  // "Page | Lavish Luster"; brandFirst (Home) puts the brand first: "Lavish Luster | Page".
+  const fullTitle = !title ? site.name : brandFirst ? `${site.name} | ${title}` : `${title} | ${site.name}`;
   return { title: fullTitle, description, canonical: absoluteUrl(path), image: image ? absoluteUrl(image) : null, type, jsonLd, noindex };
 }
 
@@ -24,6 +25,7 @@ export function renderHead(m) {
     `<meta property="og:url" content="${esc(m.canonical)}" />`,
     m.image && `<meta property="og:image" content="${esc(m.image)}" />`,
     `<meta name="twitter:card" content="${m.image ? 'summary_large_image' : 'summary'}" />`,
+    `<meta name="twitter:title" content="${esc(m.title)}" />`,
     m.jsonLd && `<script type="application/ld+json">${JSON.stringify(m.jsonLd).replace(/</g, '\\u003c')}</script>`,
   ];
   return tags.filter(Boolean).join('\n    ');

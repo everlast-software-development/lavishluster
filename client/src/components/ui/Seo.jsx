@@ -25,6 +25,7 @@ export default function Seo(props) {
     setMeta('name', 'description', meta.description);
     setMeta('name', 'robots', meta.noindex ? 'noindex' : null);
     setMeta('property', 'og:title', meta.title);
+    setMeta('name', 'twitter:title', meta.title);
     setMeta('property', 'og:description', meta.description);
     setMeta('property', 'og:url', meta.canonical);
     setMeta('property', 'og:type', meta.type);
