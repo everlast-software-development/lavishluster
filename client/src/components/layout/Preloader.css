@@ -1,0 +1,28 @@
+/* ==========================================================================
+   Preloader — the original lavishluster.com page preloader (CMSMasters / Aesthetica theme), reproduced:
+   a full-screen veil in the original's background colour (--c-preloader) with the dark script logo (brand/preloader-logo.png, the original file) at
+   500px wide, centred and still. When the page has loaded it waits 0.5s, then fades out over 1.5s (ease);
+   it is removed 1.5s after the load (as the original's script does), near the end of the fade.
+   ========================================================================== */
+.preloader {
+  position: fixed; inset: 0; z-index: 10000;
+  display: grid; place-items: center;
+  background-color: var(--c-preloader);
+  /* Failsafe (not in the original): if the app's script never runs, the veil still clears. */
+  animation: preloader-clear 0.6s ease 8s both;
+}
+.preloader.is-leaving { animation: preloader-fade-out 1.5s ease 0.5s both; }
+
+/* The original's structure: a 500px box holding the image at 100% (an inline image, so the box keeps the
+   line's few px under it, as the original does). On screens narrower than 500px + 48px it fits within 24px
+   side margins (the original keeps 500px and runs off both sides of a phone screen). */
+.preloader__image { width: min(500px, 100vw - 3rem); }
+.preloader__image img { display: inline; width: 100%; height: auto; }   /* inline, not the global block */
+
+@keyframes preloader-fade-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes preloader-clear { to { opacity: 0; visibility: hidden; } }
+
+/* Reduced motion: as in the original, no preloader at all. */
+@media (prefers-reduced-motion: reduce) {
+  .preloader { display: none; }
+}

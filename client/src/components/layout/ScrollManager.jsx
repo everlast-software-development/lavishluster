@@ -7,9 +7,12 @@ import { useLocation } from 'react-router-dom';
  * id, or one that declares it in data-hash-targets (the product tabs answer
  * for their panels' hashes). Filter changes on the same page (query string
  * only) keep the scroll position.
- * On the first render only a hash is handled: the prerendered page is already showing, so the visitor may
- * have scrolled before the app started (or the browser restored the position on a reload) — no jump back.
+ * First render: a reload (F5, Ctrl+R, the refresh button) always starts at the top, even with a #hash
+ * still in the address bar; any other arrival with a #hash (a deep link) goes to its target. Browser scroll
+ * restoration is off (entry-client.jsx), so nothing puts the old position back afterwards.
  */
+const isReload = () => performance.getEntriesByType?.('navigation')?.[0]?.type === 'reload';
+
 export default function ScrollManager() {
   const { pathname, hash } = useLocation();
   const last = useRef(null);   // the location handled last (also keeps StrictMode's second effect run a no-op)
@@ -18,12 +21,13 @@ export default function ScrollManager() {
     if (last.current === key) return;
     const initial = last.current === null;
     last.current = key;
+    if (initial && isReload()) { window.scrollTo(0, 0); return; }
     if (hash) {
       const id = decodeURIComponent(hash.slice(1));
       const el = document.getElementById(id) || [...document.querySelectorAll('[data-hash-targets]')].find((n) => n.dataset.hashTargets.split(' ').includes(id));
       if (el) { el.scrollIntoView({ block: 'start' }); return; }
     }
-    if (!initial) window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   }, [pathname, hash]);
   return null;
 }

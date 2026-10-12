@@ -3,6 +3,7 @@
  *   src/assets/products/<slug>/primary.(webp|avif|jpg|jpeg|png)
  *   src/assets/products/<slug>/gallery-01.webp, gallery-02.webp, ...
  *   src/assets/devices/<slug>/... (same convention)
+ *   src/assets/products/<file> mapped to a slug in PRIMARY_FILES (a primary kept as supplied)
  *   src/assets/brand/<name>.(svg|webp|png|jpg)   e.g. logo, philosophy, signature, results-couple
  * Adding a real file and rebuilding is all that is needed — no data or layout
  * change. Missing files fall back to the generated placeholder plate.
@@ -26,6 +27,23 @@ for (const [path, url] of Object.entries(productFiles)) {
 }
 for (const entry of Object.values(productImages)) {
   entry.gallery = entry.gallery.sort((a, b) => a.file.localeCompare(b.file)).map((g) => g.url);
+}
+
+/*
+ * Primary images supplied as a single file directly in src/assets/products/ (outside the <slug>/
+ * convention), used where they are: slug → file. The file must exist; it is bundled by the glob below.
+ */
+const PRIMARY_FILES = {
+  'luster-sculpt-and-lift': '/src/assets/products/LUSTER SCULPT & LIFT.webp',
+};
+const looseProductFiles = import.meta.glob('/src/assets/products/*.{webp,avif,jpg,jpeg,png}', { eager: true, import: 'default' });
+for (const [slug, path] of Object.entries(PRIMARY_FILES)) {
+  const url = looseProductFiles[path];
+  if (!url) continue;
+  const entry = (productImages[slug] ||= { primary: null, primaryAspect: null, gallery: [] });
+  entry.primary = url;
+  const size = imageSizes[path];
+  entry.primaryAspect = size ? size[0] / size[1] : null;
 }
 
 const brandImages = {};

@@ -103,6 +103,7 @@
      bottom (noir 92%) there; 1 − (1 − a)(1 − strip) = 0.92 at each stop */
   --g-res-strip-top: linear-gradient(90deg, rgba(21, 20, 18, 0) 0%, rgba(21, 20, 18, 0.2) 34%, rgba(21, 20, 18, 0.5) 68%, rgba(21, 20, 18, 0.6) 100%);
   --c-gold-a60: rgba(185, 154, 107, 0.6);    /* Home hero stage panel border */
+  --c-preloader: #F6F2E9;   /* Preloader background: the original lavishluster.com preloader's colour */
   --c-pearl-scrim: rgba(243, 242, 238, 0.94);
   --c-pearl-scrim-none: rgba(243, 242, 238, 0);
   --c-focus: #7F6647;
