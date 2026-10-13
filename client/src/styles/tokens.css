@@ -74,6 +74,8 @@
   --c-noir-a35: rgba(21, 20, 18, 0.35);          /* Product Worlds text shadow */
   --c-noir-a30: rgba(21, 20, 18, 0.3);           /* Product Worlds veil below 1280px */
   --c-pearl-a80: rgba(243, 242, 238, 0.8);       /* Product Worlds description, count, Explore */
+  --c-pearl-a40: rgba(243, 242, 238, 0.4);      /* Home mobile hero: the outline button border */
+  --c-pearl-a85: rgba(243, 242, 238, 0.85);     /* Home mobile hero: the pillar labels */
   --c-noir-a0: rgba(21, 20, 18, 0);              /* Product Worlds scrim top */
   /* Product Worlds panel layers */
   /* Base scrim: the bottom 46% only; the extra 52% stop at 33% darkens the number/count row (4.5:1). */
@@ -103,6 +105,7 @@
   --g-m-hero-dark: linear-gradient(0deg, rgba(21, 20, 18, 0.97) 0%, rgba(21, 20, 18, 0.9) 38%, rgba(21, 20, 18, 0.55) 58%, rgba(21, 20, 18, 0) 78%);
   --g-m-hero-text-light: linear-gradient(0deg, rgba(243, 242, 238, 0.9) 0%, rgba(243, 242, 238, 0.82) calc(100% - 5rem), rgba(243, 242, 238, 0) 100%);   /* behind the text block */
   --g-m-hero-text-dark: linear-gradient(0deg, rgba(21, 20, 18, 0.9) 0%, rgba(21, 20, 18, 0.82) calc(100% - 5rem), rgba(21, 20, 18, 0) 100%);
+  --g-m-home-hero: linear-gradient(0deg, rgba(21, 20, 18, 1) 0%, rgba(21, 20, 18, 0.85) 25%, rgba(21, 20, 18, 0.4) 45%, rgba(21, 20, 18, 0) 65%);   /* Home mobile hero: the figure into the noir copy */
   --g-m-hero-nav: linear-gradient(180deg, rgba(21, 20, 18, 0.6) 0, rgba(21, 20, 18, 0) 7.5rem);   /* dark heroes: behind the transparent header */
   --g-res-strip: linear-gradient(90deg, rgba(21, 20, 18, 0.93) 0%, rgba(21, 20, 18, 0.9) 34%, rgba(21, 20, 18, 0.84) 68%, rgba(21, 20, 18, 0.8) 100%);
   /* added on top of it at the strip's top edge: exactly the darkness that makes the strip equal the hero's

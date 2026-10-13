@@ -71,31 +71,55 @@
 
 .home-hero :focus-visible { outline: 1px solid var(--c-gold); outline-offset: 4px; }
 
-/* Tablet and mobile: no overlap — the stage first (centred on the figure), then the copy. */
+/* Tablet and mobile: the shared mobile-hero idea in noir. The figure fills the image area edge to edge (no
+   panel frame) under a noir scrim from the bottom; the eyebrow and H1 sit on it, bottom-aligned; the paragraph,
+   the two buttons and the 2 × 2 pillars follow below on the same noir, so it reads as one hero.
+   The copy wrappers become display: contents, so their children are rows of the hero grid:
+   1 image (flexible) · 2 eyebrow · 3 title  (rows 1–3 = the image area) · 4 paragraph · 5 buttons · 6 pillars. */
 @media (max-width: 1023px) {
   .home-hero {
-    /* The figure is 145.45% of the panel wide (−31.85% … +113.6%): the panel is sized so the whole figure fits
-       between the page margins (it used to run off the right edge on phones), at most 420px. */
-    --panel-w: min(26.25rem, (100vw - 2 * var(--page-pad)) / 1.4545);
-    flex-direction: column; height: auto; min-height: 0; max-height: none; padding-bottom: 2.75rem;
+    display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: 1fr auto auto auto auto auto;
+    height: auto; min-height: 0; max-height: none; padding-bottom: 3.5rem;   /* 56px */
   }
+  .home-hero__inner, .home-hero__copy { display: contents; }
   .home-hero__stage {
-    position: relative; right: auto; top: auto; bottom: auto;
-    /* The figure spans −31.85% … +113.6% of the panel, so shift the panel 9% right to centre the figure. */
-    margin: calc(max(7.5rem, var(--header-h) + 1.5rem) + var(--panel-w) * 0.173) 0 0 calc(50% - var(--panel-w) * 0.41);
-    /* Ends 48px below the figure's fade (figure bottom = panel top + 129.6% of the panel width). */
-    height: calc(var(--panel-w) * 1.296 + 3rem);
+    grid-column: 1; grid-row: 1 / 4; position: relative; inset: auto; z-index: 0; margin: 0;
+    width: 100%; height: min(78svh, 42.5rem); background: none; border: 0; overflow: hidden;
   }
-  .home-hero__inner { padding: 3rem clamp(1.5rem, 6.25vw, 4rem) 0; }
-  .home-hero__copy { max-width: 37.5rem; padding-block: 0; }
-  .home-hero__pillars { margin: 3.5rem 0 0; }
+  .home-hero__stage::after { content: ''; position: absolute; z-index: 2; inset: 0; background: var(--g-m-home-hero); }
+  .home-hero__figure {
+    inset: 0; width: 100%; height: 100%; aspect-ratio: auto;
+    object-fit: cover; object-position: 62% 8%;   /* the face and shoulders in the upper part */
+  }
+  .home-hero__label { z-index: 3; }
+  .home-hero__eyebrow, .home-hero__title, .home-hero__lead, .home-hero__actions, .home-hero__pillars {
+    grid-column: 1; position: relative; z-index: 1; margin-inline: var(--page-pad);
+  }
+  .home-hero__eyebrow { grid-row: 2; }
+  .home-hero__title { grid-row: 3; margin-top: 1.25rem; padding-bottom: 1.75rem; font-size: clamp(2.125rem, 9vw, 2.75rem); }   /* 34 → 44px */
+  .home-hero__lead { grid-row: 4; margin-top: 0; max-width: none; font-size: 0.9375rem; line-height: 1.75; color: var(--c-pearl-a80); }
+  /* Two equal buttons, stacked 12px apart, at most 420px wide: the solid pearl one and an outline one. */
+  .home-hero__actions { grid-row: 5; flex-direction: column; align-items: stretch; gap: 0.75rem; max-width: 26.25rem; margin-top: 1.5rem; }
+  .home-hero__btn, .home-hero__link {
+    display: flex; align-items: center; justify-content: center; width: 100%; height: 3.25rem; padding: 0;   /* 52px */
+    font-size: 0.6875rem; font-weight: 500; line-height: 1.2; letter-spacing: 0.26em; text-transform: uppercase; text-align: center;
+  }
+  .home-hero__link { border: 1px solid var(--c-pearl-a40); background: none; color: var(--c-pearl); transition: border-color 0.3s var(--ease); }
+  .home-hero__link:hover { border-color: var(--c-pearl); background: none; }
+  /* Pillars: 2 × 2, hairline cross between the cells. */
+  .home-hero__pillars { grid-row: 6; margin-top: 2.5rem; margin-bottom: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; border-top: 0; }
+  .home-hero__pillars li {
+    display: flex; align-items: center; padding: 1.25rem 1rem;
+    font-size: 0.65625rem; font-weight: 500; line-height: 1.5; letter-spacing: 0.18em; color: var(--c-pearl-a85);
+  }
+  .home-hero__pillars li:nth-child(odd) { border-right: 1px solid var(--c-pearl-a14); }
+  .home-hero__pillars li:nth-child(-n + 2) { border-bottom: 1px solid var(--c-pearl-a14); }
 }
 @media (max-width: 639px) {
-  .home-hero__title { font-size: 2.125rem; }
-  .home-hero__actions { flex-direction: column; align-items: stretch; gap: 1.5rem; }
-  .home-hero__btn { width: 100%; }
-  .home-hero__link { align-self: flex-start; }
-  .home-hero__pillars { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 1.25rem; }
-  .home-hero__pillars li { overflow-wrap: anywhere; }   /* hyphenated pillars stay whole (nb) */
   .home-hero__label { display: none; }
+}
+/* Phones: the H1 on exactly two lines ("WHERE SCIENCE" ≈ 9.1em at 0.03em tracking): 34px from 360px up; it
+   scales a little below 34px only where the column is narrower than that (320px screens). */
+@media (max-width: 479px) {
+  .home-hero__title { letter-spacing: 0.03em; font-size: min(clamp(2.125rem, 9vw, 2.75rem), calc((100vw - 2 * var(--page-pad)) / 9.1)); }
 }

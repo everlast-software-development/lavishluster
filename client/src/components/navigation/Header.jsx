@@ -2,22 +2,28 @@ import { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { homeItem, navItems, NAV_SPLIT } from './navItems.js';
 import Wordmark from './Wordmark.jsx';
+import { useCompact } from '../ui/nb.jsx';
 
 /**
  * Desktop (1024px and up): three nav items, centred wordmark, the other three.
  * On Home, About, LusterScan AI and Results the bar is transparent (white logo and nav) over the noir hero until
  * the page scrolls; everywhere else it is solid pearl with a hairline.
- * Mobile: centred wordmark, "Menu" on the right, full-screen noir menu.
+ * Mobile: centred wordmark, "Menu" on the right, full-screen noir menu. On Home below 1024px the bar stays
+ * transparent for as long as the noir hero is under it (an IntersectionObserver on the hero), and turns pearl
+ * only once the page has scrolled past it, in both directions.
  */
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [heroUnder, setHeroUnder] = useState(true);   // Home, compact: the noir hero is under the bar
+  const compact = useCompact();
   const { pathname } = useLocation();
   const panelRef = useRef(null);
   const buttonRef = useRef(null);
   // Pages that open on a noir hero: the bar sits over it, transparent, until the page scrolls.
   const overHero = pathname === '/' || pathname === '/about' || pathname === '/lusterscan-ai' || pathname === '/results';
-  const overlay = overHero && !scrolled;
+  const homeCompact = compact && pathname === '/';
+  const overlay = overHero && (homeCompact ? heroUnder : !scrolled);
   const light = overlay || open;
 
   useEffect(() => setOpen(false), [pathname]);
@@ -28,6 +34,25 @@ export default function Header() {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  // Home, compact: watch the hero through a 1px line at the bar's bottom edge: transparent while the hero is
+  // under the bar, pearl from the moment its end passes the bar (and back again when scrolling up).
+  useEffect(() => {
+    if (!homeCompact) return undefined;
+    const hero = document.querySelector('.home-hero');
+    const bar = document.querySelector('.site-header');
+    if (!hero || !bar || typeof IntersectionObserver === 'undefined') return undefined;
+    let io;
+    const observe = () => {
+      io?.disconnect();
+      const h = Math.round(bar.getBoundingClientRect().height);
+      io = new IntersectionObserver(([entry]) => setHeroUnder(entry.isIntersecting), { rootMargin: `-${Math.max(0, h - 1)}px 0px -${Math.max(0, window.innerHeight - h)}px 0px`, threshold: 0 });
+      io.observe(hero);
+    };
+    observe();
+    window.addEventListener('resize', observe);
+    return () => { io?.disconnect(); window.removeEventListener('resize', observe); };
+  }, [homeCompact]);
 
   useEffect(() => {
     document.documentElement.classList.toggle('menu-open', open);
