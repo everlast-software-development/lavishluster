@@ -78,18 +78,24 @@
    1 image (flexible) · 2 eyebrow · 3 title  (rows 1–3 = the image area) · 4 paragraph · 5 buttons · 6 pillars. */
 @media (max-width: 1023px) {
   .home-hero {
+    --stage-h: min(78svh, 42.5rem);                                        /* the image area */
+    --fig-h: calc(var(--stage-h) - var(--header-h));                       /* the figure: full height below the bar */
+    --frame-top: calc(var(--header-h) + var(--fig-h) * 0.143);             /* at the brow: the head breaks out above */
     display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: 1fr auto auto auto auto auto;
     height: auto; min-height: 0; max-height: none; padding-bottom: 3.5rem;   /* 56px */
   }
   .home-hero__inner, .home-hero__copy { display: contents; }
+  /* Layers, back to front: noir · the frame (.home-hero::before) · the stage (figure, scrim, label) · the copy. */
   .home-hero__stage {
     grid-column: 1; grid-row: 1 / 4; position: relative; inset: auto; z-index: 0; margin: 0;
-    width: 100%; height: min(78svh, 42.5rem); background: none; border: 0; overflow: hidden;
+    width: 100%; height: var(--stage-h); background: none; border: 0; overflow: hidden;
   }
   .home-hero__stage::after { content: ''; position: absolute; z-index: 2; inset: 0; background: var(--g-m-home-hero); }
+  /* The desktop cut-out, full height below the bar, set right: the face (its right edge at 81% of the image)
+     ends 58px in from the screen edge, inside the frame and clear of the label. */
   .home-hero__figure {
-    inset: 0; width: 100%; height: 100%; aspect-ratio: auto;
-    object-fit: cover; object-position: 62% 8%;   /* the face and shoulders in the upper part */
+    inset: auto; top: var(--header-h); right: calc(3.625rem - var(--fig-h) * 797 / 805 * 0.19);
+    width: auto; height: var(--fig-h); aspect-ratio: 797 / 805;
   }
   .home-hero__label { z-index: 3; }
   .home-hero__eyebrow, .home-hero__title, .home-hero__lead, .home-hero__actions, .home-hero__pillars {
@@ -114,16 +120,21 @@
   }
   .home-hero__pillars li:nth-child(odd) { border-right: 1px solid var(--c-pearl-a14); }
   .home-hero__pillars li:nth-child(-n + 2) { border-bottom: 1px solid var(--c-pearl-a14); }
-  /* The desktop panel's gold frame, brought inside the photo: 1px, 16px in from the sides, starting below the
-     header area (72px) and ending 16px above the eyebrow, its lower part fading into the scrim. Decorative:
-     a pseudo-element on the grid's image row (row 1 ends where the eyebrow begins), so it never crosses the text. */
+  /* The desktop stage panel, scaled: a narrow frame on the right (left edge at 34%, right edge 18px in), behind the
+     figure, its top at the brow. Open at the bottom: the side lines fade out 16px above the eyebrow. A
+     pseudo-element on the grid's image row (row 1 ends where the eyebrow begins), so it never reaches the text;
+     before the stage in paint order, so the figure stands in front of it. Decorative. */
   .home-hero::before {
-    content: ''; grid-column: 1; grid-row: 1; position: relative; z-index: 1; pointer-events: none;
-    margin: 4.5rem 1rem 1rem; border: 1px solid var(--c-gold-a55);
-    -webkit-mask: linear-gradient(180deg, var(--c-noir) 55%, transparent); mask: linear-gradient(180deg, var(--c-noir) 55%, transparent);
+    content: ''; grid-column: 1; grid-row: 1; position: relative; z-index: 0; pointer-events: none;
+    margin: var(--frame-top) 1.125rem 1rem 34%;
+    border: 1px solid var(--c-gold-a60); border-bottom: 0; background: var(--c-noir-raised);
+    -webkit-mask: linear-gradient(180deg, var(--c-noir) 45%, transparent); mask: linear-gradient(180deg, var(--c-noir) 45%, transparent);
   }
-  /* The vertical label, inside the frame at its top right. */
-  .home-hero__label { top: calc(4.5rem + 0.875rem); right: calc(1rem + 0.75rem); font-size: 0.5625rem; letter-spacing: 0.3em; }
+  /* The vertical label, inside the frame along its right edge, 18px below its top line. */
+  .home-hero__label {
+    top: calc(var(--frame-top) + 1.125rem); right: calc(1.125rem + 0.75rem);
+    font-size: 0.5625rem; letter-spacing: 0.32em;
+  }
 }
 /* Phones: the H1 on exactly two lines ("WHERE SCIENCE" ≈ 9.1em at 0.03em tracking): 34px from 360px up; it
    scales a little below 34px only where the column is narrower than that (320px screens). */
