@@ -91,8 +91,8 @@
 @media (max-width: 1279px) {
   .pr-grid--five { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
-/* A card left alone on the last row (13 Facial, 5 Flash and 7 Devices can't fill 2, 3 or 4 columns) spans
-   the row: the image keeps one column's width, the text sits beside it (the --w-* switch, CatalogGrid.css). */
+/* 1024–1279 (4 columns): a card left alone on the last row spans the row, the image one column wide and the
+   text beside it (the --w-* switch, CatalogGrid.css). Below 1024 a lone card is an ordinary card, centred. */
 @media (min-width: 1024px) and (max-width: 1279px) {
   .pr-grid--five > .pr-grid__item:last-child:nth-child(4n + 1) {
     --w-span: 1 / -1; --w-cols: subgrid; --w-media-col: 1 / span var(--w-media-tracks, 1); --w-media-row: 1 / -1; --w-media-mb: 0;
@@ -100,27 +100,14 @@
   }
 }
 @media (min-width: 640px) and (max-width: 1023px) {
-  .pr-grid--five > .pr-grid__item:last-child:nth-child(3n + 1) {
-    --w-span: 1 / -1; --w-cols: subgrid; --w-media-col: 1 / span var(--w-media-tracks, 1); --w-media-row: 1 / -1; --w-media-mb: 0;
-    --w-text-col: var(--w-text-start, 2) / -1; --w-text-row: 1 / -1; --w-text-display: flex; --w-text-align: center; --w-cta-align: flex-start;
-  }
+  .pr-grid--five > .pr-grid__item:last-child:nth-child(3n + 1) { grid-column: 2; }   /* alone: the same card, in the middle column */
 }
 @media (max-width: 1023px) {
-  /* Stacked, as The Science / Contact heroes: the photo on top (no scrim), the text below on pearl. */
-  .pr-hero { display: block; min-height: 0; }
-  .pr-hero__media { position: relative; z-index: auto; inset: auto; aspect-ratio: 16 / 10; }
-  .pr-hero__media::after { display: none; }
-  .pr-hero__media .pr-hero__photo { left: 0; }
-  .pr-hero__inner { padding-block: 2.5rem 3rem; }
-  .pr-hero__text { max-width: none; }
+  .pr-hero { --m-hero-pos: 50% 40%; }   /* the shared mobile cover hero (.m-hero, components.css); the lit shelves in view */
   .pr-grid--five { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  /* Devices: 2 columns; a last device left alone spans the row, its image six tracks (one column) wide. */
+  /* Devices: 2 columns; a last device left alone is the same card, centred (tracks 4–9 of 12). */
   .pr-grid--devices .pr-grid__item, .pr-grid--devices .pr-grid__item:nth-child(n + 5) { grid-column: span 6; }
-  .pr-grid--devices .pr-grid__item:last-child:nth-child(odd) {
-    grid-column: 1 / -1; --w-media-tracks: 6; --w-text-start: 7;
-    --w-span: 1 / -1; --w-cols: subgrid; --w-media-col: 1 / span var(--w-media-tracks, 1); --w-media-row: 1 / -1; --w-media-mb: 0;
-    --w-text-col: var(--w-text-start, 2) / -1; --w-text-row: 1 / -1; --w-text-display: flex; --w-text-align: center; --w-cta-align: flex-start;
-  }
+  .pr-grid--devices .pr-grid__item:last-child:nth-child(odd) { grid-column: 4 / span 6; }
   .pr-head { display: block; }
   .pr-head__desc { margin-top: 1.25rem; }
 }
@@ -130,10 +117,8 @@
 }
 @media (max-width: 639px) {
   .pr-grid--five { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .pr-grid--five > .pr-grid__item:last-child:nth-child(2n + 1) {
-    --w-span: 1 / -1; --w-cols: subgrid; --w-media-col: 1 / span var(--w-media-tracks, 1); --w-media-row: 1 / -1; --w-media-mb: 0;
-    --w-text-col: var(--w-text-start, 2) / -1; --w-text-row: 1 / -1; --w-text-display: flex; --w-text-align: center; --w-cta-align: flex-start;
-  }
+  /* alone: the same card at the same width, centred in the row */
+  .pr-grid--five > .pr-grid__item:last-child:nth-child(2n + 1) { grid-column: 1 / -1; justify-self: center; width: calc((100% - 0.875rem) / 2); }
 }
 @media (prefers-reduced-motion: reduce) {
   .catalog { animation: none; }

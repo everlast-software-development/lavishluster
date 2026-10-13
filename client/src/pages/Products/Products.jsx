@@ -119,11 +119,11 @@ export default function Products() {
       />
 
       {/* Hero (pearl): the store, full-bleed, under the shared left-side pearl scrim */}
-      <section className="pr-hero" aria-labelledby="pr-title">
-        <div className="pr-hero__media hero-scrim--left">
-          <BrandImage name="catalog" alt="" eager sizes="100vw" className="pr-hero__photo" />
+      <section className="pr-hero m-hero m-hero--light" aria-labelledby="pr-title">
+        <div className="pr-hero__media hero-scrim--left m-hero__media">
+          <BrandImage name="catalog" alt="" eager sizes="(max-width: 1023px) 160vh, 100vw" className="pr-hero__photo" />
         </div>
-        <div className="container pr-hero__inner">
+        <div className="container pr-hero__inner m-hero__body">
           <div className="pr-hero__text">
             <Breadcrumb to="/products" className="pr-hero__crumbs" />
             <TitleLines as="h1" id="pr-title" lines={linesOf(hero)} title={hero.title} className="pr-hero__title" />

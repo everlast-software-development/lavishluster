@@ -45,6 +45,10 @@
 
 @media (max-width: 1023px) {
   .pr-grid--four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* Step labels: slightly tighter tracking so they wrap less; in the stepped grid (Facial) every label keeps
+     two lines of room, so every row of cards has the same layout (within a row the subgrid aligns them). */
+  .pr-grid .product-card__step { letter-spacing: 0.12em; }
+  .pr-grid--steps .product-card__step { min-height: 3em; }   /* 2 lines at line-height 1.5 */
 }
 @media (max-width: 639px) {
   .pr-grid { column-gap: 0.875rem; }
