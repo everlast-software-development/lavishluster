@@ -82,7 +82,8 @@
   .home-hero {
     --stage-h: min(78svh, 42.5rem);                                        /* the image area */
     --fig-h: calc(var(--stage-h) - var(--header-h));                       /* the figure: full height below the bar */
-    --frame-top: calc(var(--header-h) + var(--fig-h) * 0.143);             /* at the brow: the head breaks out above */
+    --fig-s: calc(var(--fig-h) * 0.96 / 1053);                             /* one source pixel of the figure */
+    --frame-top: calc(var(--header-h) + var(--fig-s) * 139);               /* the forehead, as on desktop (source y 139) */
     display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: 1fr auto auto auto auto auto;
     height: auto; min-height: 0; max-height: none; padding-bottom: 3.5rem;   /* 56px */
   }
@@ -93,12 +94,15 @@
     width: 100%; height: var(--stage-h); background: none; border: 0; overflow: hidden;
   }
   .home-hero__stage::after { content: ''; position: absolute; z-index: 2; inset: 0; background: var(--g-m-home-hero); }
-  /* The desktop cut-out, from just under the bar, 1.2× the image area's height (its faded lower part runs out
-     under the scrim), set right: the face (its right edge at 70% of the image) ends 58px in from the screen
-     edge, inside the frame and clear of the label; the drape runs out to the left. */
+  /* The desktop cut-out, from just under the bar, 0.96× the image area's height (its faded lower part runs out
+     under the scrim). Placed by the face (source x 848–1044, centre 946): its centre at 68% of the frame's width,
+     as on desktop, but its right edge never closer than 65px to the screen edge: face and hair 24px+ clear of the label.
+     With the frame from 22% to 18px in: face right = min(75.04% − 12.24px + 98s, 100% − 65px); the image runs
+     450s beyond it. The drape runs out to the left. */
   .home-hero__figure {
-    inset: auto; top: var(--header-h); right: calc(3.625rem - var(--fig-h) * 1.2 * 1494 / 1053 * 0.3);
-    width: auto; height: calc(var(--fig-h) * 1.2); aspect-ratio: 1494 / 1053;
+    inset: auto; top: var(--header-h);
+    right: calc(max(24.96% + 0.765rem - var(--fig-s) * 98, 4.0625rem) - var(--fig-s) * 450);
+    width: auto; height: calc(var(--fig-h) * 0.96); aspect-ratio: 1494 / 1053;
   }
   .home-hero__label { z-index: 3; }
   .home-hero__eyebrow, .home-hero__title, .home-hero__lead, .home-hero__actions, .home-hero__pillars {
@@ -123,13 +127,13 @@
   }
   .home-hero__pillars li:nth-child(odd) { border-right: 1px solid var(--c-pearl-a14); }
   .home-hero__pillars li:nth-child(-n + 2) { border-bottom: 1px solid var(--c-pearl-a14); }
-  /* The desktop stage panel, scaled: a narrow frame on the right (left edge at 34%, right edge 18px in), behind the
-     figure, its top at the brow. Open at the bottom: the side lines fade out 16px above the eyebrow. A
+  /* The desktop stage panel, scaled: a frame on the right (left edge at 22%, right edge 18px in), behind the
+     figure, its top at the forehead. Open at the bottom: the side lines fade out 16px above the eyebrow. A
      pseudo-element on the grid's image row (row 1 ends where the eyebrow begins), so it never reaches the text;
      before the stage in paint order, so the figure stands in front of it. Decorative. */
   .home-hero::before {
     content: ''; grid-column: 1; grid-row: 1; position: relative; z-index: 0; pointer-events: none;
-    margin: var(--frame-top) 1.125rem 1rem 34%;
+    margin: var(--frame-top) 1.125rem 1rem 22%;
     border: 1px solid var(--c-gold-a60); border-bottom: 0; background: var(--c-noir-raised);
     -webkit-mask: linear-gradient(180deg, var(--c-noir) 45%, transparent); mask: linear-gradient(180deg, var(--c-noir) 45%, transparent);
   }
