@@ -1,4 +1,3 @@
-import { useId, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Seo from '../../components/ui/Seo.jsx';
 import BrandImage from '../../components/ui/BrandImage.jsx';
@@ -25,7 +24,10 @@ const hyphenLines = (title) => { const i = title.indexOf('-'); return i > 0 ? [t
 const SCALE_MAX = 5;
 const scaleMarks = [...new Set(ingredientIndex.flatMap((ing) => ing.entries.map((e) => e.concentration)).filter(Boolean)
   .map((c) => Math.min(SCALE_MAX, Math.max(0, Math.round(parseFloat(c))))).filter((n) => Number.isFinite(n)))].sort((a, b) => a - b);
-const TICKS = Array.from({ length: 26 }, (_, i) => i * 4);   // every 4% of the width; majors every 20%
+/** Below 768px: the dots at the exact values (0.29%, 1.5%…), clamped to 0–5 (desktop keeps the whole-percent marks). */
+const exactMarks = [...new Set(ingredientIndex.flatMap((ing) => ing.entries.map((e) => e.concentration)).filter(Boolean)
+  .map((c) => Math.min(SCALE_MAX, Math.max(0, parseFloat(c)))).filter((n) => Number.isFinite(n)))].sort((a, b) => a - b);
+const TICKS =Array.from({ length: 26 }, (_, i) => i * 4);   // every 4% of the width; majors every 20%
 
 const byName = (a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' });
 /**
@@ -75,37 +77,24 @@ function Row({ id, number, lines, text }) {
 }
 
 /**
- * Active Ingredients, one product. Desktop: the product name (a link) above its ingredient list, always open.
- * Below 768px: an accordion row: a button (the name and the number of ingredients) toggles the list (a labelled
- * region). Collapsed lists are hidden by CSS only, so every ingredient stays in the HTML. The first is open.
+ * Active Ingredients, one product: the product name (a link) above its ingredient list. A static list at every
+ * width (one column on phones), never collapsed.
  */
-function IngredientProduct({ p, defaultOpen }) {
-  const [open, setOpen] = useState(defaultOpen);
-  const uid = useId();
-  const btnId = `${uid}-btn`, panelId = `${uid}-panel`;
-  const href = `/products/${p.slug}`;
+function IngredientProduct({ p }) {
   return (
-    <li className={`sci-prod${open ? ' is-open' : ''}`}>
+    <li className="sci-prod">
       <h3 className="sci-prod__name">
-        <Link to={href} className="sci-prod__link">{nb(p.name)}</Link>
-        <button type="button" id={btnId} className="sci-prod__toggle" aria-expanded={open} aria-controls={panelId} onClick={() => setOpen((v) => !v)}>
-          <span className="sci-prod__toggle-name">{nb(p.name)}</span>
-          <span className="sci-prod__count">{p.ingredients.length}</span>
-          <span className="sci-prod__chevron" aria-hidden="true" />
-        </button>
+        <Link to={`/products/${p.slug}`} className="sci-prod__link">{nb(p.name)}</Link>
       </h3>
-      <div id={panelId} role="region" aria-labelledby={btnId} className="sci-prod__panel">
-        <span className="sci-prod__rule" aria-hidden="true" />
-        <ul className="sci-prod__ings">
-          {p.ingredients.map((ing) => (
-            <li key={ing.name}>
-              <span className="sci-prod__ing">{ing.name}</span>
-              {ing.concentration && <span className="sci-prod__pct">{ing.concentration}</span>}
-            </li>
-          ))}
-        </ul>
-        <TextLink to={href} tone="light" className="sci-prod__more">View product</TextLink>
-      </div>
+      <span className="sci-prod__rule" aria-hidden="true" />
+      <ul className="sci-prod__ings">
+        {p.ingredients.map((ing) => (
+          <li key={ing.name}>
+            <span className="sci-prod__ing">{ing.name}</span>
+            {ing.concentration && <span className="sci-prod__pct">{ing.concentration}</span>}
+          </li>
+        ))}
+      </ul>
     </li>
   );
 }
@@ -156,6 +145,7 @@ export default function Science() {
           <div className="sci-scale" aria-hidden="true">
             <div className="sci-scale__marks">
               {scaleMarks.map((m) => <span key={m} className="sci-scale__mark" style={{ '--p': m / SCALE_MAX * 100 }} />)}
+              {exactMarks.map((m) => <span key={`x${m}`} className="sci-scale__mark sci-scale__mark--exact" style={{ '--p': m / SCALE_MAX * 100 }} />)}
             </div>
             <div className="sci-scale__ruler">
               {TICKS.map((t) => <span key={t} className={`sci-scale__tick${t % 20 === 0 ? ' sci-scale__tick--major' : ''}`} style={{ '--p': t }} />)}
@@ -167,7 +157,7 @@ export default function Science() {
 
           {/* Grouped by product (derived at render time from the ingredient index). */}
           <ul className="sci-ings__grid">
-            {ingredientsByProduct.map((p, i) => <IngredientProduct key={p.slug} p={p} defaultOpen={i === 0} />)}
+            {ingredientsByProduct.map((p) => <IngredientProduct key={p.slug} p={p} />)}
           </ul>
         </div>
       </section>
