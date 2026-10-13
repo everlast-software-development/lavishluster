@@ -103,7 +103,7 @@
   .pr-grid--five > .pr-grid__item:last-child:nth-child(3n + 1) { grid-column: 2; }   /* alone: the same card, in the middle column */
 }
 @media (max-width: 1023px) {
-  .pr-hero { --m-hero-pos: 50% 40%; }   /* the shared mobile cover hero (.m-hero, components.css); the lit shelves in view */
+  .pr-hero { --m-hero-pos: 18% 0%; --m-hero-crop: 30%; }   /* the shared mobile cover hero (.m-hero, components.css): the left lit shelves, lifted above the text */
   .pr-grid--five { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   /* Devices: 2 columns; a last device left alone is the same card, centred (tracks 4–9 of 12). */
   .pr-grid--devices .pr-grid__item, .pr-grid--devices .pr-grid__item:nth-child(n + 5) { grid-column: span 6; }
