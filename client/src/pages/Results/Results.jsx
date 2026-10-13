@@ -9,6 +9,7 @@ import { resultsPage } from '../../data/content/results.js';
 import { categories } from '../../data/taxonomy.js';
 import { getProduct, productsInCategory } from '../../data/catalog.js';
 import './Results.css';
+import nb from '../../components/ui/nb.jsx';
 
 /** Title lines only when they join back to the verbatim title. */
 const linesOf = (block) => (block.titleLines && block.titleLines.join(' ') === block.title ? block.titleLines : null);
@@ -47,8 +48,8 @@ function ResultCard({ product }) {
   const restClaims = headStat ? claims : claims.slice(1);
   return (
     <li className="res-card">
-      <h3 className="res-card__name"><Link to={`/products/${product.slug}`}>{product.name}</Link></h3>
-      <p className="res-card__type">{product.subtitle}</p>
+      <h3 className="res-card__name"><Link to={`/products/${product.slug}`}>{nb(product.name)}</Link></h3>
+      <p className="res-card__type">{nb(product.subtitle)}</p>
       <span className="res-card__rule" aria-hidden="true" />
       <div className="res-card__head">
         {headStat && (
@@ -92,8 +93,8 @@ function ResultRow({ product, index }) {
     <li className="res-row">
       <span className="res-row__index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
       <div className="res-row__product">
-        <h3 className="res-row__name"><Link to={`/products/${product.slug}`}>{product.name}</Link></h3>
-        <p className="res-row__type">{product.subtitle}</p>
+        <h3 className="res-row__name"><Link to={`/products/${product.slug}`}>{nb(product.name)}</Link></h3>
+        <p className="res-row__type">{nb(product.subtitle)}</p>
       </div>
       <div className="res-row__result">
         {headStat && (
@@ -134,8 +135,8 @@ function ResultCell({ product, index }) {
       <span className="res-dev__bar" aria-hidden="true" />
       <div className="res-dev__top">
         <div className="res-dev__id">
-          <h3 className="res-dev__name"><Link to={`/products/${product.slug}`}>{product.name}</Link></h3>
-          <p className="res-dev__type">{product.subtitle}</p>
+          <h3 className="res-dev__name"><Link to={`/products/${product.slug}`}>{nb(product.name)}</Link></h3>
+          <p className="res-dev__type">{nb(product.subtitle)}</p>
         </div>
         <span className="res-dev__index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
       </div>
@@ -176,13 +177,13 @@ export default function Results() {
       <Seo title="Results" description={hero.text} path="/results" />
 
       {/* The stage: one image behind the hero AND the stats strip (as the Home LusterScan photo runs behind its steps) */}
-      <div className="res-stage">
-      <div className="res-hero__media">
-        <BrandImage name="results-hero" alt="" eager sizes="100vw" />
+      <div className="res-stage m-hero m-hero--dark">
+      <div className="res-hero__media m-hero__media">
+        <BrandImage name="results-hero" alt="" eager sizes="(max-width: 1023px) 160vh, 100vw" />
       </div>
 
       {/* Hero (noir): the text in the lower part, below the faces */}
-      <section className="res-hero on-dark" aria-labelledby="res-title">
+      <section className="res-hero on-dark m-hero__body" aria-labelledby="res-title">
         <div className="container res-hero__inner">
           <div className="res-hero__text">
             <Breadcrumb to="/results" className="res-hero__crumbs" />
@@ -200,7 +201,7 @@ export default function Results() {
               <li key={product.slug} className="res-strip__item">
                 <span className="res-strip__value">{stat.figure}</span>
                 <span className="res-strip__label">{stat.text}</span>
-                <span className="res-strip__product">{product.name}</span>
+                <span className="res-strip__product">{nb(product.name)}</span>
               </li>
             ))}
           </ul>

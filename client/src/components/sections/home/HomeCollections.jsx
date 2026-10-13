@@ -4,6 +4,7 @@ import { TextLink } from '../../ui/Links.jsx';
 import { catalogHref, getProduct, products } from '../../../data/catalog.js';
 import { home } from '../../../data/content/home.js';
 import './HomeCollections.css';
+import nb from '../../ui/nb.jsx';
 
 /**
  * Which product photograph represents each collection is a presentation
@@ -28,7 +29,7 @@ export default function HomeCollections() {
       <div className="container">
         <header className="home-worlds__head">
           <div className="home-worlds__heading">
-            <h2 id="worlds-title" className="home-eyebrow">{eyebrow}</h2>
+            <h2 id="worlds-title" className="home-eyebrow">{nb(eyebrow)}</h2>
             <p className="home-worlds__total">
               <span className="home-worlds__count">{products.length}</span>
               <span className="home-label home-worlds__count-label">{totalLabel}</span>

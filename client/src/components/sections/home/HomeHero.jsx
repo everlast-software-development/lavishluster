@@ -2,6 +2,7 @@ import { ButtonLink, TextLink } from '../../ui/Links.jsx';
 import { home } from '../../../data/content/home.js';
 import { getBrandImage } from '../../../utils/assets.js';
 import './HomeHero.css';
+import nb from '../../ui/nb.jsx';
 
 const figureSrc = getBrandImage('hero-noir-figure');
 
@@ -31,10 +32,10 @@ export default function HomeHero() {
       </div>
       <div className="home-hero__inner">
         <div className="home-hero__copy">
-          <p className="home-hero__eyebrow">{eyebrow}</p>
+          <p className="home-hero__eyebrow">{nb(eyebrow)}</p>
           <h1 id="hero-title" className="home-hero__title">
             {titleLines.map((line, i) => (
-              <span key={line} className="home-hero__line">{line}{i < titleLines.length - 1 && ' '}</span>
+              <span key={line} className="home-hero__line">{nb(line)}{i < titleLines.length - 1 && ' '}</span>
             ))}
           </h1>
           <p className="home-hero__lead">{text}</p>
@@ -44,7 +45,7 @@ export default function HomeHero() {
           </div>
         </div>
         <ul className="home-hero__pillars" aria-label="Brand pillars">
-          {pillars.map((p) => <li key={p}>{p}</li>)}
+          {pillars.map((p) => <li key={p}>{nb(p)}</li>)}
         </ul>
       </div>
     </section>

@@ -160,21 +160,22 @@
    Breakpoints
    ========================================================================== */
 @media (max-width: 1023px) {
-  /* Stacked, as The Science hero: the photo on top (no scrim), the text below on pearl. */
-  .ct-hero { display: block; min-height: 0; }
-  .ct-hero__media { position: relative; z-index: auto; inset: auto; aspect-ratio: 16 / 10; }
-  .ct-hero__media::after { display: none; }
-  .ct-hero__media .ct-hero__photo > img { object-position: 50% 40%; }
-  .ct-hero__inner { padding-block: 2.5rem 3rem; }
+  /* Hero: the shared mobile cover hero (.m-hero, components.css); the lit shelves in view. */
+  .ct-hero { --m-hero-pos: 50% 40%; }
 }
 @media (max-width: 767px) {
   .ct-row { grid-template-columns: minmax(0, 1fr); row-gap: 1.25rem; }
 }
 @media (max-width: 639px) {
   .inquiry__grid { grid-template-columns: minmax(0, 1fr); }
-  /* Two equal tabs; a long label wraps inside its half, both sitting on the hairline. */
-  .inquiry__type { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
-  .inquiry__type label { display: flex; align-items: flex-end; justify-content: center; text-align: center; }
+  /* Both tabs on one line (tighter tracking), centred; on the narrowest screens the row scrolls sideways rather
+     than wrapping. The hairline is an inset shadow so the active gold underline (on it) is never clipped. */
+  .inquiry__type {
+    justify-content: safe center; gap: 0.875rem; overflow-x: auto; scrollbar-width: none;
+    border-bottom: 0; box-shadow: inset 0 -1px 0 var(--c-ink-a14);
+  }
+  .inquiry__type::-webkit-scrollbar { display: none; }
+  .inquiry__type label { flex: none; margin-bottom: 0; padding-top: 0.875rem; white-space: nowrap; letter-spacing: 0.1em; }
 }
 @media (prefers-reduced-motion: reduce) {
   .ct-row__link, .inquiry__type label, .field input, .field textarea, .field label { transition: none; }

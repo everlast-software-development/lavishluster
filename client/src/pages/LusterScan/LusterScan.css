@@ -161,6 +161,8 @@
   .ls-hero { min-height: 0; padding-bottom: var(--section-y); }
   .ls-hero__grid { grid-template-columns: minmax(0, 1fr); row-gap: 2.5rem; }
   .ls-hero__text, .ls-screen { grid-column: 1; }
+  .ls-hero .ls-screen { padding: 0; }   /* the corner brackets on the image's own corners (16px outside on desktop) */
+  .ls-hero .ls-screen__corner { z-index: 1; }   /* over the image, now that they sit on it */
 
   /* What is: the steps in 2 × 2. */
   .ls-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 4.5rem; }

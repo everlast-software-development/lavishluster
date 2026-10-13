@@ -1,6 +1,7 @@
 import { getBrandImage, getBrandSrcSet } from '../../../utils/assets.js';
 import Breadcrumb from '../../ui/Breadcrumb.jsx';
 import './AboutHero.css';
+import nb from '../../ui/nb.jsx';
 
 /**
  * About hero (noir, centred editorial composition). One <h1> reading
@@ -26,7 +27,7 @@ export default function AboutHero({ eyebrow, title, titleLines }) {
   return (
     <section className="about-hero on-dark" aria-labelledby="about-title">
       <div className="container about-hero__inner">
-        <p className="about-hero__eyebrow">{eyebrow}</p>
+        <p className="about-hero__eyebrow">{nb(eyebrow)}</p>
 
         <div className="about-hero__row">
           {lines ? (

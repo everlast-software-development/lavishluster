@@ -13,6 +13,7 @@ import { features, site } from '../../data/config/features.js';
 import { absoluteUrl } from '../../utils/seo.js';
 import NotFound from '../NotFound/NotFound.jsx';
 import './Product.css';
+import nb from '../../components/ui/nb.jsx';
 
 function productJsonLd(p) {
   return {
@@ -88,8 +89,8 @@ export default function Product() {
             <div className="pdp-hero__text">
               <Breadcrumb product={p} />
               {p.stepInfo && <p className="pdp-hero__step">{`${p.stepInfo.display} · ${p.stepInfo.label}`}</p>}
-              <p className="pdp-hero__name">{p.name}</p>
-              <h1 id="product-title" className="pdp-hero__title">{p.subtitle}</h1>
+              <p className="pdp-hero__name">{nb(p.name)}</p>
+              <h1 id="product-title" className="pdp-hero__title">{nb(p.subtitle)}</h1>
               {p.shortDescription && <p className="pdp-hero__desc">{p.shortDescription}</p>}
               <EvidenceStrip product={p} />
               <div className="pdp-hero__actions">

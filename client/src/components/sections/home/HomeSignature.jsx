@@ -2,6 +2,7 @@ import { ButtonLink } from '../../ui/Links.jsx';
 import BrandImage from '../../ui/BrandImage.jsx';
 import { getProduct } from '../../../data/catalog.js';
 import './HomeSignature.css';
+import nb from '../../ui/nb.jsx';
 
 /** Which product is the signature is a presentation choice; every value shown comes from its data. */
 const SIGNATURE_SLUG = 'luster-cell-revive-exosome';
@@ -25,8 +26,8 @@ export default function HomeSignature() {
       </div>
       <div className="home-signature__text">
         <p className="home-eyebrow">{context}</p>
-        <p className="home-label home-signature__name">{p.name}</p>
-        <h2 id="signature-title" className="home-title home-signature__title">{p.subtitle}</h2>
+        <p className="home-label home-signature__name">{nb(p.name)}</p>
+        <h2 id="signature-title" className="home-title home-signature__title">{nb(p.subtitle)}</h2>
         {p.shortDescription && <p className="home-signature__desc">{p.shortDescription}</p>}
         {figure && (
           <p className="home-signature__figure">

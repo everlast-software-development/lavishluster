@@ -15,6 +15,12 @@ body {
 }
 h1, h2, h3, h4, p, dl, dd, figure, blockquote { margin: 0; }
 h1, h2, h3, h4 { font-weight: inherit; }
+/* Phones and tablets: hyphenated words in headings, labels and product names stay whole (components/ui/nb.jsx);
+   headings never hyphenate and balance their lines. (Desktop wraps as designed.) */
+@media (max-width: 1023px) {
+  .nb { white-space: nowrap; }
+  h1, h2, h3, h4 { hyphens: none; text-wrap: balance; }
+}
 img, svg, iframe { display: block; max-width: 100%; }
 a { color: inherit; }
 button, input, textarea, select { font: inherit; color: inherit; }

@@ -101,6 +101,8 @@
 .sci-prod__ings li { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding-block: 0.3125rem; }
 .sci-prod__ing { min-width: 0; font-size: 0.84375rem; font-weight: 300; line-height: 1.45; color: var(--c-pearl-a75); }
 .sci-prod__pct { flex: none; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.04em; color: var(--c-gold-light); font-variant-numeric: lining-nums tabular-nums; }
+/* The accordion toggle and the panel's product link exist for phones only (below 768px). */
+.sci-prod__toggle, .sci-prod__more { display: none; }
 
 /* ==========================================================================
    04 · Clinical Evidence (white, centred)
@@ -192,12 +194,8 @@
   .sci-tech__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 1023px) {
-  /* Hero, the Products hero's mobile treatment: the photograph above the text (16:10, no scrim), then the
-     text (with the background kept, the wider H1 would run past the scrim on tablets). */
-  .sci-hero { display: block; min-height: 0; }
-  .sci-hero__media { position: relative; z-index: auto; inset: auto; aspect-ratio: 16 / 10; }
-  .sci-hero__media::after { display: none; }  .sci-hero__inner { padding-block: 2.5rem 3rem; }
-  .sci-hero__text { max-width: none; }
+  /* Hero: the shared mobile cover hero (.m-hero, components.css); the device centred in the upper half. */
+  .sci-hero { --m-hero-pos: 36% 50%; }
 
 
   /* Rows: the title above the paragraph. */
@@ -223,6 +221,29 @@
 @media (max-width: 767px) {
   .sci-scale__label { font-size: 0.5625rem; }
   .sci-evidence .sci-h2 { white-space: normal; }
+  /* Active Ingredients: one column of accordion rows (20 products open would be ~10 screens). The button
+     (name · number of ingredients · chevron) toggles the list; collapsed lists are hidden by CSS only. */
+  .sci-ings__grid { grid-template-columns: minmax(0, 1fr); }
+  .sci-prod { padding: 0; }
+  .sci-prod__link { display: none; }
+  .sci-prod__toggle {
+    display: flex; align-items: center; gap: 0.875rem; width: 100%; min-height: var(--tap-min); padding: 1rem 0; margin: 0;
+    background: none; border: 0; color: inherit; cursor: pointer; text-align: left;
+    font: inherit; letter-spacing: inherit; text-transform: inherit;
+  }
+  .sci-prod__toggle-name { flex: 1; min-width: 0; }
+  .sci-prod__count { flex: none; font-size: 0.6875rem; font-weight: 500; letter-spacing: 0.04em; color: var(--c-gold-light); font-variant-numeric: lining-nums tabular-nums; }
+  .sci-prod__chevron { flex: none; width: 0.4375rem; height: 0.4375rem; margin: 0 0.25rem 0.25rem; border-right: 1px solid currentColor; border-bottom: 1px solid currentColor; transform: rotate(45deg); }
+  .sci-prod.is-open .sci-prod__chevron { margin-bottom: -0.25rem; transform: rotate(-135deg); }
+  .sci-prod__panel { padding-bottom: 1.375rem; }
+  .sci-prod:not(.is-open) .sci-prod__panel { display: none; }
+  .sci-prod__rule { margin-top: 0; }
+  .sci-prod__more { display: inline-block; margin-top: 1rem; }
+  .sci-prod__more::before { height: 3rem; }   /* touch: a 48px tap area (the shared one is exactly 44) */
+}
+@media (max-width: 639px) {
+  /* The concentration scale on phones: the major ticks and labels only. */
+  .sci-scale__tick:not(.sci-scale__tick--major) { display: none; }
 }
 @media (max-width: 639px) {
   .sci-tech__grid { grid-template-columns: minmax(0, 1fr); }
@@ -231,6 +252,8 @@
    ("Biotechnology", "Technology" in the overlap panel) fit their column. */
 @media (max-width: 479px) {
   .home-title.sci-h2 { font-size: clamp(1.4375rem, 7.2vw, 1.75rem); }
+  /* "Pharmaceutical-Grade" stays whole (≈14.8em wide): the title scales so the word fits the column. */
+  .home-title.sci-h2.sci-row__title { font-size: min(1.75rem, calc((100vw - 2 * var(--page-pad)) / 15)); }
 }
 /* Phones (portrait, and landscape on a touch screen): reading text at 14px. */
 @media (max-width: 767px), (pointer: coarse) and (max-height: 480px) {

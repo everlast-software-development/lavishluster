@@ -41,6 +41,8 @@
 .pdp-hero__name { margin-top: 0.875rem; font-size: 0.75rem; font-weight: 600; line-height: 1.5; letter-spacing: 0.2em; text-transform: uppercase; color: var(--c-ink); }
 .pdp-crumbs + .pdp-hero__name { margin-top: 2.5rem; }   /* no step: the name takes the step's place */
 .pdp-hero__title { margin-top: 0.75rem; font-size: clamp(2.125rem, 3.6vw, 3.25rem); font-weight: 200; line-height: 1.1; color: var(--c-ink); }
+/* Narrow phones: a long hyphenated word kept whole ("Ultra-Rejuvenating", ≈9.3em) still fits the column. */
+@media (max-width: 479px) { .pdp-hero__title { font-size: min(2.125rem, calc((100vw - 2 * var(--page-pad)) / 9.5)); } }
 .pdp-hero__desc { margin-top: 1.375rem; max-width: 28.75rem; font-size: 1rem; font-weight: 300; line-height: 1.8; color: var(--c-ink-soft); }
 
 /* 6 · Key result strip: the first stat, a 1px divider, the claims stacked (or the first claim alone). */

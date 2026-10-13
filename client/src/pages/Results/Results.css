@@ -182,7 +182,12 @@
   #facial-results .res-card:last-child:nth-child(odd) > .res-card__list { grid-column: 2; grid-row: 1 / -1; margin-top: 0; }
   #facial-results .res-card:last-child:nth-child(odd) > .res-card__head { min-height: 0; }   /* alone on its row: no zone to line up with */
 }
-@media (max-width: 639px) { #facial-results .res-grid { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 639px) {
+  #facial-results .res-grid { grid-template-columns: minmax(0, 1fr); }
+  /* One column: no cross-card zone alignment, so no zone min-heights (they left gaps inside the cards); 24px padding. */
+  #facial-results .res-card { padding: 1.5rem; }
+  #facial-results .res-card__name, #facial-results .res-card__type, #facial-results .res-card__head { min-height: 0; }
+}
 
 /* ---------- Flash Treatment only: compact rows, no cards ----------
    Each row is one 3-column grid (index · product · result) aligned on the first baseline, so the index,
@@ -210,10 +215,12 @@
 .res-row__stat--more .res-row__label { font-size: 0.5625rem; letter-spacing: 0.14em; }
 
 @media (max-width: 1023px) { .res-row { column-gap: 1.75rem; } }
-/* Below 768: index then name on one line, the result full width below them. */
+/* Below 768: one column, no separate index column. The index floats before the name, on its first line; a
+   wrapped name, the type and the result all start at the row's left edge. */
 @media (max-width: 767px) {
-  .res-row { grid-template-columns: 1.25rem minmax(0, 1fr); column-gap: 1rem; }
-  .res-row__result { grid-column: 1 / -1; margin-top: 0.875rem; }
+  .res-row { display: block; }
+  .res-row__index { float: left; margin: 0.4375rem 0.75rem 0 0; }   /* on the name's first-line baseline */
+  .res-row__result { margin-top: 0.875rem; }
 }
 
 /* ---------- Beauty Devices only: a ruled grid, no cards (The Science "Beauty Technology" language) ----------
@@ -272,15 +279,11 @@ main:has(.res-hero) .consult__actions { column-gap: 2rem; }
 /* ---------- Breakpoints ---------- */
 @media (max-width: 1023px) {
   .res-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  /* Stacked: the image on top (3:2, below the header, faces in frame, no text over it), then the text on
-     noir; the stats strip back on plain noir (the photo stops at the image band). */
-  .res-stage { padding-top: var(--header-h); }
-  .res-hero__media { position: relative; z-index: auto; inset: auto; aspect-ratio: 3 / 2; }
-  .res-hero__media .media > img { top: 0; height: 100%; object-position: 50% 25%; }
-  .res-hero { display: block; min-height: 0; padding-top: 0; }
-  .res-hero::before { display: none; }
-  .res-hero__inner { padding-block: 2.5rem var(--section-y); }
+  /* Hero: the shared mobile cover hero (.m-hero, components.css), dark, under the transparent header; both
+     faces in view. The photo covers the hero only; the stats strip below is back on plain noir. */
+  .res-stage { --m-hero-pos: 50% 0%; --m-hero-crop: 18%; }
   .res-hero__text, .res-hero__lead { max-width: none; }
+  .res-hero::before { display: none; }
   .res-strip { background: var(--c-noir); }
   .res-strip::before, .res-strip::after { display: none; }
 }

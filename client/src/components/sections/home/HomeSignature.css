@@ -28,6 +28,8 @@
 
 @media (max-width: 1023px) {
   .home-signature { grid-template-columns: minmax(0, 1fr); }
-  .home-signature__media { min-height: 0; aspect-ratio: 4 / 5; max-height: 30rem; }
+  /* Full-bleed: the full column width (a 4:5 ratio with a max-height used to narrow the box, leaving a gap
+     on the right); the height alone is capped. */
+  .home-signature__media { min-height: 0; width: 100%; height: min(125vw, 36rem); }
   .home-signature__text { padding: var(--section-y) var(--page-pad); }
 }

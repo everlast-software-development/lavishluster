@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import ProductImage from '../ui/ProductImage.jsx';
+import nb from '../ui/nb.jsx';
 
 export function productContext(p) {
   if (p.stepInfo) return p.stepInfo.label;
@@ -33,8 +34,8 @@ export default function ProductCard({ product, showContext = false, headingLevel
               )}
             </p>
           )}
-          <H className="product-card__name">{product.name}</H>
-          <p className="product-card__subtitle">{product.subtitle}</p>
+          <H className="product-card__name">{nb(product.name)}</H>
+          <p className="product-card__subtitle">{nb(product.subtitle)}</p>
           {product.shortDescription && <p className="product-card__desc">{product.shortDescription}</p>}
           <span className="product-card__cta">View product</span>
         </div>

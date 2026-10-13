@@ -4,6 +4,7 @@ import masterBrand from '../../data/content/master-brand.json';
 import { features } from '../../data/config/features.js';
 import { homeItem, navItems } from '../navigation/navItems.js';
 import Wordmark from '../navigation/Wordmark.jsx';
+import nb from '../ui/nb.jsx';
 
 const SOCIAL = [
   ['instagram', 'Instagram'],
@@ -32,7 +33,7 @@ export default function Footer() {
     <footer className="site-footer">
       <div className="container site-footer__inner">
         <Wordmark tone="light" className="wordmark--footer" />
-        <p className="site-footer__tagline">{masterBrand.tagline}</p>
+        <p className="site-footer__tagline">{nb(masterBrand.tagline)}</p>
 
         <nav className="site-footer__nav" aria-label="Footer">
           <ul>

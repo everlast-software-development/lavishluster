@@ -1,3 +1,4 @@
+import { useId, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Seo from '../../components/ui/Seo.jsx';
 import BrandImage from '../../components/ui/BrandImage.jsx';
@@ -11,6 +12,7 @@ import { lusterscanPage } from '../../data/content/lusterscan.js';
 import { resultsPage } from '../../data/content/results.js';
 import { catalogHref, getProduct, ingredientIndex, productsInCategory } from '../../data/catalog.js';
 import './Science.css';
+import nb, { useCompact } from '../../components/ui/nb.jsx';
 
 const value = (title) => about.values.items.find((v) => v.title === title);
 const pad = (n) => String(n).padStart(2, '0');
@@ -51,18 +53,60 @@ if (import.meta.env.DEV) {
 
 /** The two text rows: eyebrow + title left, paragraph right; the title lines are joined back with a space only where the source has one. */
 function Row({ id, number, lines, text }) {
+  const compact = useCompact();
+  const hyphenPair = compact && lines.length === 2 && lines[0].endsWith('-');
+  const firstWord = hyphenPair ? lines[1].split(' ')[0] : '';
   return (
     <article id={id} className="sci-row" aria-labelledby={`${id}-title`}>
       <div className="sci-row__head">
         <p className="home-eyebrow">{number}</p>
         <h2 id={`${id}-title`} className="home-title sci-h2 sci-row__title">
-          {lines.map((line, i) => (
-            <span key={line} className="home-title__line">{line}{i < lines.length - 1 && !line.endsWith('-') && ' '}</span>
+          {hyphenPair ? (
+            // Below 1024px: "Pharmaceutical-" + "Grade" kept whole on one line (the desktop lines break after the hyphen).
+            <span className="home-title__line"><span className="nb">{lines[0]}{firstWord}</span>{lines[1].slice(firstWord.length)}</span>
+          ) : lines.map((line, i) => (
+            <span key={line} className="home-title__line">{nb(line)}{i < lines.length - 1 && !line.endsWith('-') && ' '}</span>
           ))}
         </h2>
       </div>
       <p className="sci-row__text">{text}</p>
     </article>
+  );
+}
+
+/**
+ * Active Ingredients, one product. Desktop: the product name (a link) above its ingredient list, always open.
+ * Below 768px: an accordion row: a button (the name and the number of ingredients) toggles the list (a labelled
+ * region). Collapsed lists are hidden by CSS only, so every ingredient stays in the HTML. The first is open.
+ */
+function IngredientProduct({ p, defaultOpen }) {
+  const [open, setOpen] = useState(defaultOpen);
+  const uid = useId();
+  const btnId = `${uid}-btn`, panelId = `${uid}-panel`;
+  const href = `/products/${p.slug}`;
+  return (
+    <li className={`sci-prod${open ? ' is-open' : ''}`}>
+      <h3 className="sci-prod__name">
+        <Link to={href} className="sci-prod__link">{nb(p.name)}</Link>
+        <button type="button" id={btnId} className="sci-prod__toggle" aria-expanded={open} aria-controls={panelId} onClick={() => setOpen((v) => !v)}>
+          <span className="sci-prod__toggle-name">{nb(p.name)}</span>
+          <span className="sci-prod__count">{p.ingredients.length}</span>
+          <span className="sci-prod__chevron" aria-hidden="true" />
+        </button>
+      </h3>
+      <div id={panelId} role="region" aria-labelledby={btnId} className="sci-prod__panel">
+        <span className="sci-prod__rule" aria-hidden="true" />
+        <ul className="sci-prod__ings">
+          {p.ingredients.map((ing) => (
+            <li key={ing.name}>
+              <span className="sci-prod__ing">{ing.name}</span>
+              {ing.concentration && <span className="sci-prod__pct">{ing.concentration}</span>}
+            </li>
+          ))}
+        </ul>
+        <TextLink to={href} tone="light" className="sci-prod__more">View product</TextLink>
+      </div>
+    </li>
   );
 }
 
@@ -82,11 +126,11 @@ export default function Science() {
       <Seo title="The Science" description={hero.text} path="/science" />
 
       {/* Hero (pearl): the Body Slim X4 scene full-bleed, under the shared left-side pearl scrim */}
-      <section className="sci-hero" aria-labelledby="sci-title">
-        <div className="sci-hero__media hero-scrim--left">
-          <BrandImage name="science-hero" alt="The Lavish Luster Tech Body Slim X4 on a white plinth" eager sizes="100vw" className="sci-hero__device" />
+      <section className="sci-hero m-hero m-hero--light" aria-labelledby="sci-title">
+        <div className="sci-hero__media hero-scrim--left m-hero__media">
+          <BrandImage name="science-hero" alt="The Lavish Luster Tech Body Slim X4 on a white plinth" eager sizes="(max-width: 1023px) 160vh, 100vw" className="sci-hero__device" />
         </div>
-        <div className="container sci-hero__inner">
+        <div className="container sci-hero__inner m-hero__body">
           <div className="sci-hero__text">
             <Breadcrumb to="/science" className="sci-hero__crumbs" />
             <TitleLines as="h1" id="sci-title" lines={linesOf(hero)} title={hero.title} className="sci-hero__title" />
@@ -123,20 +167,7 @@ export default function Science() {
 
           {/* Grouped by product (derived at render time from the ingredient index). */}
           <ul className="sci-ings__grid">
-            {ingredientsByProduct.map((p) => (
-              <li key={p.slug} className="sci-prod">
-                <h3 className="sci-prod__name"><Link to={`/products/${p.slug}`}>{p.name}</Link></h3>
-                <span className="sci-prod__rule" aria-hidden="true" />
-                <ul className="sci-prod__ings">
-                  {p.ingredients.map((ing) => (
-                    <li key={ing.name}>
-                      <span className="sci-prod__ing">{ing.name}</span>
-                      {ing.concentration && <span className="sci-prod__pct">{ing.concentration}</span>}
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
+            {ingredientsByProduct.map((p, i) => <IngredientProduct key={p.slug} p={p} defaultOpen={i === 0} />)}
           </ul>
         </div>
       </section>
@@ -175,7 +206,7 @@ export default function Science() {
                       const p = getProduct(d.slug);
                       return (
                         <li key={d.slug}>
-                          <Link to={`/products/${p.slug}`} className="sci-tech__device">{p.name}</Link>
+                          <Link to={`/products/${p.slug}`} className="sci-tech__device">{nb(p.name)}</Link>
                           <span className="sci-tech__desc">{d.phrase}</span>
                         </li>
                       );

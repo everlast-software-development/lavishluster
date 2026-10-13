@@ -1,3 +1,5 @@
+import nb from '../../ui/nb.jsx';
+
 /**
  * A section title set on fixed lines. The lines come from `titleLines` in
  * home.js and always join back to the verbatim title (checked by
@@ -9,7 +11,7 @@ export default function TitleLines({ id, lines, title, as: Tag = 'h2', className
   return (
     <Tag id={id} className={`home-title ${className}`.trim()}>
       {parts.map((line, i) => (
-        <span key={line} className="home-title__line">{line}{i < parts.length - 1 && ' '}</span>
+        <span key={line} className="home-title__line">{nb(line)}{i < parts.length - 1 && ' '}</span>
       ))}
     </Tag>
   );

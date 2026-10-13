@@ -98,6 +98,12 @@
   /* 1024–1439px: a firmer middle, so the breadcrumb (the highest line, over the left model's white blazer) stays ≥4.5:1 */
   --g-res-bottom-md: linear-gradient(0deg, rgba(21, 20, 18, 0.92) 0%, rgba(21, 20, 18, 0.82) 30%, rgba(21, 20, 18, 0.7) 52%, rgba(21, 20, 18, 0.35) 61%, rgba(21, 20, 18, 0) 72%);
   --g-res-left: linear-gradient(90deg, rgba(21, 20, 18, 0.55) 0%, rgba(21, 20, 18, 0.25) 35%, rgba(21, 20, 18, 0) 55%);
+  /* Mobile cover heroes (< 1024px, .m-hero): the text sits on the photo's lower part over a scrim from the bottom. */
+  --g-m-hero-light: linear-gradient(0deg, rgba(243, 242, 238, 0.97) 0%, rgba(243, 242, 238, 0.9) 38%, rgba(243, 242, 238, 0.55) 58%, rgba(243, 242, 238, 0) 78%);
+  --g-m-hero-dark: linear-gradient(0deg, rgba(21, 20, 18, 0.97) 0%, rgba(21, 20, 18, 0.9) 38%, rgba(21, 20, 18, 0.55) 58%, rgba(21, 20, 18, 0) 78%);
+  --g-m-hero-text-light: linear-gradient(0deg, rgba(243, 242, 238, 0.9) 0%, rgba(243, 242, 238, 0.82) calc(100% - 5rem), rgba(243, 242, 238, 0) 100%);   /* behind the text block */
+  --g-m-hero-text-dark: linear-gradient(0deg, rgba(21, 20, 18, 0.9) 0%, rgba(21, 20, 18, 0.82) calc(100% - 5rem), rgba(21, 20, 18, 0) 100%);
+  --g-m-hero-nav: linear-gradient(180deg, rgba(21, 20, 18, 0.6) 0, rgba(21, 20, 18, 0) 7.5rem);   /* dark heroes: behind the transparent header */
   --g-res-strip: linear-gradient(90deg, rgba(21, 20, 18, 0.93) 0%, rgba(21, 20, 18, 0.9) 34%, rgba(21, 20, 18, 0.84) 68%, rgba(21, 20, 18, 0.8) 100%);
   /* added on top of it at the strip's top edge: exactly the darkness that makes the strip equal the hero's
      bottom (noir 92%) there; 1 − (1 − a)(1 − strip) = 0.92 at each stop */
@@ -175,4 +181,4 @@
   --t-page: 300ms;
 }
 @media (max-width: 1023px) { :root { --header-h: 5.25rem; --page-pad: clamp(1.5rem, 6.25vw, 4rem); --about-frame: 1rem; } } /* = hero padding below 1024px */
-@media (max-width: 767px) { :root { --header-h: 4.25rem; } }
+@media (max-width: 767px) { :root { --header-h: 4.25rem; --section-y: clamp(3.5rem, 11.25vw, 4.5rem); } }   /* phones: section padding 56 (390) → 72px (640) */

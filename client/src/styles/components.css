@@ -181,6 +181,39 @@
   .page-hero--grain .page-hero__media img { object-position: 50% 100%; }
 }
 
+/* ---------- Mobile cover hero (< 1024px): The Science, Results, Contact ----------
+   One shared treatment so the three heroes behave alike on phones and tablets, as on desktop: the photo
+   fills the hero edge to edge and the text sits on its lower part over a scrim from the bottom.
+   .m-hero (the hero root) is a one-cell grid: .m-hero__media (the photo) and .m-hero__body (the text) share
+   the cell, so the photo always covers exactly the hero, whatever the page's markup; anything else in the
+   root (Results' stats strip) flows to the next row. Each page sets --m-hero-pos (its focal point).
+   --light (pearl scrim, ink text) / --dark (noir scrim, pearl text; the transparent header over it). */
+@media (max-width: 1023px) {
+  .page .m-hero { display: grid; grid-template-columns: minmax(0, 1fr); align-items: stretch; min-height: 0; padding-top: 0; }
+  .page .m-hero__media, .page .m-hero__body { grid-area: 1 / 1; align-self: stretch; }
+  .page .m-hero__media { position: relative; inset: auto; z-index: 0; aspect-ratio: auto; overflow: hidden; }
+  .page .m-hero .m-hero__media > * { position: absolute; inset: 0; width: 100%; height: 100%; background: transparent; }
+  /* --m-hero-crop (optional): the photo is drawn that much taller and shifted up, to lift the subject above the text. */
+  .page .m-hero .m-hero__media img { position: absolute; inset: auto 0 0; top: calc(-1 * var(--m-hero-crop, 0%)); width: 100%; height: calc(100% + var(--m-hero-crop, 0%)); object-fit: cover; object-position: var(--m-hero-pos, 50% 30%); }
+  .page .m-hero__media::after { content: ''; display: block; position: absolute; inset: 0; background: var(--g-m-hero-light); }
+  .page .m-hero--dark .m-hero__media::after { background: var(--g-m-hero-dark), var(--g-m-hero-nav); }
+  .page .m-hero__body {
+    position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: flex-end;
+    min-height: min(88svh, 47.5rem);   /* 760px max */
+    padding: var(--page-pad) var(--page-pad) calc(var(--page-pad) + 2.5rem);
+  }
+  .page .m-hero__body > * { position: relative; width: 100%; padding: 0; max-width: none; }
+  /* A backdrop that follows the text block (any length): from 5rem above its first line, fading in, to the
+     hero's bottom, so every line keeps ≥ 4.5:1 while the subject above the text stays clear. */
+  .page .m-hero__body > *::before {
+    content: ''; position: absolute; z-index: -1; pointer-events: none;
+    inset: -5rem calc(-1 * var(--page-pad)) calc(-1 * (var(--page-pad) + 2.5rem));
+    background: var(--g-m-hero-text-light);
+  }
+  .page .m-hero--dark .m-hero__body > *::before { background: var(--g-m-hero-text-dark); }
+  .page .m-hero--light .page-crumbs { color: var(--c-ink-soft); }
+}
+
 /* ---------- Consultation band (pearl, centred, no image) · ≈440px at 1440 ---------- */
 .consult { background: var(--c-pearl); padding-block: clamp(4rem, 6.7vw, 6rem); }
 .consult--white { background: var(--c-white); }   /* product pages */
@@ -338,9 +371,9 @@
 .site-footer__sub { font-size: 0.625rem; font-weight: 500; line-height: 1.6; letter-spacing: 0.24em; text-transform: uppercase; color: var(--c-pearl-a45); }
 
 @media (max-width: 767px) {
-  /* Nav: two columns, each link at least 44px tall. */
+  /* Nav: one centred column (7 links in two columns left "Contact" alone on the last row), each link at least 44px tall. */
   .site-footer__nav { align-self: stretch; }
-  .site-footer__nav ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; }
+  .site-footer__nav ul { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; }
   .site-footer__nav li { display: flex; align-items: center; justify-content: center; min-height: 2.75rem; }
   .site-footer__nav a::after { bottom: -4px; }
   /* Address and email stacked, 12px apart, no divider. */

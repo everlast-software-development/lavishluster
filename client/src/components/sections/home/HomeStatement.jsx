@@ -3,6 +3,7 @@ import BrandImage from '../../ui/BrandImage.jsx';
 import TitleLines from './TitleLines.jsx';
 import { home } from '../../../data/content/home.js';
 import './HomeStatement.css';
+import nb from '../../ui/nb.jsx';
 
 /**
  * 02 — Brand Philosophy (pearl). Left (columns 1–6): eyebrow, two-line title,
@@ -16,7 +17,7 @@ export default function HomeStatement() {
     <section className="home-band home-philosophy" aria-labelledby="philosophy-title">
       <div className="container home-philosophy__grid">
         <div className="home-philosophy__text">
-          <p className="home-eyebrow">{eyebrow}</p>
+          <p className="home-eyebrow">{nb(eyebrow)}</p>
           <TitleLines id="philosophy-title" lines={titleLines} title={title} className="home-philosophy__title" />
           <p className="home-philosophy__body">{text}</p>
           <div className="home-philosophy__row">

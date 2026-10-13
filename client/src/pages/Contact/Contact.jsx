@@ -34,11 +34,11 @@ export default function Contact() {
       <Seo title="Contact" description={`${contact.addressDisplay}. ${contact.email}`} path="/contact" />
 
       {/* Hero (pearl): the store, full-bleed, under the shared left-side pearl scrim */}
-      <section className="ct-hero" aria-labelledby="ct-title">
-        <div className="ct-hero__media hero-scrim--left">
-          <BrandImage name="contact" alt="" eager sizes="100vw" className="ct-hero__photo" />
+      <section className="ct-hero m-hero m-hero--light" aria-labelledby="ct-title">
+        <div className="ct-hero__media hero-scrim--left m-hero__media">
+          <BrandImage name="contact" alt="" eager sizes="(max-width: 1023px) 160vh, 100vw" className="ct-hero__photo" />
         </div>
-        <div className="container ct-hero__inner">
+        <div className="container ct-hero__inner m-hero__body">
           <div className="ct-hero__text">
             <Breadcrumb to="/contact" className="ct-hero__crumbs" />
             <h1 id="ct-title" className="ct-hero__title">Contact</h1>

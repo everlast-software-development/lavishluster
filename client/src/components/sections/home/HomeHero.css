@@ -74,7 +74,9 @@
 /* Tablet and mobile: no overlap — the stage first (centred on the figure), then the copy. */
 @media (max-width: 1023px) {
   .home-hero {
-    --panel-w: min(72vw, 26.25rem);
+    /* The figure is 145.45% of the panel wide (−31.85% … +113.6%): the panel is sized so the whole figure fits
+       between the page margins (it used to run off the right edge on phones), at most 420px. */
+    --panel-w: min(26.25rem, (100vw - 2 * var(--page-pad)) / 1.4545);
     flex-direction: column; height: auto; min-height: 0; max-height: none; padding-bottom: 2.75rem;
   }
   .home-hero__stage {
@@ -94,6 +96,6 @@
   .home-hero__btn { width: 100%; }
   .home-hero__link { align-self: flex-start; }
   .home-hero__pillars { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 1.25rem; }
-  .home-hero__pillars li { overflow-wrap: anywhere; hyphens: auto; }
+  .home-hero__pillars li { overflow-wrap: anywhere; }   /* hyphenated pillars stay whole (nb) */
   .home-hero__label { display: none; }
 }

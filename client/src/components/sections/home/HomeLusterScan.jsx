@@ -3,6 +3,7 @@ import TitleLines from './TitleLines.jsx';
 import { getBrandImage } from '../../../utils/assets.js';
 import { home } from '../../../data/content/home.js';
 import './HomeLusterScan.css';
+import nb from '../../ui/nb.jsx';
 
 /**
  * 06 — LusterScan AI (noir), cinematic. brand/lusterscan-cinematic.webp sits
@@ -36,7 +37,7 @@ export default function HomeLusterScan() {
 
       <div className="container home-scan__inner">
         <div className="home-scan__text">
-          <p className="home-eyebrow">{eyebrow}</p>
+          <p className="home-eyebrow">{nb(eyebrow)}</p>
           <TitleLines id="scan-title" lines={titleLines} title={title} className="home-scan__title" />
           <p className="home-scan__lead">{text}</p>
           <div className="home-scan__actions">

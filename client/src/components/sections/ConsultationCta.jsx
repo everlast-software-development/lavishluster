@@ -1,5 +1,6 @@
 import { ButtonLink, TextLink } from '../ui/Links.jsx';
 import { home } from '../../data/content/home.js';
+import nb from '../ui/nb.jsx';
 
 /**
  * Consultation band (pearl; white on the product pages via tone="white"), shared by Home and the inner pages: a centred
@@ -21,7 +22,7 @@ export default function ConsultationCta({
         <span className="consult__rule" aria-hidden="true" />
         <h2 id="cta-title" className="home-title consult__title">
           {lines.map((line, i) => (
-            <span key={line} className="home-title__line">{line}{i < lines.length - 1 && ' '}</span>
+            <span key={line} className="home-title__line">{nb(line)}{i < lines.length - 1 && ' '}</span>
           ))}
         </h2>
         <div className="consult__actions">

@@ -2,6 +2,7 @@ import { TextLink } from '../../ui/Links.jsx';
 import TitleLines from './TitleLines.jsx';
 import { home } from '../../../data/content/home.js';
 import './HomeScience.css';
+import nb from '../../ui/nb.jsx';
 
 /**
  * 05 — The Science (pearl), no photograph. Left (columns 1–5): eyebrow,
@@ -14,7 +15,7 @@ export default function HomeScience() {
     <section className="home-band home-science" aria-labelledby="science-title">
       <div className="container home-science__grid">
         <div className="home-science__text">
-          <p className="home-eyebrow">{eyebrow}</p>
+          <p className="home-eyebrow">{nb(eyebrow)}</p>
           <TitleLines id="science-title" lines={titleLines} title={title} className="home-science__title" />
           <p className="home-science__body">{text}</p>
           <div className="home-science__actions">

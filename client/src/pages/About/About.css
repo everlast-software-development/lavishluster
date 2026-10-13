@@ -253,6 +253,9 @@
 /* Home's numerals below 768px: 44px. */
 @media (max-width: 767px) {
   .about-values__num { font-size: 2.75rem; }
+  /* The section links stacked, one per line, without the separators (wrapped rows left dangling dots). */
+  .about-story__links { flex-direction: column; align-items: flex-start; row-gap: 1.375rem; }
+  .about-story__links span { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
