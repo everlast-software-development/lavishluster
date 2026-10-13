@@ -114,9 +114,16 @@
   }
   .home-hero__pillars li:nth-child(odd) { border-right: 1px solid var(--c-pearl-a14); }
   .home-hero__pillars li:nth-child(-n + 2) { border-bottom: 1px solid var(--c-pearl-a14); }
-}
-@media (max-width: 639px) {
-  .home-hero__label { display: none; }
+  /* The desktop panel's gold frame, brought inside the photo: 1px, 16px in from the sides, starting below the
+     header area (72px) and ending 16px above the eyebrow, its lower part fading into the scrim. Decorative:
+     a pseudo-element on the grid's image row (row 1 ends where the eyebrow begins), so it never crosses the text. */
+  .home-hero::before {
+    content: ''; grid-column: 1; grid-row: 1; position: relative; z-index: 1; pointer-events: none;
+    margin: 4.5rem 1rem 1rem; border: 1px solid var(--c-gold-a55);
+    -webkit-mask: linear-gradient(180deg, var(--c-noir) 55%, transparent); mask: linear-gradient(180deg, var(--c-noir) 55%, transparent);
+  }
+  /* The vertical label, inside the frame at its top right. */
+  .home-hero__label { top: calc(4.5rem + 0.875rem); right: calc(1rem + 0.75rem); font-size: 0.5625rem; letter-spacing: 0.3em; }
 }
 /* Phones: the H1 on exactly two lines ("WHERE SCIENCE" ≈ 9.1em at 0.03em tracking): 34px from 360px up; it
    scales a little below 34px only where the column is narrower than that (320px screens). */

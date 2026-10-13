@@ -8,38 +8,44 @@ import { useCompact } from '../ui/nb.jsx';
  * Desktop (1024px and up): three nav items, centred wordmark, the other three.
  * On Home, About, LusterScan AI and Results the bar is transparent (white logo and nav) over the noir hero until
  * the page scrolls; everywhere else it is solid pearl with a hairline.
- * Mobile: centred wordmark, "Menu" on the right, full-screen noir menu. On Home below 1024px the bar stays
- * transparent for as long as the noir hero is under it (an IntersectionObserver on the hero), and turns pearl
- * only once the page has scrolled past it, in both directions.
+ * Mobile: centred wordmark, "Menu" on the right, full-screen noir menu. Below 1024px, on the same four pages:
+ * transparent only at the very top (scrollY < 8); scrolled but still over the noir hero (an IntersectionObserver
+ * on the hero), translucent noir with the light logo; past the hero, the normal pearl bar. In both directions:
+ * the logo and the menu icon are never over the content without a background.
  */
+const DARK_HERO = { '/': '.home-hero', '/about': '.about-hero', '/lusterscan-ai': '.ls-hero', '/results': '.res-stage' };
+
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [heroUnder, setHeroUnder] = useState(true);   // Home, compact: the noir hero is under the bar
+  const [atTop, setAtTop] = useState(true);           // compact: scrollY < 8
+  const [heroUnder, setHeroUnder] = useState(true);   // compact: the noir hero is under the bar
   const compact = useCompact();
   const { pathname } = useLocation();
   const panelRef = useRef(null);
   const buttonRef = useRef(null);
   // Pages that open on a noir hero: the bar sits over it, transparent, until the page scrolls.
   const overHero = pathname === '/' || pathname === '/about' || pathname === '/lusterscan-ai' || pathname === '/results';
-  const homeCompact = compact && pathname === '/';
-  const overlay = overHero && (homeCompact ? heroUnder : !scrolled);
-  const light = overlay || open;
+  const heroCompact = compact && overHero;
+  const overlay = overHero && (heroCompact ? atTop : !scrolled);
+  const dark = heroCompact && !atTop && heroUnder;
+  const light = overlay || dark || open;
 
   useEffect(() => setOpen(false), [pathname]);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => { setScrolled(window.scrollY > 24); setAtTop(window.scrollY < 8); };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Home, compact: watch the hero through a 1px line at the bar's bottom edge: transparent while the hero is
-  // under the bar, pearl from the moment its end passes the bar (and back again when scrolling up).
+  // Compact: watch the noir hero through a 1px line at the bar's bottom edge: noir while the hero is under the
+  // bar, pearl from the moment its end passes the bar (and back again when scrolling up).
   useEffect(() => {
-    if (!homeCompact) return undefined;
-    const hero = document.querySelector('.home-hero');
+    if (!heroCompact) return undefined;
+    setHeroUnder(true);
+    const hero = document.querySelector(DARK_HERO[pathname]);
     const bar = document.querySelector('.site-header');
     if (!hero || !bar || typeof IntersectionObserver === 'undefined') return undefined;
     let io;
@@ -52,7 +58,7 @@ export default function Header() {
     observe();
     window.addEventListener('resize', observe);
     return () => { io?.disconnect(); window.removeEventListener('resize', observe); };
-  }, [homeCompact]);
+  }, [heroCompact, pathname]);
 
   useEffect(() => {
     document.documentElement.classList.toggle('menu-open', open);
@@ -73,7 +79,7 @@ export default function Header() {
     return () => document.removeEventListener('keydown', onKey);
   }, [open]);
 
-  const cls = ['site-header', overHero && 'site-header--home', overlay && 'is-overlay', open && 'is-open'].filter(Boolean).join(' ');
+  const cls = ['site-header', overHero && 'site-header--home', overlay && 'is-overlay', dark && 'is-dark', open && 'is-open'].filter(Boolean).join(' ');
   const link = (item) => (
     <li key={item.to}><NavLink to={item.to} end={item.end}>{item.label}</NavLink></li>
   );

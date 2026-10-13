@@ -239,6 +239,17 @@
 .site-header.is-overlay, .site-header.is-open { background: transparent; color: var(--c-pearl); box-shadow: none; }
 .site-header.is-overlay .wordmark--light, .site-header.is-open .wordmark--light { color: var(--c-pearl); }
 .site-header.is-overlay :focus-visible { outline: 1px solid var(--c-gold); outline-offset: 4px; }
+/* Below 1024px, scrolled over a noir hero (Header.jsx): translucent noir behind the light logo and icon. */
+@media (max-width: 1023px) {
+  .site-header { transition: background-color 0.2s var(--ease); }
+  .site-header.is-dark:not(.is-open) {
+    background: var(--c-noir-a94); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    color: var(--c-pearl); box-shadow: none;
+  }
+  .site-header.is-dark .wordmark--light { color: var(--c-pearl); }
+  .site-header.is-dark :focus-visible { outline: 1px solid var(--c-gold); outline-offset: 4px; }
+}
+@media (max-width: 1023px) and (prefers-reduced-motion: reduce) { .site-header { transition: none; } }
 .site-header__bar { position: relative; display: flex; align-items: center; height: var(--header-h); }
 .site-header__logo { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 1; }
 .site-header__bar { max-width: none; padding-inline: var(--edge); }   /* the shared container edges: first and last nav links line up with the content */

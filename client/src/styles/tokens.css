@@ -68,6 +68,7 @@
   --c-noir-a60: rgba(21, 20, 18, 0.6);           /* Product Worlds base scrim mid-stop */
   --c-noir-a52: rgba(21, 20, 18, 0.52);          /* Product Worlds base scrim, number row */
   --c-noir-a95: rgba(21, 20, 18, 0.95);          /* Product Worlds tall scrim (stacked cards) */
+  --c-noir-a94: rgba(21, 20, 18, 0.94);          /* mobile header, scrolled over a noir hero */
   --c-noir-a65: rgba(21, 20, 18, 0.65);          /* Product Worlds closed-panel name gradient */
   --c-noir-a55: rgba(21, 20, 18, 0.55);          /* Product Worlds top shade */
   --c-noir-a50: rgba(21, 20, 18, 0.5);           /* Product Worlds closed-panel flat shade */
@@ -112,6 +113,7 @@
      bottom (noir 92%) there; 1 − (1 − a)(1 − strip) = 0.92 at each stop */
   --g-res-strip-top: linear-gradient(90deg, rgba(21, 20, 18, 0) 0%, rgba(21, 20, 18, 0.2) 34%, rgba(21, 20, 18, 0.5) 68%, rgba(21, 20, 18, 0.6) 100%);
   --c-gold-a60: rgba(185, 154, 107, 0.6);    /* Home hero stage panel border */
+  --c-gold-a55: rgba(185, 154, 107, 0.55);   /* Home mobile hero: the frame inside the photo */
   --c-preloader: #F6F2E9;   /* Preloader background: the original lavishluster.com preloader's colour */
   --c-pearl-scrim: rgba(243, 242, 238, 0.94);
   --c-pearl-scrim-none: rgba(243, 242, 238, 0);
@@ -183,5 +185,5 @@
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   --t-page: 300ms;
 }
-@media (max-width: 1023px) { :root { --header-h: 5.25rem; --page-pad: clamp(1.5rem, 6.25vw, 4rem); --about-frame: 1rem; } } /* = hero padding below 1024px */
-@media (max-width: 767px) { :root { --header-h: 4.25rem; --section-y: clamp(3.5rem, 11.25vw, 4.5rem); } }   /* phones: section padding 56 (390) → 72px (640) */
+@media (max-width: 1023px) { :root { --header-h: 4rem; --page-pad: clamp(1.5rem, 6.25vw, 4rem); --about-frame: 1rem; } } /* = hero padding below 1024px */
+@media (max-width: 767px) { :root { --section-y: clamp(3.5rem, 11.25vw, 4.5rem); } }   /* phones: section padding 56 (390) → 72px (640) */
