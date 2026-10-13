@@ -19,12 +19,14 @@
   top: max(11.25rem, calc(var(--header-h) + var(--panel-w) * 0.173 + 0.5rem));
   background: var(--c-noir-raised); border: 1px solid var(--c-gold-a60);
 }
-/* Figure: 145.45% of the panel width, right edge 13.6% beyond the panel, top 17.3% of the panel width above it.
+/* Figure (brand/model.webp, 1494×1053 cut-out): 261.4% of the panel width (0.77× the source at 1440, 0.98× at
+   1920), the face right edge at 70% of the image, 62px in from the panel's right edge; the eyes 44px below the
+   panel's top edge, so the head rises above it. The drape runs left over the noir and fades out on its own.
    No filters, transforms or hover zoom. */
 .home-hero__figure {
   position: absolute; z-index: 1; max-width: none;
-  width: 145.45%; height: auto; aspect-ratio: 797 / 805;
-  right: -13.6%; top: calc(var(--panel-w) * -0.173);
+  width: 261.4%; height: auto; aspect-ratio: 1494 / 1053;
+  right: -64.3%; top: calc(var(--panel-w) * -0.243);
 }
 .home-hero__label {
   position: absolute; top: 1rem; right: 1rem;
@@ -91,11 +93,12 @@
     width: 100%; height: var(--stage-h); background: none; border: 0; overflow: hidden;
   }
   .home-hero__stage::after { content: ''; position: absolute; z-index: 2; inset: 0; background: var(--g-m-home-hero); }
-  /* The desktop cut-out, full height below the bar, set right: the face (its right edge at 81% of the image)
-     ends 58px in from the screen edge, inside the frame and clear of the label. */
+  /* The desktop cut-out, from just under the bar, 1.2× the image area's height (its faded lower part runs out
+     under the scrim), set right: the face (its right edge at 70% of the image) ends 58px in from the screen
+     edge, inside the frame and clear of the label; the drape runs out to the left. */
   .home-hero__figure {
-    inset: auto; top: var(--header-h); right: calc(3.625rem - var(--fig-h) * 797 / 805 * 0.19);
-    width: auto; height: var(--fig-h); aspect-ratio: 797 / 805;
+    inset: auto; top: var(--header-h); right: calc(3.625rem - var(--fig-h) * 1.2 * 1494 / 1053 * 0.3);
+    width: auto; height: calc(var(--fig-h) * 1.2); aspect-ratio: 1494 / 1053;
   }
   .home-hero__label { z-index: 3; }
   .home-hero__eyebrow, .home-hero__title, .home-hero__lead, .home-hero__actions, .home-hero__pillars {

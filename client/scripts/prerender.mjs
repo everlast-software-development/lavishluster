@@ -22,9 +22,17 @@ function write(path, html) {
   mkdirSync(dirname(file), { recursive: true });
   writeFileSync(file, html);
 }
+// The Home hero figure is the page's LCP image: preload it with the same srcset/sizes the <img> carries.
+const attr = (tag, name) => tag.match(new RegExp(`\\s${name}="([^"]*)"`, 'i'))?.[1];   // React writes srcSet
+const heroPreload = (html) => {
+  const tag = html.match(/<img[^>]*class="home-hero__figure"[^>]*>/)?.[0];
+  if (!tag) return '';
+  const [src, srcset, sizes] = ['src', 'srcset', 'sizes'].map((n) => attr(tag, n));
+  return `<link rel="preload" as="image" href="${src}"${srcset ? ` imagesrcset="${srcset}" imagesizes="${sizes}"` : ''} fetchpriority="high" />\n    `;
+};
 const page = (url) => {
   const { html, head } = render(url);
-  return template.replace('<!--app-head-->', head).replace('<!--app-html-->', html);
+  return template.replace('<!--app-head-->', heroPreload(html) + head).replace('<!--app-html-->', html);
 };
 
 const paths = getPrerenderPaths();

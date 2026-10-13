@@ -17,7 +17,7 @@ export const home = {
     ],
     // Vertical label on the hero stage panel: the footer logo line from the same section.
     verticalLabel: 'Lavish Luster — Beauty & More',
-    figure: { alt: 'A model in a black abaya and shayla looking over her shoulder', width: 797, height: 805 },
+    figure: { alt: 'A model in a black abaya and shayla looking over her shoulder', width: 1494, height: 1053 },
   },
 
   philosophy: {
